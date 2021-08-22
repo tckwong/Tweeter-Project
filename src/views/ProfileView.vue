@@ -7,7 +7,7 @@
         <Header/>
         <ProfileBody/>
         <Footer/>
-        <LogInPage/>
+
         
     </div> 
 </template>
@@ -17,7 +17,6 @@
 import Header from '@/components/Header.vue'
 import ProfileBody from '@/components/ProfileBody.vue'
 import Footer from '@/components/Footer.vue'
-import LogInPage from '@/components/LogInPage.vue'
 
 export default {
   name: 'ProfileView',
@@ -25,7 +24,7 @@ export default {
     Header,
     ProfileBody,
     Footer,
-    LogInPage
+
   }
 }
 </script>

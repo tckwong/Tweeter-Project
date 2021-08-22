@@ -1,19 +1,12 @@
 <template>
-  <div id="app">
-    
-    <router-view/>
+  <div>
+    <router-link to="/DiscoverView">Discover</router-link>
   </div>
+ 
 </template>
 
 <script>
-// @ is an alias to /src
-
-
-  export default {
+export default {
   name: 'App',
-  }
-
+}
 </script>
-<style lang="scss">
-
-</style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Header</h1>
+        <h1>THIS IS A HEADER</h1>
     </div>
 </template>
 
@@ -10,6 +10,6 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style scoped>
 
 </style>

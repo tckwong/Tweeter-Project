@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Footer</h1>
+        <h1>THIS IS A Footer</h1>
     </div>
 </template>
 
@@ -10,6 +10,9 @@
     }
 </script>
 
-<style lang="sass" scoped>
-
+<style scoped>
+    h1 {
+        margin-top: 1000px;
+    }
+    
 </style>
