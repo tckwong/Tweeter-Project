@@ -2,12 +2,11 @@
     <body>
         <div>
             <h1>Log In</h1>
-            <v-row
-                @click="regUserApiCall"
+            <!-- <v-row
+                @click="registerUser"
                 align="center"
                 justify="space-around"
-            >
-            
+            > -->
             <v-btn
                 @click="retrieveUsers"
                 text
@@ -15,7 +14,7 @@
             >
                 Retrieve Users
             </v-btn>
-            </v-row>
+            <!-- </v-row> -->
         
             <v-col
             cols="12"
@@ -90,7 +89,7 @@
             ></v-text-field>
             </v-col>
             <v-btn
-                @click="regUserApiCall"
+                @click="registerUser"
                 text
                 color="primary"
                 >Register
@@ -101,6 +100,8 @@
 
 <script>
 import axios from "axios"
+import cookies from 'vue-cookies'
+
     export default {
         name: "LogInPage",
         data: () => {
@@ -120,14 +121,14 @@ import axios from "axios"
                     required: value => !!value || 'Required.',
                     min: v => v.length >= 8 || 'Min 8 characters',
                     emailMatch: () => (`The email and password you entered don't match`),
-      },
+                },
             }
         },
         methods : {
             printKey() {
                 console.log(process.env.VUE_APP_API_KEY);
             },
-            regUserApiCall: function() {
+            registerUser() {
                 axios.request({
                     url: "https://tweeterest.ml/api/users",
                     method: 'POST',
@@ -141,8 +142,6 @@ import axios from "axios"
                         "bio": this.bio,
                         "birthdate": this.birthdate,
                         "password": this.password,
-                        
-                        
                         // "imageUrl": "https://unsplash.com/photos/DCVMd_NOpro/download?force=true&w=640",
                         // "bannerUrl": "https://i.picsum.photos/id/223/1080/640.jpg?hmac=1zRXJhkXy6EdeYC-WYatZnnmpkqINeYTiJ4-74E6t1o"
                     }
@@ -169,25 +168,7 @@ import axios from "axios"
                     console.error(error);
                 })
             },
-            deleteUser: function() {
-                axios.request({
-                    url: 'https://tweeterest.ml/api/users',
-                    method: 'DELETE',
-                    headers : {
-                        'X-Api-Key' : process.env.VUE_APP_API_KEY
-                    },
-                    data : {
-                        "loginToken": "LIAbfvh341uNAS314",
-                        "password": "ISavedChristmas"
-                    }
-               
-                }).then((response) => {
-                    console.log(response);
-              
-                }).catch((error) => {
-                    console.error("There was an error: " +error);
-                })
-            },
+            
             loginUser() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/login',
@@ -203,6 +184,9 @@ import axios from "axios"
                
                 }).then((response) => {
                     console.log(response);
+                    cookies.set('loginToken', response.data.loginToken);
+                    this.$store.commit('getcurrUserID', response.data.userId);
+                    this.$router.push({ name: 'FeedView' });
               
                 }).catch((error) => {
                     console.error("There was an error: " + error);
