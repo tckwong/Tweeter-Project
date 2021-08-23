@@ -1,7 +1,11 @@
 <template>
     <div>
-        <router-link to="/ProfileView">Profile</router-link>
+        <router-link to="/FeedView">Feed</router-link> |
+        <router-link to="/DiscoverView">Feed</router-link>
+        <h1>Log In PAGE</h1>
+
         <LogInPage/>
+        
     </div> 
 </template>
 
