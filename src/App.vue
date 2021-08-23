@@ -1,19 +1,18 @@
 <template>
-  <div id="app">
-    
-    <router-view/>
-  </div>
+  <v-app>
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-// @ is an alias to /src
 
-
-  export default {
+export default {
   name: 'App',
-  }
 
+  data: () => ({
+    //
+  }),
+};
 </script>
-<style lang="scss">
-
-</style>

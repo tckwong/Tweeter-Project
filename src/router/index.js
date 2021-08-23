@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import FeedView from '../views/FeedView.vue'
-import ProfileView from '../views/ProfileView.vue'
+import LoginView from '../views/LoginView.vue'
+// import ProfileView from '../views/ProfileView.vue'
 import DiscoverView from '../views/DiscoverView.vue'
 
 Vue.use(VueRouter)
@@ -9,8 +10,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'ProfileView',
-    component: ProfileView
+    name: 'LoginView',
+    component: LoginView
   },
   {
     path: '/DiscoverView',

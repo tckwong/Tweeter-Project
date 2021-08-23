@@ -2,7 +2,7 @@
     <div>
         <router-link to="/ProfileView">Profile</router-link>
         <router-link to="/FeedView">Feed</router-link>
-        <h1>DISCOVER PAGE</h1>
+        <h1>DISCOVER PAGE ONLY</h1>
         <Header/>
         <Footer/>
     </div> 
