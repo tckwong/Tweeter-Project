@@ -1,20 +1,27 @@
 <template>
     <section>
-        <h1>Profile Body</h1>
-        <h3>{{ getState }}</h3>
+        <h1>Profile</h1>
+        <h3>ID:{{ userID }}</h3>
        
         <img :src="require('@/assets/defaultProfile.png')"/>
-        <p>Name: {{ }}</p>
+        <p>Name: {{ userName }}</p>
+        <p>Email: {{ userEmail }}</p>
+        <p>Bio: {{ userBio }}</p>
     </section>
 </template>
 
 <script>
 import axios from 'axios'
+import cookies from 'vue-cookies'
+
     export default {
         name: "ProfileBody",
         data: () => {
             return {
-              
+                userID: "",
+                userName: "",
+                userEmail: "",
+                userBio: "",
             }
         },
         computed: {
@@ -62,9 +69,16 @@ import axios from 'axios'
                     console.error("There was an error: " +error);
                 })
             },
+            getMyCookies() {
+                var getCookie = cookies.get('loginData');
+                this.userID = getCookie.userId;
+                this.userName = getCookie.username;
+                this.userEmail = getCookie.email;
+                this.userBio = getCookie.bio;
+            }
         },
         beforeMount() {
-            this.retrieveUserProfile();
+            this.getMyCookies();
         }
     }
 </script>

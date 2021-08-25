@@ -183,7 +183,7 @@ import cookies from 'vue-cookies'
                     }
                 }).then((response) => {
                     console.log(response);
-                    cookies.set('loginToken', response.data.loginToken);
+                    cookies.set('loginData', response.data);
                     this.$store.commit('getcurrUserID', response.data.userId);
                     this.$store.commit('getcurrUserEmail', response.data.email);
                     // this.$store.commit([{
