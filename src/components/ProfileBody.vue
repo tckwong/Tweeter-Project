@@ -1,9 +1,11 @@
 <template>
-    <div>
+    <section>
         <h1>Profile Body</h1>
-        <h3>UserID {{  }}</h3>
-
-    </div>
+        <h3>{{ getState }}</h3>
+       
+        <img :src="require('@/assets/defaultProfile.png')"/>
+        <p>Name: {{ }}</p>
+    </section>
 </template>
 
 <script>
@@ -12,14 +14,15 @@ import axios from 'axios'
         name: "ProfileBody",
         data: () => {
             return {
-                
+              
             }
         },
         computed: {
             getState() {
                 return this.$store.state.currUserID;
-            }
+            },
         },
+
         methods: {
             retrieveUserProfile() {
                 axios.request({
@@ -29,7 +32,7 @@ import axios from 'axios'
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
                     data: {
-                        'userId' : this.$store.state.currUserID
+                        'userId' : this.getState
                     }
                
                 }).then((response) => {
@@ -39,6 +42,7 @@ import axios from 'axios'
                     console.error(error);
                 })
             },
+
             deleteUser() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/users',
@@ -58,10 +62,20 @@ import axios from 'axios'
                     console.error("There was an error: " +error);
                 })
             },
+        },
+        beforeMount() {
+            this.retrieveUserProfile();
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    section {
+        background-color: rgb(184, 204, 240);
+        height: 40vh;
+    }
 
+    img {
+        height: 20vh;
+    }
 </style>

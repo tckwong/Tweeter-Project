@@ -2,7 +2,7 @@
     <div class="pageWrapper">
         <nav>
             <ul>
-                <li><router-link to="/LoginView">Log In</router-link></li>
+                <li><router-link to="/">Log In</router-link></li>
                 <li><router-link to="/ProfileView">Profile</router-link></li>
                 <li><router-link to="/DiscoverView">Discover</router-link></li>
                 <li><router-link to="/FeedView">Feed</router-link></li>

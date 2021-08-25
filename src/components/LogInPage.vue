@@ -181,13 +181,22 @@ import cookies from 'vue-cookies'
                         "email": this.usrNameInput,
                         "password": this.pwdInput
                     }
-               
                 }).then((response) => {
                     console.log(response);
                     cookies.set('loginToken', response.data.loginToken);
                     this.$store.commit('getcurrUserID', response.data.userId);
+                    this.$store.commit('getcurrUserEmail', response.data.email);
+                    // this.$store.commit([{
+                    //     type: 'getcurrUserID',
+                    //     payload: response.data.userID,
+                    // }, {
+                    //     type: 'getcurrUserName',
+                    //     payload: response.data.username,
+                    // }]);
+
+                    this.$store.dispatch('getTokenAsync', response.data.loginToken)
                     this.$router.push({ name: 'FeedView' });
-              
+            
                 }).catch((error) => {
                     console.error("There was an error: " + error);
                 })
