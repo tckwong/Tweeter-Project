@@ -3,12 +3,11 @@
       
         <h2>Your Tweet List</h2>
         <v-btn
-            @click="retrieveUserTweets"
             color="green"
             elevation="5"
             large
-        >Generate Your Tweets</v-btn>
-
+        >Nothing</v-btn>
+        {{ tweetIdArr }}
         <div class="wrapper">
             <div id="parent">
         
@@ -33,7 +32,13 @@ import cookies from 'vue-cookies'
                 profileUserID : "",
                 currUsername: "",
                 tweetContent: "",
-
+                numTweetArrays: "",
+                tweetIdArr : [],
+            }
+        },
+        computed: {
+            getTweet() {
+                return this.$store.state.newTweetContent;
             }
         },
         methods: {
@@ -48,7 +53,6 @@ import cookies from 'vue-cookies'
                     params: {
                         'userId' : this.profileUserID,
                     }
-               
                 }).then((response) => {
                     console.log(response);
                     var parent = document.getElementById('parent');
@@ -56,23 +60,31 @@ import cookies from 'vue-cookies'
                         let myTitle = document.createElement('h4');
                         let tweetContent = document.createElement('p');
                         let makeBtn = document.createElement('button');
-                        // var test = makeBtn.classList.add('closeBtn');
-                        makeBtn.setAttribute('class', 'closeBtn');
-                        var test= makeBtn.getAttribute('class');
+                        makeBtn.classList.add('closeBtn');
                         parent.append(myTitle);
                         parent.append(makeBtn);
                         parent.append(tweetContent);
                         myTitle.innerText = this.currUsername;
                         tweetContent.innerText = response.data[i].content;
                         makeBtn.innerText = "x";
-
-                        console.log(test);
-                        
+                        this.tweetIdArr.push(response.data[i].tweetId);
                     }
-                    
                 }).catch((error) => {
                     console.error(error);
                 })
+            },
+            appendTweetLst() {
+                var parent = document.getElementById('parent');
+                let myTitle = document.createElement('h4');
+                let tweetContent = document.createElement('p');
+                let makeBtn = document.createElement('button');
+                makeBtn.setAttribute('class', 'closeBtn');
+                parent.append(myTitle);
+                parent.append(makeBtn);
+                parent.append(tweetContent);
+                myTitle.innerText = this.currUsername;
+                tweetContent.innerText = this.getTweet;
+                makeBtn.innerText = "x";
             },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
@@ -81,15 +93,36 @@ import cookies from 'vue-cookies'
                 this.currUsername = getCookie.username;
                 this.tweetContent = getCookie.content;
             },
-   
+            deleteTweet() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/users',
+                    method: 'DELETE',
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY
+                    },
+                    data: {
+                        "loginToken": this.userToken,
+                        "tweetId": ""
+                    }
+               
+                }).then((response) => {
+                    console.log(response);
+              
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                })
+            },
         },
         watch: {
-            testProp: function() {
-                 this.retrieveUserTweets();
+            testProp() {
+                 this.appendTweetLst();
             }
         },
         beforeMount() {
             this.getMyCookies();
+        },
+        mounted() {
+            this.retrieveUserTweets();
         }
     }
 </script>

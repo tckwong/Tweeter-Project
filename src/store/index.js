@@ -8,7 +8,8 @@ export default new Vuex.Store({
     currUserID: "",
     username: "",
     email: "",
-    loginToken: ""
+    loginToken: "",
+    newTweetContent: "",
   },
   mutations: {
     getcurrUserID(state, data) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     updateToken(state, data) {
       state.loginToken = data;
+    },
+    getNewTweet(state, data) {
+      state.newTweetContent = data;
     }
   },
   actions: {

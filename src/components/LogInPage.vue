@@ -186,13 +186,6 @@ import cookies from 'vue-cookies'
                     cookies.set('loginData', response.data);
                     this.$store.commit('getcurrUserID', response.data.userId);
                     this.$store.commit('getcurrUserEmail', response.data.email);
-                    // this.$store.commit([{
-                    //     type: 'getcurrUserID',
-                    //     payload: response.data.userID,
-                    // }, {
-                    //     type: 'getcurrUserName',
-                    //     payload: response.data.username,
-                    // }]);
 
                     this.$store.dispatch('getTokenAsync', response.data.loginToken)
                     this.$router.push({ name: 'FeedView' });

@@ -49,7 +49,6 @@ import cookies from 'vue-cookies'
                     console.error(error);
                 })
             },
-
             deleteUser() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/users',

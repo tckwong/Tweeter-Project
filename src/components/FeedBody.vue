@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1>Feed Body</h1>
-        <!-- <button @click="getMyCookies">RetrieveCookie</button> -->
         <v-col
             cols="1"
             sm="19"
@@ -64,9 +63,6 @@ import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
                 trigger: false
             }     
         },
-        computed: {
-          
-        },
         methods: {
             testFn() {
                 // $refs.FeedBodyTweetFeed.retrieveUserTweets();
@@ -87,7 +83,9 @@ import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
 
                 }).then((response) => {
                     console.log(response);
-                    this.trigger = !this.trigger      
+                    this.trigger = !this.trigger
+                    this.$store.commit('getNewTweet', response.data.content);
+                        
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
@@ -119,7 +117,6 @@ import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
                 this.userToken = getCookie.loginToken;
                 }
             },
-        
         beforeMount() {
             this.getMyCookies();
         }
