@@ -1,5 +1,6 @@
 <template>
-    <div  class="pageWrapper">
+    <div>
+        <h1>Feed Page</h1>
         <Header/>
         <FeedBody/>
         <Footer/>
@@ -22,9 +23,6 @@ export default {
 }
 </script>
 
-<style>
-  .pageWrapper {
-        margin-left: 20vw;
-        margin-right: 20vw;
-    }
+<style scoped>
+  
 </style>

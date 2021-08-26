@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>Feed Body</h1>
         <v-col
             cols="1"
             sm="19"

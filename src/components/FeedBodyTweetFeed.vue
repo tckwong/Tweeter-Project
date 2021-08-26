@@ -7,13 +7,19 @@
             elevation="5"
             large
         >Nothing</v-btn>
-        {{ tweetIdArr }}
-        <div class="wrapper">
-            <div id="parent">
-        
-            </div>
-        </div>
 
+        <div>
+            <div class="wrapper">
+               
+                <p class="tweetItems" v-for="item, index in tweetList" :key="index">
+                    <span :style="{'color': textColor}" v-html="tweetDate[index]"></span><span v-html="item"></span>----{{ item }} - {{ tweetDate[index] }}
+                    <button @click.prevent="removeTweet(index)">✕</button>
+                </p>
+            
+                <!-- <p>
+                    <button @click.prevent="add()">Add</button> -->
+        </div>
+        </div>
     </div>
 </template>
 
@@ -28,12 +34,15 @@ import cookies from 'vue-cookies'
         
         data:() => {
             return {
+                textColor : "blue",
+                tweetList: [],
+                tweetIdArr : [],
+                targetTweetID : "",
                 userToken : "",
                 profileUserID : "",
                 currUsername: "",
                 tweetContent: "",
-                numTweetArrays: "",
-                tweetIdArr : [],
+                tweetDate : []
             }
         },
         computed: {
@@ -42,8 +51,16 @@ import cookies from 'vue-cookies'
             }
         },
         methods: {
+            removeTweet(index) {
+                this.$delete(this.tweetList, index);
+                this.targetTweetID = this.tweetIdArr[index];
+                console.log(index,this.targetTweetID);
+                this.deleteTweet();
+            },
+            // add() {
+            // this.tweetList.push('')
+            // },
             retrieveUserTweets() {
-                console.log('WORKS');
                 axios.request({
                     url: 'https://tweeterest.ml/api/tweets',
                     method: 'GET',
@@ -55,36 +72,25 @@ import cookies from 'vue-cookies'
                     }
                 }).then((response) => {
                     console.log(response);
-                    var parent = document.getElementById('parent');
-                    for (let i=0; i<response.data.length; i++){
-                        let myTitle = document.createElement('h4');
-                        let tweetContent = document.createElement('p');
-                        let makeBtn = document.createElement('button');
-                        makeBtn.classList.add('closeBtn');
-                        parent.append(myTitle);
-                        parent.append(makeBtn);
-                        parent.append(tweetContent);
-                        myTitle.innerText = this.currUsername;
-                        tweetContent.innerText = response.data[i].content;
-                        makeBtn.innerText = "x";
-                        this.tweetIdArr.push(response.data[i].tweetId);
+                    // for (let i=0; i<response.data.length; i++){
+                    //     const arrTweet = [];
+                    //     arrTweet.push()
+                    // }
+
+                    for (let i=response.data.length-1; i>=0; i--){
+                         this.tweetList.push(response.data[i].content);
+                         this.tweetDate.push(response.data[i].createdAt);
+
+                    }
+                    for (let i=response.data.length-1; i>=0; i--){
+                         this.tweetIdArr.push(response.data[i].tweetId); 
                     }
                 }).catch((error) => {
                     console.error(error);
                 })
             },
             appendTweetLst() {
-                var parent = document.getElementById('parent');
-                let myTitle = document.createElement('h4');
-                let tweetContent = document.createElement('p');
-                let makeBtn = document.createElement('button');
-                makeBtn.setAttribute('class', 'closeBtn');
-                parent.append(myTitle);
-                parent.append(makeBtn);
-                parent.append(tweetContent);
-                myTitle.innerText = this.currUsername;
-                tweetContent.innerText = this.getTweet;
-                makeBtn.innerText = "x";
+                this.tweetList.unshift(this.getTweet);
             },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
@@ -95,14 +101,14 @@ import cookies from 'vue-cookies'
             },
             deleteTweet() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/users',
+                    url: 'https://tweeterest.ml/api/tweets',
                     method: 'DELETE',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY
                     },
                     data: {
                         "loginToken": this.userToken,
-                        "tweetId": ""
+                        "tweetId": this.targetTweetID
                     }
                
                 }).then((response) => {
@@ -128,10 +134,15 @@ import cookies from 'vue-cookies'
 </script>
 
 <style>
+    .tweetItems {
+        border: 1px solid black;
+        height: 200px;
+    }
+
     .wrapper {
         margin-left: 10vw;
         margin-right: 10vw;
-        /* height: 800px; */
+        
     }
 
     .closeBtn {

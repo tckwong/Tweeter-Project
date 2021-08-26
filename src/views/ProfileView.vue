@@ -1,7 +1,5 @@
 <template>
     <div>
-        <router-link to="/FeedView">Feed</router-link> |
-        <router-link to="/DiscoverView">Feed</router-link>
         <h1>PROFILE PAGE</h1>
         
         <Header/>

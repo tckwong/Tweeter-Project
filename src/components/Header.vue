@@ -1,14 +1,13 @@
 <template>
-    <div class="pageWrapper">
+    <div>
         <nav>
             <ul>
-                <li><router-link to="/">Log In</router-link></li>
-                <li><router-link to="/ProfileView">Profile</router-link></li>
-                <li><router-link to="/DiscoverView">Discover</router-link></li>
-                <li><router-link to="/FeedView">Feed</router-link></li>
+                <li><router-link class="navLink" to="/">Log In</router-link></li>
+                <li><router-link class="navLink" to="/ProfileView">Profile</router-link></li>
+                <li><router-link class="navLink" to="/DiscoverView">Discover</router-link></li>
+                <li><router-link class="navLink" to="/FeedView">Feed</router-link></li>
             </ul>
 
-            <h1>THIS IS A HEADER</h1>
         </nav>
     </div>
    
@@ -21,10 +20,6 @@
 </script>
 
 <style scoped>
-    .pageWrapper {
-        margin-left: 15vw;
-        margin-right: 15vw;
-    }
     nav {
         text-align: center;
         color: blue;
@@ -32,8 +27,23 @@
     router-link {
         text-decoration: none;
     }
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333333;
+    }
     li {
-        text-decoration: none;
+        display: inline-block;
+        list-style-type: none;
         color: rgb(51, 163, 66);
+    }
+    .navLink {
+        color: white;
+        text-align: center;
+        padding: 16px;
+        text-decoration: none;
     }
 </style>

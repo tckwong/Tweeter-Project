@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <router-link to="/FeedView">Feed</router-link> |
-        <router-link to="/DiscoverView">Discover</router-link>
+    <div> 
 
         <LogInPage/>
         

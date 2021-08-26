@@ -1,5 +1,17 @@
 <template>
     <section>
+        <v-btn 
+        @click="reDirectEditProfile"
+        class="mx-2"
+        fab
+        dark
+        large
+        color="cyan"
+    >
+      <v-icon dark>
+        mdi-pencil
+      </v-icon>
+    </v-btn>
         <h1>Profile</h1>
         <h3>ID:{{ userID }}</h3>
        
@@ -16,6 +28,7 @@ import cookies from 'vue-cookies'
 
     export default {
         name: "ProfileBody",
+     
         data: () => {
             return {
                 userID: "",
@@ -68,13 +81,18 @@ import cookies from 'vue-cookies'
                     console.error("There was an error: " +error);
                 })
             },
+            reDirectEditProfile() {
+                console.log("RUNNING");
+                this.$router.push({ path: '/ProfileEditView' });
+            },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userID = getCookie.userId;
                 this.userName = getCookie.username;
                 this.userEmail = getCookie.email;
                 this.userBio = getCookie.bio;
-            }
+            },
+
         },
         beforeMount() {
             this.getMyCookies();
@@ -85,7 +103,9 @@ import cookies from 'vue-cookies'
 <style lang="scss" scoped>
     section {
         background-color: rgb(184, 204, 240);
-        height: 40vh;
+        height: 50vh;
+        margin-left: 10vw;
+        margin-right: 10vw;
     }
 
     img {

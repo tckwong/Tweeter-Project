@@ -200,3 +200,32 @@
     }),
   }
 </script>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OLD METHOD TO PUSH ARRAY OF TWEETS::::~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// var parent = document.getElementById('parent');
+                    // for (let i=0; i<response.data.length; i++){
+                    //     let myTitle = document.createElement('h4');
+                    //     let tweetContent = document.createElement('p');
+                    //     let makeBtn = document.createElement('button');
+                    //     let btnID = i+1;
+                    //     myTitle.innerText = this.currUsername;
+                    //     tweetContent.innerText = response.data[i].content;
+                    //     makeBtn.classList.add('closeBtn');
+                    //     makeBtn.setAttribute('id', btnID);
+                    //     makeBtn.onclick = function() {this.deleteTweet()};
+                        // var findFunc = this.deleteTweet();
+                        //makeBtn.setAttribute('onclick', function() { deleteTweet(); });
+                        // makeBtn.setAttribute('onclick', "x");
+                        // makeBtn.onclick = function() {
+                        //     this.deleteTweet();
+                        // }
+                        // makeBtn.addEventListener('click', function() {
+                        //     this.deleteTweet();
+                        // }, false);
+                        // makeBtn.innerText = "x";
+                        // parent.append(myTitle);
+                        // parent.append(makeBtn);
+                        // parent.append(tweetContent);
+                        
+                        // this.tweetIdArr.push(response.data[i].tweetId);
+                    // }
