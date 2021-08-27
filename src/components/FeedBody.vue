@@ -34,14 +34,6 @@
 
     <FeedBodyTweetFeed :testProp="trigger"/>
     
-         <v-btn
-            ref="FeedBodyTweetFeed"
-            @click="testFn"
-            color="primary"
-            elevation="2"
-            large
-        >TESTING
-        </v-btn>
     </div>
 </template>
 
@@ -63,10 +55,10 @@ import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
             }     
         },
         methods: {
-            testFn() {
-                // $refs.FeedBodyTweetFeed.retrieveUserTweets();
-                this.$children[0].retrieveUserTweets();
-            },
+            // testFn() {
+            //     $refs.FeedBodyTweetFeed.retrieveUserTweets();
+            //     this.$children[0].retrieveUserTweets();
+            // },
              createTweet() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/tweets',
