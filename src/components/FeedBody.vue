@@ -24,14 +24,7 @@
             large
         >POST
         </v-btn>
-            <v-btn
-            @click="logOutUser"
-            color="red"
-            elevation="2"
-            large
-        >Log Out
-        </v-btn>
-
+            
     <FeedBodyTweetFeed :testProp="trigger"/>
     
     </div>
@@ -77,27 +70,6 @@ import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
                     this.trigger = !this.trigger
                     this.$store.commit('getNewTweet', response.data.content);
                         
-
-                }).catch((error) => {
-                    console.error("There was an error: " +error);
-                })
-            },
-            logOutUser() {
-                axios.request({
-                    url: 'https://tweeterest.ml/api/login',
-                    method: 'DELETE',
-                    headers : {
-                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
-                    },
-                    data : {
-                        "loginToken" : this.userToken,
-                    }
-
-                }).then(() => {
-                    console.log("LOGGED OUT SUCCESSFUL");
-                    cookies.remove('loginData');
-                    this.$store.dispatch('removeToken', "");
-                    this.$router.push({ name: 'LoginView' });
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);

@@ -14,25 +14,90 @@
         </v-icon>
         </v-btn>
         <h1>Profile</h1>
-        <h3>ID:{{ userID }}</h3>
         
         <img :src="require('@/assets/defaultProfile.png')"/>
-        <p>Name: {{ userName }}</p>
-        <p>Email: {{ userEmail }}</p>
-        <p>Bio: {{ userBio }}</p>
+        <p>Name: {{  }}</p><span><input v-model="myEdits.nameEdit" type="text"/></span>
+        <p>Email: {{  }}</p><span><input v-model="myEdits.emailEdit" type="text"/></span>
+        <p>Bio: {{  }}</p><span><input v-model="myEdits.bioEdit" type="text"/></span>
+
+        <v-btn
+            @click="patchProfile"
+            color="primary"
+            elevation="2"
+            large
+        >Update
+        </v-btn>
 </section>
 
 </template>
 
 <script>
-// import axios from 'axios'
-// import cookies from 'vue-cookies'
+import axios from 'axios'
+import cookies from 'vue-cookies'
 
     export default {
-        name: "ProfileBodyEdit"
+        name: "ProfileBodyEdit",
+        data: () => {
+            return {
+                userToken: "",
+                myEdits: {
+                    nameEdit: "",
+                    emailEdit: "",
+                    bioEdit: "",
+                }
+            
+            }
+        },
+        methods: {
+            updateProfile() {
+                this.$store.commit('editProfile', this.myEdits);
+            },
+            patchProfile() {
+                console.log(this.userToken);
+                console.log(this.myEdits.emailEdit);
+    
+
+            axios.request({
+                    url: 'https://tweeterest.ml/api/users',
+                    method: 'PATCH',
+                    headers : {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    data : {
+                        "loginToken" : this.userToken,
+                        "email" : this.myEdits.emailEdit,
+                        "username" : this.myEdits.nameEdit,
+                        // "content" : this.myEdits.content,
+                    }
+
+                }).then((response) => {
+                    console.log(response);
+
+                   
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                })
+            },
+            getMyCookies() {
+                var getCookie = cookies.get('loginData');
+                this.userToken = getCookie.loginToken;
+            },
+        },
+        beforeMount() {
+            this.getMyCookies();
+        }
     }
 </script>
 
 <style lang="scss" scoped>
-
+    img {
+        height: 20vh;
+    }
+    p {
+        display: inline-block;
+    }
+    input {
+        border: 1px solid black;
+    }
 </style>

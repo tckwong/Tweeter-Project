@@ -10,8 +10,19 @@ export default new Vuex.Store({
     email: "",
     loginToken: "",
     newTweetContent: "",
+    profileEdits: {
+      nameEdit: "",
+      emailEdit: "",
+      bioEdit: "",
+    }
+   
   },
-  mutations: {
+  mutations: {  
+    editProfile(state, data) {
+      state.nameEdit = data.nameEdit;
+      state.emailEdit = data.emailEdit;
+      state.bioEdit = data.bioEdit;
+    },
     getcurrUserID(state, data) {
       state.currUserID = data;
     },

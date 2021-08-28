@@ -9,7 +9,7 @@
         name: 'DiscoverBody'
     }
 </script>
-
+    
 <style lang="scss" scoped>
 
 </style>

@@ -22,18 +22,16 @@
                                 text
                                 icon
                                 color="blue lighten-2"
-                            >
-                                <v-icon>mdi-thumb-up</v-icon>
+                            ><v-icon>mdi-thumb-up</v-icon>
                             </v-btn>
-                            <span>{{ likes }}</span>
+                                <!-- <span>{{ likes }}</span> -->
                             <v-btn
                                 @click.prevent="downvote(index)"
                                 class="ma-1"
                                 text
                                 icon
                                 color="red lighten-2"
-                            >
-                                <v-icon>mdi-thumb-down</v-icon>
+                            ><v-icon>mdi-thumb-down</v-icon>
                             </v-btn>
                             </div>
                         </div>
@@ -86,7 +84,7 @@ import cookies from 'vue-cookies'
                 tweetContent: "",
                 tweetDate : [],
                 commentContent : "",
-                likes: "",
+                totalLikes: [],
 
             }
         },
@@ -110,7 +108,29 @@ import cookies from 'vue-cookies'
 
                 }).then((response) => {
                     console.log(response);
-                    
+                    console.log(this.tweetIdArr);
+                    console.log(response.data[0]);
+                    // const dataset2 = [2,2,4,2,6,4,7,8];
+                    // const dataset1 = [2,4,7]
+                    // // const count = {};
+                    // dataset1.forEach(function(element, index) {
+                    //     console.log(index+1 + ". " + element);
+                    // })
+                    // response.data[0].tweetId.forEach((el) => {
+                    //     count[el] = count[el] + 1 || 1
+                    // });
+
+                    // console.log(count)
+                    // const map1 = this.tweetIdArr.map(x => x === )
+                        // console.log(Object.values(response.data[i].tweetId).length);
+
+                    // for (let i=0; i<this.tweetIdArr.length; i++){
+                        // this.tweetIdArr.reduce(function(n, val){
+                        //     return n + (val === response.data[i].tweetId);
+                        // }, 0);
+                  
+                    // var checkLikes = this.tweetIdArr.filter(element => element == element).length;
+                    // console.log(checkLikes);
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
@@ -171,7 +191,6 @@ import cookies from 'vue-cookies'
                         'userId' : this.profileUserID,
                     }
                 }).then((response) => {
-                    console.log(response);
                     // for (let i=0; i<response.data.length; i++){
                     //     const arrTweet = [];
                     //     arrTweet.push()

@@ -19,6 +19,8 @@
         <p>Name: {{ userName }}</p>
         <p>Email: {{ userEmail }}</p>
         <p>Bio: {{ userBio }}</p>
+        <h2>{{ getProfileEdits }}</h2>
+        <h2>{{ getState }}</h2>
     </section>
 </template>
 
@@ -41,6 +43,9 @@ import cookies from 'vue-cookies'
             getState() {
                 return this.$store.state.currUserID;
             },
+            getProfileEdits() {
+                return this.$store.state.profileEdits.profileEdits;
+            }
         },
 
         methods: {
@@ -82,7 +87,6 @@ import cookies from 'vue-cookies'
                 })
             },
             reDirectEditProfile() {
-                console.log("RUNNING");
                 this.$router.push({ path: '/ProfileEditView' });
             },
             getMyCookies() {
