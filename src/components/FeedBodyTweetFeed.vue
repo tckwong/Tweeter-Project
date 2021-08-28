@@ -111,15 +111,22 @@ import cookies from 'vue-cookies'
                     console.log(this.tweetIdArr);
                     console.log(response.data[0]);
                     // const dataset2 = [2,2,4,2,6,4,7,8];
-                    // const dataset1 = [2,4,7]
-                    // // const count = {};
+                    // const dataset1 = [2,4,7];
+                    // const newArr = [];
+                    // var search = 2;
+                    // // for (let i=0; i<dataset2.length; i++){
+                    //     var count = dataset1.reduce(function(n, val){
+                    //         return n + (val == search);
+                    //     }, 0);
+                    // console.log(count);
+
+                    // const count = {};
                     // dataset1.forEach(function(element, index) {
                     //     console.log(index+1 + ". " + element);
                     // })
                     // response.data[0].tweetId.forEach((el) => {
                     //     count[el] = count[el] + 1 || 1
                     // });
-
                     // console.log(count)
                     // const map1 = this.tweetIdArr.map(x => x === )
                         // console.log(Object.values(response.data[i].tweetId).length);
@@ -183,7 +190,7 @@ import cookies from 'vue-cookies'
             retrieveUserTweets() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/tweets',
-                    method: 'GET',
+                    method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },

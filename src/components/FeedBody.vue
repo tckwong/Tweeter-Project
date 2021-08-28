@@ -24,9 +24,17 @@
             large
         >POST
         </v-btn>
-            
+        
     <FeedBodyTweetFeed :testProp="trigger"/>
-    
+
+    <TweetChild v-for="tweet in alltweetData" 
+    :key="tweet.tweetId" 
+    :username="tweet.username" 
+    :tweetId="tweet.tweetId" 
+    :content="tweet.content"
+    :createdAt="tweet.createdAt"/>
+
+    <button @click="retrieveAllTweets">RETRIEVE ALL TWEETS</button>
     </div>
 </template>
 
@@ -34,17 +42,20 @@
 import axios from "axios"
 import cookies from 'vue-cookies'
 import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
-
+import TweetChild from './TweetChild.vue'
     export default {
         name: 'FeedBody',
         components : {
-            FeedBodyTweetFeed
+            FeedBodyTweetFeed,
+            TweetChild
         },
         data: () => {
             return {
                 userToken: "",
                 content: "",
-                trigger: false
+                trigger: false,
+                alltweetData: [],
+
             }     
         },
         methods: {
@@ -52,7 +63,7 @@ import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
             //     $refs.FeedBodyTweetFeed.retrieveUserTweets();
             //     this.$children[0].retrieveUserTweets();
             // },
-             createTweet() {
+            createTweet() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/tweets',
                     method: 'POST',
@@ -73,6 +84,25 @@ import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
+                })
+            },
+            retrieveAllTweets() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/tweets',
+                    method: 'GET',                                                                                                                                                              
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                    },
+                    params: {
+                       
+                    }
+                }).then((response) => {
+                  
+                    this.alltweetData = response.data;
+                    console.log(this.alltweetData);
+            
+                }).catch((error) => {
+                    console.error(error);
                 })
             },
             getMyCookies() {
