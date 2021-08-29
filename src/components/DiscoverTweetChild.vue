@@ -14,7 +14,7 @@
       >
         TWEETER
       </v-icon>
-      <span class="text-h6 font-weight-light">{{ createdAt }} <v-btn @click="deleteTweet" color="red" elevation="2" Small>✕</v-btn></span>
+      <span class="text-h6 font-weight-light">{{ createdAt }}</span>
     </v-card-title>
    
     <v-card-text class="text-h5 font-weight-bold">
@@ -51,12 +51,7 @@
       </v-list-item>
     </v-card-actions>
   </v-card>
-        <!-- <router-link :to="{ name: 'OtherProfilesView', params: { user: username }}">GO TO PROFILE</router-link>
-        <div class="wrapper">
-            <h2>{{ tweetId }} - {{ username }} - {{ createdAt }}</h2>
-            
-            <v-btn @click="deleteTweet" color="red" elevation="2" Small>✕</v-btn>
-        </div>  -->
+
     </div>
 </template>
 
@@ -64,7 +59,7 @@
 import axios from "axios"
 import cookies from 'vue-cookies'
     export default {
-        name: 'TweetChild',
+        name: 'DiscoverTweetChild',
         data()  {
             return {
                 userToken : "",
@@ -78,25 +73,7 @@ import cookies from 'vue-cookies'
             createdAt: String
         },
         methods: {
-            deleteTweet() {
-                axios.request({
-                    url: 'https://tweeterest.ml/api/tweets',
-                    method: 'DELETE',
-                    headers: {
-                        'X-Api-Key' : process.env.VUE_APP_API_KEY
-                    },
-                    data: {
-                        "loginToken": this.userToken,
-                        "tweetId": this.tweetId
-                    }
-                }).then((response) => {
-                    console.log(response);
-                    console.log("Sucessfully Deleted");
-                    
-                }).catch((error) => {
-                    console.error("There was an error: " +error);
-                })
-            },
+           
             retrieveUserId() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/users',

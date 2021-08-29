@@ -1,30 +1,27 @@
 <template>
-    <body>
-        <div>
+    <section>
+        <!-- Vuetify form field inputs used for user login and registration -->
+        {{ birthdate }}
+        <div class="wrapper">
+            <img id="logo" src="@/assets/logo.png"/>
             <h1>Log In</h1>
-            <!-- <v-row
-                @click="registerUser"
-                align="center"
-                justify="space-around"
-            > -->
-            <v-btn
-                @click="retrieveUsers"
-                text
-                color="primary"
+
+            <v-card  
+            class="d-flex justify-center mb-6"
+            style="background-color:#6a8bf8"
             >
-                Retrieve Users
-            </v-btn>
-            <!-- </v-row> -->
-        
             <v-col
-            cols="12"
-            sm="6"
-            md="3"
+            sm="1"
+            md="5"
+            class="pa-2"
+            outlined
+            tile
             >
             <v-text-field
+                class="formInput"            
                 v-model="usrNameInput"
-                label="Username"
-                placeholder="Username"
+                label="Email"
+                placeholder="Email"
                 solo
             ></v-text-field>
             
@@ -32,10 +29,10 @@
                 v-model="pwdInput"
                 label="Password"
                 placeholder="Password"
+                :rules="[rules.required]"
+                :type="show1 ? 'text' : 'password'"
                 solo
             ></v-text-field>
-            </v-col>
-
             <v-btn
                 @click="loginUser"
                 color="primary"
@@ -43,7 +40,10 @@
                 large
             >Log In
             </v-btn>
+            </v-col>
+            </v-card>
         </div>
+        <!-- Vuetify form fields for user registration -->
         <h2>Register Below:</h2>
         <div id="registerWrapper">
             <v-text-field
@@ -60,21 +60,44 @@
                 <v-text-field
                 v-model="bio"
                 :counter="200"
-        
                 label="bio"
                 required
             ></v-text-field>
-            
+       
+        <v-row>
+        <v-spacer></v-spacer>
+        <v-col
+        cols="12"
+        sm="6"
+        md="4"
+        >
+        <v-menu
+            :close-on-content-click="true"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+        >
+            <template v-slot:activator="{ on, attrs }">
             <v-text-field
                 v-model="birthdate"
-                :counter="12"
-
-                label="birthdate"
-                required
+                label="Birthdate"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
             ></v-text-field>
+            </template>
+            <v-date-picker
+            v-model="birthdate"
+            ></v-date-picker>
+        </v-menu>
+        </v-col>
+        <v-spacer></v-spacer>
+    </v-row>
 
             <v-col
-            cols="12"
+            cols="1"
             sm="6"
             ><v-text-field
                 v-model="password"
@@ -95,7 +118,7 @@
                 >Register
             </v-btn>
         </div>
-    </body>
+    </section>
 </template>
 
 <script>
@@ -111,7 +134,7 @@ import cookies from 'vue-cookies'
                 username : "",
                 email : "",
                 bio : "",
-                birthdate : "",
+                birthdate : null,
                 password : "", 
                 show1: false,
                 show2: true,
@@ -209,9 +232,16 @@ import cookies from 'vue-cookies'
     h1 {
         text-transform: uppercase;
     }
+    .wrapper {
+        margin: 0 15vw;
+    }
     #registerWrapper {
         margin-left: 15vw;
         margin-right: 15vw;
     }
-  
+    #logo {
+        margin-top: 8vh;
+        height: 10vh;
+    }
+    
 </style>

@@ -32,7 +32,7 @@
             large
         >GET FOLLOWERS
         </v-btn>
-        
+        {{ newTweetObj.content }}
     <!-- <FeedBodyTweetFeed :testProp="trigger"/> -->
 
     <TweetChild v-for="tweet in alltweetData" 
@@ -66,7 +66,6 @@ import TweetChild from './TweetChild.vue'
             }     
         },
         methods: {
-
             createTweet() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/tweets',
@@ -90,8 +89,8 @@ import TweetChild from './TweetChild.vue'
                         content : response.data.content,
                         imageUrl : response.data.imageUrl,
                     }
-                    this.alltweetData.push(this.newTweetObj);  
-                    this.retrieveAllTweets()
+                    this.alltweetData.push(this.newTweetObj);
+                    this.newTweetObj.content = "";
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
