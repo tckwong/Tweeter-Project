@@ -24,6 +24,14 @@
             large
         >POST
         </v-btn>
+
+        <v-btn
+            @click=" filterFeedArr"
+            color="primary"
+            elevation="2"
+            large
+        >GET FOLLOWERS
+        </v-btn>
         
     <!-- <FeedBodyTweetFeed :testProp="trigger"/> -->
 
@@ -53,7 +61,8 @@ import TweetChild from './TweetChild.vue'
                 content: "",
                 trigger: false,
                 alltweetData: [],
-                newTweetObj: {}
+                newTweetObj: {},
+                followinguserIDs: [],
             }     
         },
         methods: {
@@ -69,11 +78,11 @@ import TweetChild from './TweetChild.vue'
                     data : {
                         "loginToken" : this.userToken,
                         "content" : this.content,
+                        "userId"  : "",
                     }
 
                 }).then((response) => {
                     console.log(response);
-                    
                     this.newTweetObj = {
                         tweetId : response.data.tweetId,
                         userId : response.data.userId,
@@ -99,22 +108,51 @@ import TweetChild from './TweetChild.vue'
                        
                     }
                 }).then((response) => {
-                  
+                    console.log(response);
                     this.alltweetData = response.data;
-                    console.log(this.alltweetData);
-            
+                    this.filterFeedArr();
                 }).catch((error) => {
                     console.error(error);
                 })
             },
+             retrieveAllFollowers() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/follows',
+                    method: 'GET',                                                                                                                                                              
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                    },
+                    params: {
+                       userId: this.userId,
+                    }
+                }).then((response) => {
+                    console.log(response);
+                    for (let i=0; i<response.data.length; i++){
+                        this.followinguserIDs.push(response.data[i].userId);
+                    }
+                    console.log(this.followinguserIDs);
+                    this.retrieveAllTweets();
+                }).catch((error) => {
+                    console.error(error);
+                })
+            },
+            filterFeedArr() {
+                const newArrFeed = this.alltweetData.filter(tweet => this.followinguserIDs.includes(tweet.userId));
+                this.alltweetData = newArrFeed; 
+                console.log(newArrFeed);
+            },
+
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
+                this.userId = getCookie.userId;
                 }
             },
         beforeMount() {
             this.getMyCookies();
-            this.retrieveAllTweets();
+        },
+        mounted() {
+            this.retrieveAllFollowers();
         }
     }
 </script>
