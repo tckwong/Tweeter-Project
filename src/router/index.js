@@ -5,7 +5,8 @@ import LoginView from '../views/LoginView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ProfileEditView from '../views/ProfileEditView.vue'
 import DiscoverView from '../views/DiscoverView.vue'
-import DiscoverBody from '@/components/DiscoverBody.vue'
+import OtherProfilesView from '../views/OtherProfilesView.vue'
+// import OtherProfiles from '@/components/OtherProfiles.vue'
 
 Vue.use(VueRouter)
 
@@ -35,13 +36,16 @@ const routes = [
     name: 'ProfileEditView',
     component: ProfileEditView,
   },
-  // {
-  //   path: '/DiscoverView/:userId',
-  //   name: 'DiscoverBody',
-  //   component: DiscoverBody
-  // },
-  { path: '/DiscoverView/:userId', component: DiscoverBody }
-  
+  {
+    path: '/OtherProfilesView/:user',
+    name: 'OtherProfilesView',
+    component: OtherProfilesView,
+  },
+//   { 
+//     path: '/OtherProfilesView/:user',
+//     name: 'OtherProfiles',
+//     component: OtherProfiles
+// }
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.

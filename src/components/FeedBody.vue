@@ -25,7 +25,7 @@
         >POST
         </v-btn>
         
-    <FeedBodyTweetFeed :testProp="trigger"/>
+    <!-- <FeedBodyTweetFeed :testProp="trigger"/> -->
 
     <TweetChild v-for="tweet in alltweetData" 
     :key="tweet.tweetId" 
@@ -33,20 +33,18 @@
     :tweetId="tweet.tweetId" 
     :content="tweet.content"
     :createdAt="tweet.createdAt"/>
-
-    <button @click="retrieveAllTweets">RETRIEVE ALL TWEETS</button>
     </div>
 </template>
 
 <script>
 import axios from "axios"
 import cookies from 'vue-cookies'
-import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
+// import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
 import TweetChild from './TweetChild.vue'
     export default {
         name: 'FeedBody',
         components : {
-            FeedBodyTweetFeed,
+            // FeedBodyTweetFeed,
             TweetChild
         },
         data: () => {
@@ -55,14 +53,11 @@ import TweetChild from './TweetChild.vue'
                 content: "",
                 trigger: false,
                 alltweetData: [],
-
+                newTweetObj: {}
             }     
         },
         methods: {
-            // testFn() {
-            //     $refs.FeedBodyTweetFeed.retrieveUserTweets();
-            //     this.$children[0].retrieveUserTweets();
-            // },
+
             createTweet() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/tweets',
@@ -78,9 +73,16 @@ import TweetChild from './TweetChild.vue'
 
                 }).then((response) => {
                     console.log(response);
-                    this.trigger = !this.trigger
-                    this.$store.commit('getNewTweet', response.data.content);
-                        
+                    
+                    this.newTweetObj = {
+                        tweetId : response.data.tweetId,
+                        userId : response.data.userId,
+                        username : response.data.username,
+                        content : response.data.content,
+                        imageUrl : response.data.imageUrl,
+                    }
+                    this.alltweetData.push(this.newTweetObj);  
+                    this.retrieveAllTweets()
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
@@ -112,6 +114,7 @@ import TweetChild from './TweetChild.vue'
             },
         beforeMount() {
             this.getMyCookies();
+            this.retrieveAllTweets();
         }
     }
 </script>

@@ -96,7 +96,6 @@ import cookies from 'vue-cookies'
                 this.userEmail = getCookie.email;
                 this.userBio = getCookie.bio;
             },
-
         },
         beforeMount() {
             this.getMyCookies();
