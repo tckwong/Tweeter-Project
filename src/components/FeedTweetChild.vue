@@ -40,10 +40,13 @@
           justify="end"
         >
         <!-- Embed a button around v-icon for click-->
-          <v-icon class="mr-1">
-            mdi-thumb-up
-          </v-icon>
-          <span class="subheading mr-2">256</span>111
+          <div :class="{ likedDisplay: toggleLike }"> 
+                <v-icon @click="checkTweetLiked" class="mr-1">
+                mdi-thumb-up
+                 </v-icon>
+          </div>
+        
+          <span class="subheading mr-2">{{ tweetId }} - {{ tweetLikeCounter }}</span>
           <span class="mr-1">·</span>
        
               <button @click="retrieveUserId" class="myButton">Follow</button>
@@ -64,11 +67,14 @@
 import axios from "axios"
 import cookies from 'vue-cookies'
     export default {
-        name: 'TweetChild',
-        data()  {
+        name: 'FeedTweetChild',
+        data:() => {
             return {
+                activeUser: "",
                 userToken : "",
                 currUserId: "",
+                tweetLikeCounter: "",
+                toggleLike: false,
             }
         },
         props: {
@@ -106,9 +112,7 @@ import cookies from 'vue-cookies'
                     },
              
                 }).then((response) => {
-                    console.log(response);
                     const found = response.data.find(user => user.username === this.username);
-                    console.log(found);
                     this.currUserId = found.userId;
                     this.followUser();
                 }).catch((error) => {
@@ -131,7 +135,79 @@ import cookies from 'vue-cookies'
                 }).then((response) => {
                     console.log(response);
                     
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                })
+            },
+            /* API CALL FOR TWEET LIKES*/
+            upvoteTweet() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    method: 'POST',
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                            "loginToken": this.userToken,
+                            "tweetId": this.tweetId,
+                        
+                    }
+                }).then(() => {
+                    this.tweetLikeCounter += 1;
+                    this.toggleLike = true;
                     
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                })
+            },
+            checkTweetLiked() {
+                if(this.toggleLike === false){
+                    this.upvoteTweet();
+                }else {
+                    this.deleteTweetLike();
+                }
+            },
+            retrieveAllLikes() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    method: 'GET',
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                    },
+                    data: {
+                         "tweetId": this.tweetId,
+                    }
+                }).then((response) => {
+                    const countLikes = response.data.filter(element => element.tweetId === this.tweetId).length;
+                    this.tweetLikeCounter = countLikes;
+                    for (let i=0; i<response.data.length; i++){
+                        if (response.data[i].userId === this.activeUser && response.data[i].tweetId === this.tweetId) {
+                            this.toggleLike = true;
+                            return;
+                        }
+                    }  
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                })
+            },
+            deleteTweetLike() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    method: 'DELETE',
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                    },
+                    data: {
+                        "loginToken": this.userToken,
+                        "tweetId": this.tweetId,
+                    }
+
+                }).then(() => {
+                    this.toggleLike = false;
+                    this.tweetLikeCounter -= 1;
+                    console.log("Tweet unliked");
+
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
@@ -139,10 +215,13 @@ import cookies from 'vue-cookies'
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
+                this.activeUser = getCookie.userId;
             },
         },
         mounted() {
             this.getMyCookies();
+            this.retrieveAllLikes();
+
         }
     }
 </script>
@@ -171,5 +250,9 @@ import cookies from 'vue-cookies'
 .myButton:active {
 	position:relative;
 	top:1px;
+}
+
+.likedDisplay {
+     box-shadow: 0px 0px 5px #fff;
 }
 </style>

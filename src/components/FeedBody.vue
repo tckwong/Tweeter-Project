@@ -35,10 +35,10 @@
         {{ newTweetObj.content }}
     <!-- <FeedBodyTweetFeed :testProp="trigger"/> -->
 
-    <TweetChild v-for="tweet in alltweetData" 
+    <FeedTweetChild v-for="tweet in alltweetData" 
     :key="tweet.tweetId" 
     :username="tweet.username" 
-    :tweetId="tweet.tweetId" 
+    :tweetId="tweet.tweetId"
     :content="tweet.content"
     :createdAt="tweet.createdAt"/>
     </div>
@@ -48,12 +48,12 @@
 import axios from "axios"
 import cookies from 'vue-cookies'
 // import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
-import TweetChild from './TweetChild.vue'
+import FeedTweetChild from './FeedTweetChild.vue'
     export default {
         name: 'FeedBody',
         components : {
             // FeedBodyTweetFeed,
-            TweetChild
+            FeedTweetChild
         },
         data: () => {
             return {
@@ -107,7 +107,6 @@ import TweetChild from './TweetChild.vue'
                        
                     }
                 }).then((response) => {
-                    console.log(response);
                     this.alltweetData = response.data;
                     this.filterFeedArr();
                 }).catch((error) => {
@@ -125,11 +124,9 @@ import TweetChild from './TweetChild.vue'
                        userId: this.userId,
                     }
                 }).then((response) => {
-                    console.log(response);
                     for (let i=0; i<response.data.length; i++){
                         this.followinguserIDs.push(response.data[i].userId);
                     }
-                    console.log(this.followinguserIDs);
                     this.retrieveAllTweets();
                 }).catch((error) => {
                     console.error(error);
@@ -137,10 +134,9 @@ import TweetChild from './TweetChild.vue'
             },
             filterFeedArr() {
                 const newArrFeed = this.alltweetData.filter(tweet => this.followinguserIDs.includes(tweet.userId));
-                this.alltweetData = newArrFeed; 
-                console.log(newArrFeed);
+                this.alltweetData = newArrFeed;
+                console.log(this.alltweetData);
             },
-
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
@@ -152,6 +148,7 @@ import TweetChild from './TweetChild.vue'
         },
         mounted() {
             this.retrieveAllFollowers();
+            // this.retrieveAllLikes();
         }
     }
 </script>
