@@ -230,4 +230,10 @@
                         // this.tweetIdArr.push(response.data[i].tweetId);
                     // }
 
+<div class="modal" v-if="showModal">
+                <h1>Lorem Ipsum</h1>
+                <button class="button" @click="showModal">Close Modal</button>
+            </div>
+
+
     
