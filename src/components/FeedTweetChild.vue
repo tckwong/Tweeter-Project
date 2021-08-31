@@ -1,5 +1,4 @@
 <template>
-
     <div>
     <v-card
     class="mx-auto"
@@ -34,19 +33,26 @@
         <v-list-item-content>
           <v-list-item-title><router-link :to="{ name: 'OtherProfilesView', params: { user: username }}">{{ username }}</router-link></v-list-item-title>
         </v-list-item-content>
-
+        
         <v-row
           align="center"
           justify="end"
         >
         <!-- Embed a button around v-icon for click-->
+        <img id="commentIcon" @click="showModal" :src="require('@/assets/speech-bubble.png')"/>
+        <div class="modal" v-if="showModal">
+            <h1>Lorem Ipsum</h1>
+            <button class="button" @click="showModal">Close Modal</button>
+        </div>
+        <v-spacer></v-spacer>
+
           <div :class="{ likedDisplay: toggleLike }"> 
                 <v-icon @click="checkTweetLiked" class="mr-1">
                 mdi-thumb-up
                  </v-icon>
           </div>
         
-          <span class="subheading mr-2">{{ tweetId }} - {{ tweetLikeCounter }}</span>
+          <span class="subheading mr-2">{{ tweetLikeCounter }}</span>
           <span class="mr-1">·</span>
        
               <button @click="retrieveUserId" class="myButton">Follow</button>
@@ -54,12 +60,9 @@
       </v-list-item>
     </v-card-actions>
   </v-card>
-        <!-- <router-link :to="{ name: 'OtherProfilesView', params: { user: username }}">GO TO PROFILE</router-link>
-        <div class="wrapper">
-            <h2>{{ tweetId }} - {{ username }} - {{ createdAt }}</h2>
-            
-            <v-btn @click="deleteTweet" color="red" elevation="2" Small>✕</v-btn>
-        </div>  -->
+   <!-- <transition name="fade" appear>
+            <div class="modal-overlay" v-if="showModal"></div>
+        </transition> -->
     </div>
 </template>
 
@@ -75,6 +78,7 @@ import cookies from 'vue-cookies'
                 currUserId: "",
                 tweetLikeCounter: "",
                 toggleLike: false,
+                toggleModal: false,
             }
         },
         props: {
@@ -84,6 +88,10 @@ import cookies from 'vue-cookies'
             createdAt: String
         },
         methods: {
+            showModal() {
+                this.toggleModal = !this.toggleModal;
+                console.log(this.toggleModal);
+            },
             deleteTweet() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/tweets',
@@ -151,7 +159,6 @@ import cookies from 'vue-cookies'
                     data: {
                             "loginToken": this.userToken,
                             "tweetId": this.tweetId,
-                        
                     }
                 }).then(() => {
                     this.tweetLikeCounter += 1;
@@ -212,6 +219,7 @@ import cookies from 'vue-cookies'
                     console.error("There was an error: " +error);
                 })
             },
+
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
@@ -230,7 +238,6 @@ import cookies from 'vue-cookies'
     v-btn {
         width: 30%;
     }
-
     .myButton {
 	box-shadow:inset 0px -3px 7px 0px #29bbff;
 	background:linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
@@ -253,6 +260,28 @@ import cookies from 'vue-cookies'
 }
 
 .likedDisplay {
-     box-shadow: 0px 0px 5px #fff;
+    transform: scale(1.2);
+    filter: invert(100%);
+}
+#commentIcon {
+    cursor: pointer;
+    height: 40px;
+}
+
+.fade-enter-active
+.fade-leave-active {
+transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+.modal-overlay {
+    background-color: rgba(0,0,0,0.3);
+    height: 100vh;
+}
+.modal {
+    display: none;
 }
 </style>

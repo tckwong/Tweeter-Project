@@ -25,19 +25,10 @@
         >POST
         </v-btn>
 
-        <v-btn
-            @click=" filterFeedArr"
-            color="primary"
-            elevation="2"
-            large
-        >GET FOLLOWERS
-        </v-btn>
-        {{ newTweetObj.content }}
-    <!-- <FeedBodyTweetFeed :testProp="trigger"/> -->
-
     <FeedTweetChild v-for="tweet in alltweetData" 
-    :key="tweet.tweetId" 
-    :username="tweet.username" 
+    :key="tweet.tweetId"
+    :username="tweet.username"
+    :imageUrl="tweet.imageUrl"
     :tweetId="tweet.tweetId"
     :content="tweet.content"
     :createdAt="tweet.createdAt"/>
@@ -47,12 +38,10 @@
 <script>
 import axios from "axios"
 import cookies from 'vue-cookies'
-// import FeedBodyTweetFeed from './FeedBodyTweetFeed.vue'
 import FeedTweetChild from './FeedTweetChild.vue'
     export default {
         name: 'FeedBody',
         components : {
-            // FeedBodyTweetFeed,
             FeedTweetChild
         },
         data: () => {
@@ -77,7 +66,6 @@ import FeedTweetChild from './FeedTweetChild.vue'
                     data : {
                         "loginToken" : this.userToken,
                         "content" : this.content,
-                        "userId"  : "",
                     }
 
                 }).then((response) => {
@@ -87,10 +75,10 @@ import FeedTweetChild from './FeedTweetChild.vue'
                         userId : response.data.userId,
                         username : response.data.username,
                         content : response.data.content,
+                        createdAt : response.data.createdAt,
                         imageUrl : response.data.imageUrl,
                     }
-                    this.alltweetData.push(this.newTweetObj);
-                    this.newTweetObj.content = "";
+                    this.alltweetData.unshift(this.newTweetObj);
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
@@ -103,9 +91,6 @@ import FeedTweetChild from './FeedTweetChild.vue'
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
-                    params: {
-                       
-                    }
                 }).then((response) => {
                     this.alltweetData = response.data;
                     this.filterFeedArr();
@@ -134,8 +119,11 @@ import FeedTweetChild from './FeedTweetChild.vue'
             },
             filterFeedArr() {
                 const newArrFeed = this.alltweetData.filter(tweet => this.followinguserIDs.includes(tweet.userId));
+                newArrFeed.sort(function(x,y){
+                    return new Date(y.createdAt) - new Date(x.createdAt);
+                })
+               
                 this.alltweetData = newArrFeed;
-                console.log(this.alltweetData);
             },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
@@ -148,7 +136,6 @@ import FeedTweetChild from './FeedTweetChild.vue'
         },
         mounted() {
             this.retrieveAllFollowers();
-            // this.retrieveAllLikes();
         }
     }
 </script>
