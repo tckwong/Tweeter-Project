@@ -3,12 +3,11 @@
         <nav>
             <ul>
                 <li><router-link class="navLink" to="/">Log In</router-link></li>
-                <li><router-link class="navLink" to="/ProfileView">Profile</router-link></li>
+                <li><router-link class="navLink" :to="`/OtherProfilesView/`+ this.username">Profile</router-link></li>
                 <li><router-link class="navLink" to="/FeedView">Feed</router-link></li>
                 <li><router-link class="navLink" to="/DiscoverView">Discover</router-link></li>
                 <li><v-btn @click="logOutUser" color="red" elevation="2" large>Log Out</v-btn></li>
             </ul>
-            
         </nav>
     </div>
    
@@ -30,6 +29,7 @@ import cookies from 'vue-cookies'
                     },
                     data : {
                         "loginToken" : this.userToken,
+                        "username" : this.username,
                     }
 
                 }).then(() => {
@@ -45,6 +45,7 @@ import cookies from 'vue-cookies'
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
+                this.username = getCookie.username;
             }
         },
         beforeMount() {

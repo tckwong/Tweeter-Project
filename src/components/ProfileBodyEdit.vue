@@ -74,7 +74,6 @@ import cookies from 'vue-cookies'
                 }).then((response) => {
                     console.log(response);
 
-                   
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })

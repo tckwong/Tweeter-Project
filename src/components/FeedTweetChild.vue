@@ -37,7 +37,7 @@
             <!-- Embed a button around v-icon for click-->
         
             <v-text-field
-                class="formInput mr-8"            
+                class="formInput mr-8"
                 v-model="tweetComment"
                 label="Comment"
                 placeholder="Comment"
@@ -299,7 +299,6 @@ import TweetComments from './TweetComments.vue'
                     console.error("There was an error: " +error);
                 })
             },
-
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
@@ -309,7 +308,6 @@ import TweetComments from './TweetComments.vue'
         mounted() {
             this.getMyCookies();
             this.retrieveAllLikes();
-
         }
     }
 </script>
