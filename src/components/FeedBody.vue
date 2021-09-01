@@ -1,13 +1,19 @@
 <template>
     <div>
+        <v-card
+        class="mx-auto my-8"
+        color="#6aaaff"
+        dark
+        max-width="50vw"
+        min-height="20vh"
+        >
         <v-col
-            cols="1"
-            sm="19"
+            sm="10"
             md="10"
         ></v-col>
         
         <v-col
-            cols="18"
+            sm="10"
             md="12"
         ><v-textarea
             v-model="content"
@@ -24,7 +30,7 @@
             large
         >POST
         </v-btn>
-
+        </v-card>
     <FeedTweetChild v-for="tweet in alltweetData" 
     :key="tweet.tweetId"
     :username="tweet.username"
@@ -141,5 +147,5 @@ import FeedTweetChild from './FeedTweetChild.vue'
 </script>
 
 <style lang="scss" scoped>
-    
+
 </style>

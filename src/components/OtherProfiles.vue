@@ -21,14 +21,16 @@
         @click="editBtnTgl = true"
         color="blue darken-1"
         text
+        class="editBtn"
         >
-        Edit
+        Edit Profile
     </v-btn>
     <v-btn   
         v-if="editBtnTgl === true" 
         @click="patchProfile"
         color="blue darken-1"
         text
+        elevation="5"
         >
         Submit Changes
     </v-btn>
@@ -96,13 +98,35 @@
     </v-card-actions>
   </v-card>
             <h3>ID:{{ userProfileId }}</h3>
-        </section>
+        <div class=" card card-two">
+  
+        <header>
+            <div class="avatar">
+            <img src="https://randomuser.me/api/portraits/women/21.jpg" alt="Allison Walker" />
+            </div>
+        </header>
+        
+        <h3>Allison Walker</h3>
+        <div class="desc">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit et cupiditate deleniti.
+        </div>
+
+        <div class="foot">
+            <p>
+       
+            </p>
+        </div>
+        </div>
+
+    </section>
    
 </template>
 
 <script>
 import axios from "axios"
 import cookies from 'vue-cookies'
+import '../css/generalStyle.scss'
+
     export default {
         name: 'OtherProfiles',
         data() {
@@ -203,7 +227,20 @@ import cookies from 'vue-cookies'
                     console.error("There was an error: " +error);
                 })
             },
-            
+            retrieveuserTweets() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/tweets',
+                    method: 'GET',                                                                                                                                                              
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                    },
+                }).then((response) => {
+                    this.alltweetData = response.data;
+                    this.filterFeedArr();
+                }).catch((error) => {
+                    console.error(error);
+                })
+            },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
@@ -219,7 +256,8 @@ import cookies from 'vue-cookies'
     }
 </script>
 
-<style scoped>
+<style Lang="scss" scoped>
+
     section {
         background-color: rgb(184, 204, 240);
         height: 100vh;
@@ -241,4 +279,9 @@ import cookies from 'vue-cookies'
     .v-text-field {
         max-width: 20vw;
     }
+    .editBtn {
+        box-shadow: 3px 3px 3px cornflowerblue;
+    }
+    
+    
 </style>

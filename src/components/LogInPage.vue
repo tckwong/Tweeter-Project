@@ -11,7 +11,7 @@
             style="background-color:#6a8bf8"
             >
             <v-col
-            sm="1"
+            sm="3"
             md="5"
             class="pa-2"
             outlined
@@ -45,81 +45,135 @@
             </v-col>
             </v-card>
         </div>
-        <!-- Vuetify form fields for user registration -->
-        <h2>Register Below:</h2>
-        <div id="registerWrapper">
-            <v-text-field
-                v-model="username"
-                label="Username"
-                placeholder="Username"
-            ></v-text-field>
-
-            <v-text-field
-                v-model="email"
-                label="E-mail"
-                required
-            ></v-text-field>
-                <v-text-field
-                v-model="bio"
-                :counter="200"
-                label="bio"
-                required
-            ></v-text-field>
-       
-        <v-row>
-        <v-spacer></v-spacer>
-        <v-col
-        cols="12"
-        sm="6"
-        md="4"
-        >
-        <v-menu
-            :close-on-content-click="true"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-        >
+        <!-- MODAL VUETIFY CODE -->
+        <template>
+        <v-row justify="center">
+            <v-dialog
+            v-model="dialog"
+            persistent
+            max-width="600px"
+            >   
             <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-                v-model="birthdate"
-                label="Birthdate"
-                prepend-icon="mdi-calendar"
-                readonly
+                <v-btn
+                color="primary"
+                dark
                 v-bind="attrs"
                 v-on="on"
-            ></v-text-field>
+                >
+                NEW USER
+                </v-btn>
             </template>
-            <v-date-picker
-            v-model="birthdate"
-            ></v-date-picker>
-        </v-menu>
-        </v-col>
-        <v-spacer></v-spacer>
-    </v-row>
+            <v-card>
+                <v-card-title>
+                <span class="text-h5">User Profile Registration</span>
+                </v-card-title>
+                <v-card-text>
+                <v-container>
+                    <v-row>
+                    <v-col
+                        cols="12"
+                    >
+                        <v-text-field
+                        label="Username*"
+                        v-model="username"
+                        :counter="10"
+                        :rules="[rules.required, rules.max]"
+                        required
+                        ></v-text-field>
+                    </v-col>
+                   
+                    <v-col cols="12">
+                        <v-text-field
+                        label="Email*"
+                        v-model="email"
+                        required
+                        ></v-text-field>
+                    </v-col>
+                    <p>Tell us something unique about yourself!</p>
+                    <v-col cols="12">
+                        <v-text-field
+                        label="Bio*"
+                        v-model="bio"
+                        :counter="200"
+                        required
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-file-input
+                        accept="image/*"
+                        label="Profile Image"
+                        ></v-file-input>
+                    </v-col>
 
-            <v-col
-            cols="1"
-            sm="6"
-            ><v-text-field
-                v-model="password"
-                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="[rules.required, rules.min]"
-                :type="show1 ? 'text' : 'password'"
-                name="input-10-1"
-                label="Password"
-                hint="At least 8 characters"
-                counter
-                @click:append="show1 = !show1"
-            ></v-text-field>
-            </v-col>
-            <v-btn
-                @click="registerUser"
-                text
-                color="primary"
-                >Register
-            </v-btn>
-        </div>
+                    <v-col
+                    cols="12"
+                 
+                    >
+                    <v-menu
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                            v-model="birthdate"
+                            label="Birthdate"
+                            elevation="15"
+                            prepend-icon="mdi-calendar"
+                            v-bind="attrs"
+                            v-on="on"
+                            show-adjacent-months
+                            color="primary"
+                            header-color="primary"
+                        ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            v-model="birthdate"
+                        ></v-date-picker>
+                    </v-menu>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-text-field
+                        label="Password*"
+                        :type="show1 ? 'text' : 'password'"
+                        required
+                        v-model="password"
+                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :rules="[rules.required, rules.min]"
+                        hint="At least 8 characters"
+                        counter
+                        @click:append="show1 = !show1"
+                        ></v-text-field>
+                    </v-col>
+                    
+                    </v-row>
+                </v-container>
+                <small>*indicates required field</small>
+                </v-card-text>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="dialog = false"
+                >
+                    Close
+                </v-btn>
+                <v-btn
+                    @click="registerUser"
+                    color="blue darken-1"
+                    text
+                >
+                    Register
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+            </v-dialog>
+        </v-row>
+        </template>
+        
     </section>
 </template>
 
@@ -131,6 +185,7 @@ import cookies from 'vue-cookies'
         name: "LogInPage",
         data: () => {
             return {
+                dialog: false,
                 errMsgActive : true,
                 usrNameInput : "",
                 pwdInput : "",
@@ -138,15 +193,14 @@ import cookies from 'vue-cookies'
                 email : "",
                 bio : "",
                 birthdate : null,
+                picker: null,
                 password : "", 
                 show1: false,
-                show2: true,
-                show3: false,
-                show4: false,
                 rules: {
                     required: value => !!value || 'Required.',
                     min: v => v.length >= 8 || 'Min 8 characters',
-                    emailMatch: () => (`The email and password you entered don't match`),
+                    max: v => v.length <= 10 || 'Max 10 characters',
+                    // emailMatch: () => (`The email and password you entered don't match`),
                 },
             }
         },
@@ -168,15 +222,14 @@ import cookies from 'vue-cookies'
                         "bio": this.bio,
                         "birthdate": this.birthdate,
                         "password": this.password,
-                        // "imageUrl": "https://unsplash.com/photos/DCVMd_NOpro/download?force=true&w=640",
+                        "imageUrl": this.imageUrl,
                         // "bannerUrl": "https://i.picsum.photos/id/223/1080/640.jpg?hmac=1zRXJhkXy6EdeYC-WYatZnnmpkqINeYTiJ4-74E6t1o"
                     }
-                }).then((response) => {
-                    console.log(response);
+                }).then(() => {
+                    this.dialog = false;
 
                 }).catch((error) => {
                     console.error(error);
-                    // this.activateErrorMsg();
                 })
             },
             async retrieveUsers() {
@@ -241,11 +294,7 @@ import cookies from 'vue-cookies'
         font-weight: bold;
     }
     .wrapper {
-        margin: 0 15vw;
-    }
-    #registerWrapper {
-        margin-left: 15vw;
-        margin-right: 15vw;
+        margin: 0 20vw;
     }
     #logo {
         margin-top: 8vh;

@@ -7,6 +7,7 @@
                 <li><router-link class="navLink" to="/FeedView">Feed</router-link></li>
                 <li><router-link class="navLink" to="/DiscoverView">Discover</router-link></li>
                 <li><v-btn @click="logOutUser" color="red" elevation="2" large>Log Out</v-btn></li>
+                <v-btn @click="toggleTheme" text rounded>Toggle Theme</v-btn>
             </ul>
         </nav>
     </div>
@@ -38,9 +39,12 @@ import cookies from 'vue-cookies'
                     this.$store.dispatch('removeToken', "");
                     this.$router.push({ name: 'LoginView' });
 
-                }).catch((error) => {
+                }).catch((error) => { 
                     console.error("There was an error: " +error);
                 })
+            },
+            toggleTheme() {
+                this.$vuetify.theme.dark = !this.$vuetify.theme.dark
             },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');

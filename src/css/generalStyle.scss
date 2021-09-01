@@ -1,0 +1,152 @@
+$main-col: #c8c;
+$sec-col: lighten(#303f9f, 20%);
+$back-col: #c5cae9;
+
+
+
+/*** GENERAL STYLES ***/
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+header {
+  height: 60px;
+}
+
+body{
+  font-family: 'Dosis', sans-serif;
+  background: $back-col;
+  text-align: center;
+}
+
+
+
+/*** CARD STLES ***/
+
+.card{
+  float: center;
+  max-width: 100%;
+
+}
+.card-two{
+    position: relative;
+    width: 1000px;
+    left: 25%;
+    background: #fff;
+    box-shadow: 0 10px 7px -5px rgba(#000,.4);
+    height: 40vh;
+    
+      .avatar{
+        position: absolute;
+        left: 50%;
+        top: 0px;
+        margin-left: -70px;
+        z-index: 5;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #ccc;
+        border:3px solid #fff;
+        img{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          -webkit-transform: translate(-50%, -50%);
+          -moz-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+          -o-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+          width: 100px;
+          height: auto;
+        }
+      }
+    
+    // CARD TITLE
+    h3{
+      position: relative;
+      color: #303f9f;
+      margin: 100px 0 30px;
+      text-align: center;
+      &::after{
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        margin-left: -15px;
+        width: 30px;
+        height: 1px;
+        background: #000;
+      }
+    }
+    .desc{
+      padding: 0 1rem 2rem;
+      text-align: center;
+      line-height: 1.5;
+      color: #777;
+    }
+    .contacts{
+      width: 200px;
+      max-width: 100%;
+      margin: 0 auto 3.5rem;
+      a{
+        display: block;
+        width: 33.333333%;
+        float: left;
+        text-align: center;
+        color: $main-col;
+        &:hover{
+          color: #333;
+          .fa{
+            &::before{
+              color: rgb(192, 30, 30);
+            }
+            &::after{
+              top: 0;
+            }
+          }
+        }
+      }
+    }
+    
+    .foot {
+      position: relative;
+      padding: 1rem;
+      background-color: $sec-col;
+      text-align: center;
+      a{
+        padding: 0 1rem;
+        color: #e2e2e2;
+        -webkit-transition: color .4s;
+        -moz-transition: color .4s;
+        -ms-transition: color .4s;
+        -o-transition: color .4s;
+        transition: color .4s;
+        &:hover{
+          color: $main-col;
+        }
+      }
+      &::before{
+        content: '';
+        position: absolute;
+        top: -27px;
+        left: 50%;
+        margin-left: -15px;
+        border: 15px solid transparent;
+        border-bottom-color: $sec-col;
+      }
+    }
+  }
+  
+  /*** RESPONSIVE ***/
+  
+  @media only screen and (max-width: 810px) {
+    .card {
+      float: none;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
