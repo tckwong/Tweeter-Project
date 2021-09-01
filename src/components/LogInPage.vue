@@ -33,6 +33,7 @@
                 :type="show1 ? 'text' : 'password'"
                 solo
             ></v-text-field>
+            <p :class="{ activatedErrorMsg: errMsgActive }">Invalid username/ password combination.</p>
             <v-btn
                 @click="loginUser"
                 color="primary"
@@ -40,6 +41,7 @@
                 large
             >Log In
             </v-btn>
+            
             </v-col>
             </v-card>
         </div>
@@ -129,6 +131,7 @@ import cookies from 'vue-cookies'
         name: "LogInPage",
         data: () => {
             return {
+                errMsgActive : true,
                 usrNameInput : "",
                 pwdInput : "",
                 username : "",
@@ -215,6 +218,7 @@ import cookies from 'vue-cookies'
             
                 }).catch((error) => {
                     console.error("There was an error: " + error);
+                    this.errMsgActive = false;
                 })
             }
         }
@@ -232,6 +236,10 @@ import cookies from 'vue-cookies'
     h1 {
         text-transform: uppercase;
     }
+    p {
+        color: red;
+        font-weight: bold;
+    }
     .wrapper {
         margin: 0 15vw;
     }
@@ -243,5 +251,7 @@ import cookies from 'vue-cookies'
         margin-top: 8vh;
         height: 10vh;
     }
-    
+    .activatedErrorMsg {
+        display: none;
+    }
 </style>

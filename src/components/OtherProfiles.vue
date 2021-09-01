@@ -12,119 +12,6 @@
       </v-icon>
     </v-btn>
 
-  <!-- <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="600px"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Edit Profile
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-title>
-          <span class="text-h5">Edit User Profile</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  label="Legal first name*"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  label="Legal middle name"
-                  hint="example of helper text only on focus"
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  label="Legal last name*"
-                  hint="example of persistent helper text"
-                  persistent-hint
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Email*"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Password*"
-                  type="password"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-select
-                  :items="['0-17', '18-29', '30-54', '54+']"
-                  label="Age*"
-                  required
-                ></v-select>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-autocomplete
-                  :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                  label="Interests"
-                  multiple
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-          </v-container>
-          <small>*indicates required field</small>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row> -->
-
   <v-card
     class="mx-auto"
     max-width="80vw"
@@ -178,27 +65,33 @@
 
         <p v-if="editBtnTgl === false">Bio: {{ userBio }}</p>
         <v-text-field
-        v-if="editBtnTgl" 
+        v-if="editBtnTgl"
         solo
         clearable
         :value="userBio"
         v-model="userBio"
         ></v-text-field>
     </v-card-text>
-
-    <v-card-actions>
+    <v-card-actions v-if="editBtnTgl">
       <v-btn
-        color="orange"
+        @click="deleteProfileTgl = true"
+        color="red"
         text
-      >
-        Share
+      >DELETE PROFILE
       </v-btn>
-
-      <v-btn
-        color="orange"
+      <span v-if="deleteProfileTgl">Please note that this action is irreversible. Please enter your password: </span>
+      <v-text-field
+        v-if="deleteProfileTgl"
+        solo
+        clearable
+        v-model="pwdInput"
+        ></v-text-field>
+        <v-btn
+        @click="deleteUser"
+        v-if="deleteProfileTgl"
+        color="red"
         text
-      >
-        Explore
+      >SUBMIT
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -215,6 +108,7 @@ import cookies from 'vue-cookies'
         data() {
             return {
                 profile: this.$route.params.user,
+                userToken: "",
                 userProfileId: "",
                 loggedUserId: "",
                 isLoggedIn: false,
@@ -222,13 +116,10 @@ import cookies from 'vue-cookies'
                 userEmail: "",
                 userBio: "",
                 birthdate: "",
-                dialog: false,
-                
+                pwdInput: "",
+                dialog: false,      
                 editBtnTgl: false,
-                emailEditTgl: false,
-                usernameEditTgl: false,
-                bioEditTgl: false,
-
+                deleteProfileTgl: false,
             }
         },
         methods: {
@@ -293,6 +184,26 @@ import cookies from 'vue-cookies'
                     console.error("There was an error: " +error);
                 })
             },
+            deleteUser() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/users',
+                    method: 'DELETE',
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY
+                    },
+                    data: {
+                        "loginToken": this.userToken,
+                        "password": this.pwdInput,
+                    }
+               
+                }).then(() => {
+                     this.$router.push({ path: '/' });
+              
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                })
+            },
+            
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
@@ -311,7 +222,7 @@ import cookies from 'vue-cookies'
 <style scoped>
     section {
         background-color: rgb(184, 204, 240);
-        height: 60vh;
+        height: 100vh;
     }
     img {
         height: 20vh;
