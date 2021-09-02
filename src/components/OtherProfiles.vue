@@ -1,17 +1,6 @@
 <template>
     <section>
-        <v-btn 
-        class="mx-2"
-        fab
-        dark
-        large
-        color="cyan"
-    >
-      <v-icon dark>
-        mdi-pencil
-      </v-icon>
-    </v-btn>
-
+       
   <v-card
     class="mx-auto"
     max-width="80vw"
@@ -35,15 +24,15 @@
         Submit Changes
     </v-btn>
 
-    <v-img
+    <!-- <v-img
       class="white--text align-end"
       height="200px"
         :src="require('@/assets/defaultProfile.png')"
     >
       <v-card-title style="color: black">{{ userName }}</v-card-title>
-    </v-img>
+    </v-img> -->
 
-    <v-card-subtitle class="pb-0">
+    <!-- <v-card-subtitle class="pb-0">
         <p v-if="editBtnTgl === false">Email: {{ userEmail }}</p>
         <v-text-field
         v-if="editBtnTgl" 
@@ -53,9 +42,9 @@
         v-model="userEmail"
 
         ></v-text-field>
-    </v-card-subtitle>
+    </v-card-subtitle> -->
     
-    <v-card-text class="text--primary">
+    <!-- <v-card-text class="text--primary">
         <p v-if="editBtnTgl === false">Birthdate: {{ birthdate }}</p>
         <v-text-field
         v-if="editBtnTgl" 
@@ -73,7 +62,7 @@
         :value="userBio"
         v-model="userBio"
         ></v-text-field>
-    </v-card-text>
+    </v-card-text> -->
     <v-card-actions v-if="editBtnTgl">
       <v-btn
         @click="deleteProfileTgl = true"
@@ -98,26 +87,62 @@
     </v-card-actions>
   </v-card>
             <h3>ID:{{ userProfileId }}</h3>
-        <div class=" card card-two">
-  
+        <div class="profileCard">
+             <v-img
+        class="white--text align-end"
+        height="200px"
+            :src="require('@/assets/logo.png')"
+        >
+    </v-img>
         <header>
             <div class="avatar">
-            <img src="https://randomuser.me/api/portraits/women/21.jpg" alt="Allison Walker" />
+            <img src="https://randomuser.me/api/portraits/men/20.jpg" alt="Allison Walker" />
             </div>
         </header>
         
-        <h3>Allison Walker</h3>
+        <h3>{{ userName }}</h3>
         <div class="desc">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit et cupiditate deleniti.
-        </div>
+            <!-- Birthdate card -->
+             <p v-if="editBtnTgl === false">Birthdate: {{ birthdate }}</p>
+        <v-text-field
+        v-if="editBtnTgl" 
+        solo
+        clearable
+        :value="birthdate"
+        v-model="birthdate"
+        ></v-text-field>
+            <p v-if="editBtnTgl === false">Email: {{ userEmail }}</p>
+        <v-text-field
+        v-if="editBtnTgl" 
+        solo
+        clearable
+        :value="userEmail"
+        v-model="userEmail"
 
+        ></v-text-field>
+
+           <p v-if="editBtnTgl === false">Bio: {{ userBio }}</p>
+            <v-text-field
+            v-if="editBtnTgl"
+            solo
+            clearable
+            :value="userBio"
+            v-model="userBio"
+            ></v-text-field>
+        </div>
         <div class="foot">
-            <p>
-       
+            <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum mollitia asperiores ipsam nihil doloremque rerum quas harum veniam tenetur voluptate!</h2>
+            <p v-if="dataReady">
+                <ProfileTweets v-for="tweet in userTweetData" 
+                :key="tweet.tweetId"
+                :username="tweet.username"
+                :imageUrl="tweet.imageUrl"
+                :tweetId="tweet.tweetId"
+                :content="tweet.content"
+                :createdAt="tweet.createdAt"/>
             </p>
         </div>
         </div>
-
     </section>
    
 </template>
@@ -125,10 +150,14 @@
 <script>
 import axios from "axios"
 import cookies from 'vue-cookies'
+import ProfileTweets from './ProfileTweets.vue'
 import '../css/generalStyle.scss'
 
     export default {
         name: 'OtherProfiles',
+        components: {
+            ProfileTweets
+        },
         data() {
             return {
                 profile: this.$route.params.user,
@@ -144,6 +173,8 @@ import '../css/generalStyle.scss'
                 dialog: false,      
                 editBtnTgl: false,
                 deleteProfileTgl: false,
+                userTweetData: [],
+                dataReady: false,
             }
         },
         methods: {
@@ -175,12 +206,12 @@ import '../css/generalStyle.scss'
                     }
                
                 }).then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     this.userName = response.data[0].username;
                     this.userEmail = response.data[0].email;
                     this.birthdate = response.data[0].birthdate;
                     this.userBio = response.data[0].bio;
-
+ 
                 }).catch((error) => {
                     console.error(error);
                 })
@@ -227,39 +258,56 @@ import '../css/generalStyle.scss'
                     console.error("There was an error: " +error);
                 })
             },
-            retrieveuserTweets() {
+            retrieveUserTweets() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/tweets',
                     method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
+                    params: {
+                        "userId" : this.userProfileId,
+                    }
                 }).then((response) => {
-                    this.alltweetData = response.data;
-                    this.filterFeedArr();
+                    console.log(response);
+                    this.userTweetData = response.data;
+                    // this.filterFeedArr();
                 }).catch((error) => {
                     console.error(error);
                 })
             },
+            // filterFeedArr() {
+            //     const newArrFeed = this.alltweetData.filter(tweet => this.followinguserIDs.includes(tweet.userId));
+            //     newArrFeed.sort(function(x,y){
+            //         return new Date(y.createdAt) - new Date(x.createdAt);
+            //     })
+               
+            //     this.alltweetData = newArrFeed;
+            // },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
                 this.loggedUserId = getCookie.userId;
             },
         },
-        mounted() {
-            this.getAllUserInfo();
+        async created() {
+            await this.getAllUserInfo();
+            this.dataReady = true;
         },
+      
         beforeMount() {
             this.getMyCookies();
-        }
+        },
+        mounted() {
+            this.retrieveUserTweets();
+        },
     }
 </script>
 
 <style Lang="scss" scoped>
 
     section {
-        background-color: rgb(184, 204, 240);
+        background-color: rgb(137, 170, 233);
         height: 100vh;
     }
     img {

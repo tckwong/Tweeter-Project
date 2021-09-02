@@ -34,8 +34,5 @@
 </script>
 
 <style scoped>
-    h1 {
-        margin-top: 1000px;
-    }
-    
+
 </style>

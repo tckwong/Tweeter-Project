@@ -39,7 +39,8 @@
             <v-text-field
                 class="formInput mr-8"
                 v-model="tweetComment"
-                placeholder="Write Comment"
+                label="Comment"
+                placeholder="Comment"
                 solo
             ></v-text-field>
             <div class="mr-3">
@@ -68,35 +69,33 @@
                 :key="i"
                 >
                 <v-expansion-panel-header @click="retrieveTweetComments">
-                    Comments (0)
+
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                   <TweetComments v-for="comment in tweetCommentInfo"
+                   <!-- <TweetComments v-for="comment in tweetCommentInfo"
                     :key="comment.commentId"
                     :commentId="comment.commentId"
                     :tweetId="comment.tweetId"
                     :username="comment.username"
                     :content="comment.content"
-                    :createdAt="comment.createdAt"/>
+                    :createdAt="comment.createdAt"/> -->
                 </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-card-actions>
         </v-card>
-        <!-- <transition name="fade" appear>
-                <div class="modal-overlay" v-if="showModal"></div>
-            </transition> -->
+     
     </div>
 </template>
 
 <script>
 import axios from "axios"
 import cookies from 'vue-cookies'
-import TweetComments from './TweetComments.vue'
+// import TweetComments from './TweetComments.vue'
     export default {
-        name: 'FeedTweetChild',
+        name: 'ProfileTweets',
         components: {
-            TweetComments
+            
         },
         data:() => {
             return {

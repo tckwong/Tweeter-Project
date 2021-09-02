@@ -19,30 +19,26 @@ header {
 body{
   font-family: 'Dosis', sans-serif;
   background: $back-col;
-  text-align: center;
+
 }
 
 
 
 /*** CARD STLES ***/
 
-.card{
-  float: center;
-  max-width: 100%;
-
-}
-.card-two{
+.profileCard{
     position: relative;
     width: 1000px;
-    left: 25%;
-    background: #fff;
+    margin-left: auto;
+    margin-right: auto;
+    background: #1E1E1E;
     box-shadow: 0 10px 7px -5px rgba(#000,.4);
-    height: 40vh;
+    height: 60vh;
     
       .avatar{
         position: absolute;
         left: 50%;
-        top: 0px;
+        top: 120px;
         margin-left: -70px;
         z-index: 5;
         width: 150px;
@@ -60,16 +56,15 @@ body{
           -ms-transform: translate(-50%, -50%);
           -o-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-          width: 100px;
+          width: 150px;
           height: auto;
         }
       }
-    
-    // CARD TITLE
+
     h3{
       position: relative;
       color: #303f9f;
-      margin: 100px 0 30px;
+      margin: 40px 0 30px;
       text-align: center;
       &::after{
         content: '';
@@ -80,6 +75,7 @@ body{
         width: 30px;
         height: 1px;
         background: #000;
+        color: white;
       }
     }
     .desc{
@@ -142,7 +138,6 @@ body{
   }
   
   /*** RESPONSIVE ***/
-  
   @media only screen and (max-width: 810px) {
     .card {
       float: none;
