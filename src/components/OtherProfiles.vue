@@ -132,7 +132,10 @@
         </div>
         <div class="foot">
             <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum mollitia asperiores ipsam nihil doloremque rerum quas harum veniam tenetur voluptate!</h2>
-            <p v-if="dataReady">
+            
+        </div>
+        <div>
+            <p>
                 <ProfileTweets v-for="tweet in userTweetData" 
                 :key="tweet.tweetId"
                 :username="tweet.username"
@@ -142,7 +145,7 @@
                 :createdAt="tweet.createdAt"/>
             </p>
         </div>
-        </div>
+    </div>
     </section>
    
 </template>
@@ -174,12 +177,13 @@ import '../css/generalStyle.scss'
                 editBtnTgl: false,
                 deleteProfileTgl: false,
                 userTweetData: [],
-                dataReady: false,
+                newTweetObj: {},
+                followinguserIDs: [],
             }
         },
         methods: {
-            getAllUserInfo() {
-                axios.request({
+            async getAllUserInfo() {
+                await axios.request({
                     url: 'https://tweeterest.ml/api/users',
                     method: 'GET',
                     headers : {
@@ -271,35 +275,52 @@ import '../css/generalStyle.scss'
                 }).then((response) => {
                     console.log(response);
                     this.userTweetData = response.data;
-                    // this.filterFeedArr();
+                    this.filterFeedArr();
                 }).catch((error) => {
                     console.error(error);
                 })
             },
-            // filterFeedArr() {
-            //     const newArrFeed = this.alltweetData.filter(tweet => this.followinguserIDs.includes(tweet.userId));
-            //     newArrFeed.sort(function(x,y){
-            //         return new Date(y.createdAt) - new Date(x.createdAt);
-            //     })
+            retrieveAllFollowers() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/follows',
+                    method: 'GET',                                                                                                                                                              
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                    },
+                    params: {
+                       userId: this.userProfileId,
+                    }
+                }).then((response) => {
+                    for (let i=0; i<response.data.length; i++){
+                        this.followinguserIDs.push(response.data[i].userProfileId);
+                    }
+                    this.retrieveUserTweets();
+                }).catch((error) => {
+                    console.error(error);
+                })
+            },
+            filterFeedArr() {
+                const newArrFeed = this.userTweetData.filter(tweet => this.followinguserIDs.includes(tweet.userProfileId));
+                newArrFeed.sort(function(x,y){
+                    return new Date(y.createdAt) - new Date(x.createdAt);
+                })
                
-            //     this.alltweetData = newArrFeed;
-            // },
+                this.userTweetData = newArrFeed;
+            },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
                 this.loggedUserId = getCookie.userId;
             },
         },
-        async created() {
-            await this.getAllUserInfo();
-            this.dataReady = true;
-        },
-      
+
         beforeMount() {
             this.getMyCookies();
         },
-        mounted() {
+        async mounted() {
+            await this.getAllUserInfo();
             this.retrieveUserTweets();
+            this.retrieveAllFollowers()
         },
     }
 </script>

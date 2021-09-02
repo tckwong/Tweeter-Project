@@ -1,18 +1,20 @@
 <template>
+    <!-- Vuetify templates used for individual tweet components -->
     <div class="tweetWrapper">
         <v-card
-        class="mx-auto"
+        class="mx-auto my-md-8"
         color="#6aaaff"
         dark
-        max-width="50vw"
+        width="mx-md-5"
+        max-width="90vw"
         min-height="30vh"
         >
         <v-card-title>
             <img id="logo" src="@/assets/logo.png"/>
-            <span class="text-h6 font-weight-light">{{ createdAt }} <v-btn @click="deleteTweet" color="red" elevation="2" Small>✕</v-btn></span>
+            <span class="text-h6 font-weight-light">{{ createdAt }}</span>
         </v-card-title>
     
-        <v-card-text class="text-h5 font-weight-bold">
+        <v-card-text class="pl-10 text-h5 font-weight-bold">
             {{ content }}
         </v-card-text>
 
@@ -68,7 +70,7 @@
                 :key="i"
                 >
                 <v-expansion-panel-header @click="retrieveTweetComments">
-                    Comments (0)
+                    Comments:
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                    <TweetComments v-for="comment in tweetCommentInfo"
@@ -353,23 +355,13 @@ import TweetComments from './TweetComments.vue'
     height: 40px;
 }
 
-.fade-enter-active
-.fade-leave-active {
-transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-    opacity: 0;
-}
-.modal-overlay {
-    background-color: rgba(0,0,0,0.3);
-    height: 100vh;
-}
-.modal {
-    display: none;
-}
 #logo {
     height: 40px;
+}
+
+@media only screen and (min-width:1000px) {
+    .tweetWrapper {
+        margin: 0 25vw;
+    }
 }
 </style>

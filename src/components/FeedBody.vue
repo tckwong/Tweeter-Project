@@ -1,44 +1,53 @@
 <template>
-    <div>
-        <v-card
-        class="mx-auto my-8"
-        color="#6aaaff"
-        dark
-        max-width="50vw"
-        min-height="20vh"
-        >
-        <v-col
-            sm="10"
-            md="10"
-        ></v-col>
-        
-        <v-col
-            sm="10"
-            md="12"
-        ><v-textarea
-            v-model="content"
-            solo
-            name="input-7-4"
-            label="Create New Tweet"
-        ></v-textarea>
-        </v-col>
-        
-        <v-btn
-            @click="createTweet"
-            color="primary"
-            elevation="2"
-            large
-        >POST
-        </v-btn>
-        </v-card>
-    <FeedTweetChild v-for="tweet in alltweetData" 
-    :key="tweet.tweetId"
-    :username="tweet.username"
-    :imageUrl="tweet.imageUrl"
-    :tweetId="tweet.tweetId"
-    :content="tweet.content"
-    :createdAt="tweet.createdAt"/>
-    </div>
+    <section>
+        <div class="createTweetWrapper">
+             <v-card
+                class=" mx-auto my-10"
+                color="#6aaaff"
+                dark
+                max-width="90vw"
+                min-height="20vh"
+                >
+                <v-col
+                    sm="10"
+                    md="10"
+                ></v-col>
+                
+                <v-col
+                    sm="10"
+                    md="12"
+                ><v-textarea
+                    v-model="content"
+                    solo
+                    name="input-7-4"
+                    rows="1"
+                    row-height="15"
+                    label="Post an idea"
+                ></v-textarea>
+                </v-col>
+                <template>
+                    <img id="uploadImg" src="@/assets/uploadImg.png"/>
+                </template>
+                <v-btn
+                    class="mr-4 px-10 float-right my-0"
+                    @click="createTweet"
+                    color="primary"
+                    elevation="2"
+                    large
+                >POST
+                </v-btn>
+            </v-card>
+        </div>
+        <div class="tweetsFeed">
+            <FeedTweetChild v-for="tweet in alltweetData" 
+            :key="tweet.tweetId"
+            :username="tweet.username"
+            :imageUrl="tweet.imageUrl"
+            :tweetId="tweet.tweetId"
+            :content="tweet.content"
+            :createdAt="tweet.createdAt"/>
+        </div>
+    </section>
 </template>
 
 <script>
@@ -104,7 +113,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
                     console.error(error);
                 })
             },
-             retrieveAllFollowers() {
+            retrieveAllFollowers() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/follows',
                     method: 'GET',                                                                                                                                                              
@@ -148,4 +157,15 @@ import FeedTweetChild from './FeedTweetChild.vue'
 
 <style lang="scss" scoped>
 
+    #uploadImg {
+        height: 40px;
+        margin-left: 20px;
+    }
+    
+    @media only screen and (min-width:1000px) {
+        .createTweetWrapper {
+            margin: 5vh 25vw;
+        }
+
+    }
 </style>

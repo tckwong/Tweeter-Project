@@ -4,9 +4,22 @@
             <div>
                 <img class="avatar" src="@/assets/defaultProfile.png" alt="">
             </div>
-            <div>
-                {{ content }} 
-            </div>
+            <v-card
+             width="mx-md-5">
+                <v-text-field
+                v-if="editBtnTgl" 
+                solo
+                clearable
+                :value="content"
+                v-model="content"
+                ></v-text-field>
+                <v-card-actions width="100%">
+                        {{ content }}
+                        <img id="editIcon" src="@/assets/editIcon.png"/>
+                </v-card-actions>
+            
+                
+            </v-card>
             <div>
                 {{ username }} - {{ createdAt }}
             </div>
@@ -16,15 +29,46 @@
 </template>
 
 <script>
+import axios from "axios"
     export default {
         name : 'TweetComments',
+        data() {
+            return {
+                // Toggle edit button
+                editBtnTgl: false,
+            }
+        },
         props: {
             commentId : Number,
             tweetId : Number,
             username : String,
             content : String,
             createdAt : String,
-        }
+        },
+        methods: {
+            updateComment() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/comments',
+                    method: 'PATCH',
+                    headers : {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    data : {
+                        "loginToken" : this.userToken,
+                        "commentId" : this.commentId,
+                        "content" : this.content,
+                    }
+
+                }).then((response) => {
+                    console.log(response);
+                    this.updateComment();
+
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                })
+            },
+        },
     }
 </script>
 
@@ -60,6 +104,11 @@
     }
     .avatar {
         height: 30px;
+    }
+    #editIcon {
+        height: 30px;
+        width: 30px;
+        left: 90%;
     }
 
 </style>
