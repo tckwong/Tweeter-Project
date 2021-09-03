@@ -24,45 +24,6 @@
         Submit Changes
     </v-btn>
 
-    <!-- <v-img
-      class="white--text align-end"
-      height="200px"
-        :src="require('@/assets/defaultProfile.png')"
-    >
-      <v-card-title style="color: black">{{ userName }}</v-card-title>
-    </v-img> -->
-
-    <!-- <v-card-subtitle class="pb-0">
-        <p v-if="editBtnTgl === false">Email: {{ userEmail }}</p>
-        <v-text-field
-        v-if="editBtnTgl" 
-        solo
-        clearable
-        :value="userEmail"
-        v-model="userEmail"
-
-        ></v-text-field>
-    </v-card-subtitle> -->
-    
-    <!-- <v-card-text class="text--primary">
-        <p v-if="editBtnTgl === false">Birthdate: {{ birthdate }}</p>
-        <v-text-field
-        v-if="editBtnTgl" 
-        solo
-        clearable
-        :value="birthdate"
-        v-model="birthdate"
-        ></v-text-field>
-
-        <p v-if="editBtnTgl === false">Bio: {{ userBio }}</p>
-        <v-text-field
-        v-if="editBtnTgl"
-        solo
-        clearable
-        :value="userBio"
-        v-model="userBio"
-        ></v-text-field>
-    </v-card-text> -->
     <v-card-actions v-if="editBtnTgl">
       <v-btn
         @click="deleteProfileTgl = true"
@@ -134,6 +95,7 @@
             <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum mollitia asperiores ipsam nihil doloremque rerum quas harum veniam tenetur voluptate!</h2>
             
         </div>
+        <h2>Your Tweets</h2>
         <div>
             <p>
                 <ProfileTweets v-for="tweet in userTweetData" 
@@ -326,7 +288,6 @@ import '../css/generalStyle.scss'
 </script>
 
 <style Lang="scss" scoped>
-
     section {
         background-color: rgb(137, 170, 233);
         height: 100vh;
@@ -351,6 +312,5 @@ import '../css/generalStyle.scss'
     .editBtn {
         box-shadow: 3px 3px 3px cornflowerblue;
     }
-    
     
 </style>

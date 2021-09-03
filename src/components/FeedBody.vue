@@ -19,6 +19,7 @@
                 ><v-textarea
                     v-model="content"
                     solo
+                    clearable
                     name="input-7-4"
                     rows="1"
                     row-height="15"
@@ -144,6 +145,8 @@ import FeedTweetChild from './FeedTweetChild.vue'
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
                 this.userId = getCookie.userId;
+                this.$store.commit('getcurrUserName', getCookie.username);
+                this.$store.commit('getcurrUserName', getCookie.username);
                 }
             },
         beforeMount() {
@@ -161,7 +164,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
         height: 40px;
         margin-left: 20px;
     }
-    
+
     @media only screen and (min-width:1000px) {
         .createTweetWrapper {
             margin: 5vh 25vw;

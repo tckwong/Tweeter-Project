@@ -1,66 +1,103 @@
 <template>
     <div class="tweetWrapper">
         <v-card
-        class="mx-auto"
+        class="mx-auto my-md-8"
         color="#6aaaff"
         dark
-        max-width="50vw"
+        width="mx-md-5"
+        max-width="90vw"
         min-height="30vh"
         >
         <v-card-title>
             <img id="logo" src="@/assets/logo.png"/>
-            <span class="text-h6 font-weight-light">{{ createdAt }} <v-btn @click="deleteTweet" color="red" elevation="2" Small>✕</v-btn></span>
-        </v-card-title>
-    
-        <v-card-text class="text-h5 font-weight-bold">
-            {{ content }}
-        </v-card-text>
-
-        <v-card-actions>
-        <v-list-item class="grow">
-            <v-list-item-avatar color="grey darken-3">
+            <v-list-item-avatar color="grey darken-3 ml-5">
             <v-img
                 class="elevation-6"
                 alt=""
                 src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
             ></v-img>
             </v-list-item-avatar>
-
-            <v-list-item-content>
-            <v-list-item-title><router-link class="routerLink" :to="{ name: 'OtherProfilesView', params: { user: username }}">{{ username }}</router-link></v-list-item-title>
+             <v-list-item-content>
+            <v-list-item-title><router-link class="routerLink pl-3" :to="{ name: 'OtherProfilesView', params: { user: username }}">{{ username }}</router-link></v-list-item-title>
             </v-list-item-content>
+            <span class="text-h6 font-weight-light">{{ createdAt }}</span>
             
-            <v-row
-            align="center"
-            justify="end"
-            >
-            <!-- Embed a button around v-icon for click-->
-        
-            <v-text-field
-                class="formInput mr-8"
-                v-model="tweetComment"
-                label="Comment"
-                placeholder="Comment"
-                solo
-            ></v-text-field>
-            <div class="mr-3">
-                <img id="commentIcon" @click="createComment" :src="require('@/assets/speech-bubble.png')"/>
-            </div>
-     
-            <div :class="{ likedDisplay: toggleLike }"> 
-                    <v-icon @click="checkTweetLiked" class="mr-1">
-                    mdi-thumb-up
-                    </v-icon>
-            </div>
-            
-            <span class="subheading mr-2">{{ tweetLikeCounter }}</span>
-            <span class="mr-1">·</span>
-        
-            <button @click="retrieveUserId" class="myButton">Follow</button>
-            </v-row>
-       
+            <!-- Dropdown menu from Vuetify -->
+            <div class="text-center">
+    <v-menu
+      top
+      :offset-y="offset"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in items"
+          :key="index"
+          @click="selectSelection(item)"
+          link
+        >
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
-       
+      </v-list>
+    </v-menu>
+  </div>
+        </v-card-title>
+    
+        <v-card-text class="pl-10 text-h5 font-weight-bold">
+            {{ content }}
+        </v-card-text>
+
+        <v-card-actions>
+            <v-list-item class="grow">
+                <v-row
+                align="center"
+                justify="center"
+ 
+                >
+                <!-- Embbed a button around v-icon for click-->
+                <v-text-field
+                    class="formInput mr-2"
+                    v-model="tweetComment"
+                    placeholder="Write Comment"
+                    solo
+                    clearable
+                ></v-text-field>
+                <div class="mr-10 pb-6">
+                    <v-btn
+                        justify="start"
+                        class="mr-5 pl-0"
+                        @click="createComment"
+                        outlined
+                        medium
+                        fab
+                        color="white"
+                        >
+                        <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                </div>
+        
+                <div :class="{ likedDisplay: toggleLike }"> 
+                        <v-icon @click="checkTweetLiked" class="mr-1">
+                        mdi-thumb-up
+                        </v-icon>
+                </div>
+                
+                <span class="subheading mr-2">{{ tweetLikeCounter }}</span>
+                <span class="mr-1">·</span>
+            
+                <button @click="retrieveUserId" class="myButton">Unfollow</button>
+                </v-row>
+            </v-list-item>
         </v-card-actions>
         <v-card-actions>
               <v-expansion-panels>
@@ -69,22 +106,22 @@
                 :key="i"
                 >
                 <v-expansion-panel-header @click="retrieveTweetComments">
-
+                    Comments:
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                   <!-- <TweetComments v-for="comment in tweetCommentInfo"
+                   <TweetComments v-for="comment in tweetCommentInfo"
                     :key="comment.commentId"
                     :commentId="comment.commentId"
                     :tweetId="comment.tweetId"
                     :username="comment.username"
                     :content="comment.content"
-                    :createdAt="comment.createdAt"/> -->
+                    :createdAt="comment.createdAt"/>
                 </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-card-actions>
         </v-card>
-     
+
     </div>
 </template>
 
@@ -108,6 +145,11 @@ import cookies from 'vue-cookies'
                 tweetComment: "",
                 newCommentObj: {},
                 tweetCommentInfo: [],
+                items: [
+                    { title: 'Edit Tweet' },
+                    { title: 'Delete Tweet' },
+                ],
+                offset: true,
             }
         },
         props: {
@@ -117,6 +159,16 @@ import cookies from 'vue-cookies'
             createdAt: String
         },
         methods: {
+            selectSelection(item) {
+                switch (item.title) {
+                    case 'Edit Tweet':
+                    console.log("choice1");
+                    break
+                    case 'Delete Tweet':
+                    console.log("choice2");
+                    break
+                }
+            },
             showModal() {
                 this.toggleModal = !this.toggleModal;
                 console.log(this.toggleModal);

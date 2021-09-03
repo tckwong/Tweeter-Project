@@ -11,6 +11,16 @@
         >
         <v-card-title>
             <img id="logo" src="@/assets/logo.png"/>
+            <v-list-item-avatar color="grey darken-3 ml-5">
+            <v-img
+                class="elevation-6"
+                alt=""
+                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+            ></v-img>
+            </v-list-item-avatar>
+             <v-list-item-content>
+            <v-list-item-title><router-link class="routerLink pl-3" :to="{ name: 'OtherProfilesView', params: { user: username }}">{{ username }}</router-link></v-list-item-title>
+            </v-list-item-content>
             <span class="text-h6 font-weight-light">{{ createdAt }}</span>
         </v-card-title>
     
@@ -19,49 +29,45 @@
         </v-card-text>
 
         <v-card-actions>
-        <v-list-item class="grow">
-            <v-list-item-avatar color="grey darken-3">
-            <v-img
-                class="elevation-6"
-                alt=""
-                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-            ></v-img>
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-            <v-list-item-title><router-link class="routerLink" :to="{ name: 'OtherProfilesView', params: { user: username }}">{{ username }}</router-link></v-list-item-title>
-            </v-list-item-content>
-            
-            <v-row
-            align="center"
-            justify="end"
-            >
-            <!-- Embed a button around v-icon for click-->
+            <v-list-item class="grow">
+                <v-row
+                align="center"
+                justify="center"
+                >
+                <!-- Embbed a button around v-icon for click-->
+                <v-text-field
+                    class="formInput mr-2"
+                    v-model="tweetComment"
+                    placeholder="Write Comment"
+                    solo
+                    clearable
+                ></v-text-field>
+                <div class="mr-10 pb-6">
+                    <v-btn
+                        justify="start"
+                        class="mr-5 pl-0"
+                        @click="createComment"
+                        outlined
+                        medium
+                        fab
+                        color="white"
+                        >
+                        <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                </div>
         
-            <v-text-field
-                class="formInput mr-8"
-                v-model="tweetComment"
-                placeholder="Write Comment"
-                solo
-            ></v-text-field>
-            <div class="mr-3">
-                <img id="commentIcon" @click="createComment" :src="require('@/assets/speech-bubble.png')"/>
-            </div>
-     
-            <div :class="{ likedDisplay: toggleLike }"> 
-                    <v-icon @click="checkTweetLiked" class="mr-1">
-                    mdi-thumb-up
-                    </v-icon>
-            </div>
+                <div :class="{ likedDisplay: toggleLike }"> 
+                        <v-icon @click="checkTweetLiked" class="mr-1">
+                        mdi-thumb-up
+                        </v-icon>
+                </div>
+                
+                <span class="subheading mr-2">{{ tweetLikeCounter }}</span>
+                <span class="mr-1">·</span>
             
-            <span class="subheading mr-2">{{ tweetLikeCounter }}</span>
-            <span class="mr-1">·</span>
-        
-            <button @click="retrieveUserId" class="myButton">Follow</button>
-            </v-row>
-       
-        </v-list-item>
-       
+                <button @click="retrieveUserId" class="myButton">Unfollow</button>
+                </v-row>
+            </v-list-item>
         </v-card-actions>
         <v-card-actions>
               <v-expansion-panels>
@@ -102,9 +108,10 @@ import TweetComments from './TweetComments.vue'
         },
         data:() => {
             return {
+                //activeUser is current user logged in
                 activeUser: "",
                 userToken : "",
-                currUserId: "",
+                unfollowUserId: "",
                 tweetLikeCounter: "",
                 toggleLike: false,
                 toggleModal: false,
@@ -124,26 +131,47 @@ import TweetComments from './TweetComments.vue'
                 this.toggleModal = !this.toggleModal;
                 console.log(this.toggleModal);
             },
-            deleteTweet() {
+            /* ~~~~~~~~~~FOLLOW API CALLS ~~~~~~~~~~~~~~~*/
+            // followUser() {
+            //     axios.request({
+            //         url: 'https://tweeterest.ml/api/follows',
+            //         method: 'POST',
+            //         headers: {
+            //             'X-Api-Key' : process.env.VUE_APP_API_KEY,
+            //             'Content-Type': 'application/json'
+            //         },
+            //         data: {
+            //             "loginToken": this.userToken,
+            //             "followId": this.currUserId
+            //         }
+            //     }).then((response) => {
+            //         console.log(response);
+                    
+            //     }).catch((error) => {
+            //         console.error("There was an error: " +error);
+            //     })
+            // },
+            unfollowUser() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweets',
+                    url: 'https://tweeterest.ml/api/follows',
                     method: 'DELETE',
                     headers: {
-                        'X-Api-Key' : process.env.VUE_APP_API_KEY
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
                     data: {
                         "loginToken": this.userToken,
-                        "tweetId": this.tweetId
+                        "followId": this.unfollowUserId,
                     }
-                }).then((response) => {
-                    console.log(response);
-                    console.log("Sucessfully Deleted");
-                    
+
+                }).then(() => {
+                    this.toggleLike = false;
+                    this.tweetLikeCounter -= 1;
+             
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
             },
-            retrieveUserId() {
+             retrieveUserId() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/users',
                     method: 'GET',
@@ -152,33 +180,16 @@ import TweetComments from './TweetComments.vue'
                     },
              
                 }).then((response) => {
+                    console.log("Finding userID");
                     const found = response.data.find(user => user.username === this.username);
-                    this.currUserId = found.userId;
-                    this.followUser();
+                    this.unfollowUserId = found.userId;
+                    console.log(found.userId);
+                    this.unfollowUser();
                 }).catch((error) => {
                     console.error(error);
                 })
             },
-            /* ~~~~~~~~~~FOLLOW API CALLS ~~~~~~~~~~~~~~~*/
-            followUser() {
-                axios.request({
-                    url: 'https://tweeterest.ml/api/follows',
-                    method: 'POST',
-                    headers: {
-                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
-                        'Content-Type': 'application/json'
-                    },
-                    data: {
-                        "loginToken": this.userToken,
-                        "followId": this.currUserId
-                    }
-                }).then((response) => {
-                    console.log(response);
-                    
-                }).catch((error) => {
-                    console.error("There was an error: " +error);
-                })
-            },
+        
             /* API CALL FOR TWEET LIKES*/
             upvoteTweet() {
                 axios.request({
@@ -263,7 +274,6 @@ import TweetComments from './TweetComments.vue'
                         "tweetId" : this.tweetId,
                     }
                 }).then((response) => {
-                    console.log(response);
                     this.tweetCommentInfo = response.data;
     
                 }).catch((error) => {
@@ -304,6 +314,7 @@ import TweetComments from './TweetComments.vue'
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
                 this.activeUser = getCookie.userId;
+                
             },
         },
         mounted() {
@@ -329,13 +340,17 @@ import TweetComments from './TweetComments.vue'
 	cursor:pointer;
 	color:#ffffff;
 	padding:9px 23px;
+    font-size: 14px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #263666;
+    border-radius: 20px;
 }
 .routerLink {
     text-decoration: none;
-    color: azure;
+    color: rgb(2, 17, 65);
     font-weight: bold;
+    font-size: 1.2rem;
+
 }
 .myButton:hover {
 	background:linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);

@@ -15,27 +15,95 @@
                 ></v-text-field>
                 <v-card-actions width="100%">
                         {{ content }}
-                        <img id="editIcon" src="@/assets/editIcon.png"/>
+                        <div id="EditCommentModal">
+                        <div class="text-center">
+                            <v-dialog
+                            v-model="dialog"
+                            width="500"
+                            >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                v-if="loggedInUser === username"
+                                dark
+                                v-bind="attrs"
+                                v-on="on"
+                                >  <img
+                                id="editIcon"
+                                src="@/assets/editIcon.png"/>
+                                </v-btn>
+                            </template>
+
+                            <v-card>
+                                <v-card-title class="text-h5 grey lighten-2">
+                                Edit Comment:
+                                </v-card-title>
+
+                                <v-card-text
+                                Post new comment below:
+                                ></v-card-text>
+                                 <v-textarea
+                                v-model="commentEditContent"
+                                solo
+                                color="black"
+                                background-color="light-blue"
+                                clearable
+                                ></v-textarea>
+                                <v-divider></v-divider>
+
+                                <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    color="primary"
+                                    text
+                                    @click="dialog = false; updateComment()"
+                                >
+                                    POST
+                                </v-btn>
+                                 <span><v-btn
+                                    color="primary"
+                                    text
+                                    @click="dialog = false"
+                                >
+                                    Cancel
+                                </v-btn></span>
+                                </v-card-actions>
+                            </v-card>
+                            </v-dialog>
+                        </div>
+                    </div>
+                      
                 </v-card-actions>
-            
-                
+                  
             </v-card>
             <div>
                 {{ username }} - {{ createdAt }}
             </div>
         </div>
-        
+        USER:{{ loggedInUser }}
+
     </section>
+    
 </template>
 
 <script>
 import axios from "axios"
+import cookies from 'vue-cookies'
     export default {
         name : 'TweetComments',
         data() {
             return {
                 // Toggle edit button
                 editBtnTgl: false,
+                loggedInUser : "",
+                dialog: false,
+                commentEditContent: "",
+                userToken: "",
+            }
+        },
+        computed: {
+            retrieveLoggedInUserName() {
+                return this.$store.state.username;
+
             }
         },
         props: {
@@ -57,18 +125,28 @@ import axios from "axios"
                     data : {
                         "loginToken" : this.userToken,
                         "commentId" : this.commentId,
-                        "content" : this.content,
+                        "content" : this.commentEditContent,
                     }
 
                 }).then((response) => {
                     console.log(response);
-                    this.updateComment();
+                    console.log(this.userToken);
+                    console.log("Successfully updated");
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
             },
+             getMyCookies() {
+                var getCookie = cookies.get('loginData');
+                this.userToken = getCookie.loginToken; 
+            },
         },
+       
+        beforeMount() {
+            this.getMyCookies();
+            this.loggedInUser = this.retrieveLoggedInUserName;
+        }
     }
 </script>
 
