@@ -128,7 +128,7 @@
                             color="primary"
                             header-color="primary"
                         ></v-text-field>
-                        </template>
+                    </template>
                         <v-date-picker
                             v-model="birthdate"
                         ></v-date-picker>
@@ -263,8 +263,8 @@ import cookies from 'vue-cookies'
                 }).then((response) => {
                     console.log(response);
                     cookies.set('loginData', response.data);
-                    this.$store.commit('getcurrUserID', response.data.userId);
-                    this.$store.commit('getcurrUserEmail', response.data.email);
+                    // this.$store.commit('getcurrUserID', response.data.userId);
+                    // this.$store.commit('getcurrUserEmail', response.data.email);
 
                     this.$store.dispatch('getTokenAsync', response.data.loginToken)
                     this.$router.push({ name: 'FeedView' });

@@ -24,6 +24,7 @@
             
             <!-- Dropdown menu from Vuetify -->
             <div class="text-center">
+    <!-- Vuetify menu dropdown -->
     <v-menu
       top
       :offset-y="offset"
@@ -142,6 +143,7 @@ import cookies from 'vue-cookies'
                 tweetLikeCounter: "",
                 toggleLike: false,
                 toggleModal: false,
+                tweetEditContent: "",
                 tweetComment: "",
                 newCommentObj: {},
                 tweetCommentInfo: [],
@@ -162,9 +164,11 @@ import cookies from 'vue-cookies'
             selectSelection(item) {
                 switch (item.title) {
                     case 'Edit Tweet':
+                    this.editTweet();
                     console.log("choice1");
                     break
                     case 'Delete Tweet':
+                    this.deleteTweet();
                     console.log("choice2");
                     break
                 }
@@ -172,6 +176,27 @@ import cookies from 'vue-cookies'
             showModal() {
                 this.toggleModal = !this.toggleModal;
                 console.log(this.toggleModal);
+            },
+            editTweet() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/tweets',
+                    method: 'PATCH',
+                    headers : {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    data : {
+                        "loginToken" : this.userToken,
+                        "tweetId" : this.tweetId,
+                        "content" : this.tweetEditContent,
+                    }
+
+                }).then((response) => {
+                    console.log(response);
+
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                })
             },
             deleteTweet() {
                 axios.request({

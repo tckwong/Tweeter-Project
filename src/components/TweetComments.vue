@@ -4,85 +4,94 @@
             <div>
                 <img class="avatar" src="@/assets/defaultProfile.png" alt="">
             </div>
+            <!-- Comment edit content -->
             <v-card
-             width="mx-md-5">
-                <v-text-field
-                v-if="editBtnTgl" 
-                solo
-                clearable
-                :value="content"
-                v-model="content"
-                ></v-text-field>
-                <v-card-actions width="100%">
-                        {{ content }}
-                        <div id="EditCommentModal">
+                width="mx-md-5"
+                class="childGridCont">
+                <v-card-actions 
+                width="100%"
+                height="10px">
+                    {{ content }}
+                    <div id="EditCommentModal">
                         <div class="text-center">
+                            <!-- Vuetify modal popup -->
                             <v-dialog
                             v-model="dialog"
                             width="500"
                             >
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                v-if="loggedInUser === username"
-                                dark
-                                v-bind="attrs"
-                                v-on="on"
-                                >  <img
-                                id="editIcon"
-                                src="@/assets/editIcon.png"/>
-                                </v-btn>
-                            </template>
-
                             <v-card>
-                                <v-card-title class="text-h5 grey lighten-2">
+                                <v-card-title class="text-h5 grey lighten-1"
+                                >
                                 Edit Comment:
                                 </v-card-title>
-
                                 <v-card-text
                                 Post new comment below:
                                 ></v-card-text>
-                                 <v-textarea
-                                v-model="commentEditContent"
-                                solo
-                                color="black"
-                                background-color="light-blue"
-                                clearable
-                                ></v-textarea>
-                                <v-divider></v-divider>
-
+                                    <v-text-field
+                                    :value="content"
+                                    v-model="commentEditContent"
+                                    solo
+                                    color="black"
+                                    background-color="#6573d0"
+                                    clearable
+                                    ></v-text-field>
+                                    <v-divider></v-divider>
                                 <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                    color="primary"
-                                    text
-                                    @click="dialog = false; updateComment()"
-                                >
-                                    POST
-                                </v-btn>
-                                 <span><v-btn
-                                    color="primary"
-                                    text
-                                    @click="dialog = false"
-                                >
-                                    Cancel
-                                </v-btn></span>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        color="primary"
+                                        text
+                                        @click="dialog = false"
+                                    >
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn
+                                        color="primary"
+                                        text
+                                        @click="dialog = false; updateComment()"
+                                    >
+                                        POST
+                                    </v-btn>
                                 </v-card-actions>
                             </v-card>
-                            </v-dialog>
+                            </v-dialog>   
                         </div>
                     </div>
-                      
-                </v-card-actions>
-                  
+                    
+                </v-card-actions> 
+                <!-- Vuetify menu dropdown -->
+                            <v-menu
+                            top
+                            width="10px"
+                            class="menuCommIcon"
+                            v-if="username === loggedInUser"
+                            >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                color="primary"
+                                v-bind="attrs"
+                                v-on="on"
+                                >
+                                <v-icon>mdi-dots-horizontal</v-icon>
+                                </v-btn>
+                            </template>
+                            <v-list>
+                                <v-list-item
+                                v-for="(item, index) in items"
+                                :key="index"
+                                @click="selectSelection(item)"
+                                link
+                                >
+                                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                                </v-list-item>
+                            </v-list>
+                            </v-menu> 
             </v-card>
             <div>
                 {{ username }} - {{ createdAt }}
             </div>
         </div>
-        USER:{{ loggedInUser }}
-
     </section>
-    
 </template>
 
 <script>
@@ -98,6 +107,10 @@ import cookies from 'vue-cookies'
                 dialog: false,
                 commentEditContent: "",
                 userToken: "",
+                items: [
+                    { title: 'Edit Comment' },
+                    { title: 'Delete Comment' },
+                ],
             }
         },
         computed: {
@@ -128,21 +141,52 @@ import cookies from 'vue-cookies'
                         "content" : this.commentEditContent,
                     }
 
-                }).then((response) => {
-                    console.log(response);
-                    console.log(this.userToken);
-                    console.log("Successfully updated");
+                }).then(() => {
+                    this.$emit('notifyParentEditComment', "");
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
+            },
+            openDialog() {
+                this.dialog = true;
+            },
+            deleteComment() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/comments',
+                    method: 'DELETE',
+                    headers : {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                    },
+                    data : {
+                        "loginToken" : this.userToken,
+                        "commentId" : this.commentId,
+                    }
+                }).then(() => {
+                    this.$emit('notifyParentDeleteComment', "");
+                    console.log("Successfully deleted");
+
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                })
+            },
+            selectSelection(item) {
+                switch (item.title) {
+                    case 'Edit Comment':
+                    this.openDialog();
+                    console.log("choice1");
+                    break
+                    case 'Delete Comment':
+                    this.deleteComment();
+                    console.log("choice2");
+                    break
+                }
             },
              getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken; 
             },
         },
-       
         beforeMount() {
             this.getMyCookies();
             this.loggedInUser = this.retrieveLoggedInUserName;
@@ -155,7 +199,7 @@ import cookies from 'vue-cookies'
         display: grid;
         grid-template-columns: .2fr .8fr;
         grid-template-rows: 1fr 1fr;
-        height: 60px;
+        height: 80px;
         
         div {
             padding-left: 50px;
@@ -183,10 +227,16 @@ import cookies from 'vue-cookies'
     .avatar {
         height: 30px;
     }
-    #editIcon {
+    .editIcon {
         height: 30px;
         width: 30px;
-        left: 90%;
+        right:0;
     }
-
+    .childGridCont {
+        display: grid;
+        grid-template-columns: 1fr .1fr;
+    }
+    .menuCommIcon {
+        width: 60%;
+    }
 </style>

@@ -64,8 +64,7 @@
                 
                 <span class="subheading mr-2">{{ tweetLikeCounter }}</span>
                 <span class="mr-1">·</span>
-            
-                <button @click="retrieveUserId" class="myButton">Unfollow</button>
+                <button @click="retrieveUserId" v-if="activeUser != username" class="myButton">Unfollow</button>
                 </v-row>
             </v-list-item>
         </v-card-actions>
@@ -85,15 +84,15 @@
                     :tweetId="comment.tweetId"
                     :username="comment.username"
                     :content="comment.content"
-                    :createdAt="comment.createdAt"/>
+                    :createdAt="comment.createdAt"
+                    @notifyParentDeleteComment="retrieveTweetComments"
+                    @notifyParentEditComment="retrieveTweetComments"/>
+                    
                 </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-card-actions>
         </v-card>
-        <!-- <transition name="fade" appear>
-                <div class="modal-overlay" v-if="showModal"></div>
-            </transition> -->
     </div>
 </template>
 
@@ -131,26 +130,6 @@ import TweetComments from './TweetComments.vue'
                 this.toggleModal = !this.toggleModal;
                 console.log(this.toggleModal);
             },
-            /* ~~~~~~~~~~FOLLOW API CALLS ~~~~~~~~~~~~~~~*/
-            // followUser() {
-            //     axios.request({
-            //         url: 'https://tweeterest.ml/api/follows',
-            //         method: 'POST',
-            //         headers: {
-            //             'X-Api-Key' : process.env.VUE_APP_API_KEY,
-            //             'Content-Type': 'application/json'
-            //         },
-            //         data: {
-            //             "loginToken": this.userToken,
-            //             "followId": this.currUserId
-            //         }
-            //     }).then((response) => {
-            //         console.log(response);
-                    
-            //     }).catch((error) => {
-            //         console.error("There was an error: " +error);
-            //     })
-            // },
             unfollowUser() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/follows',
@@ -274,10 +253,17 @@ import TweetComments from './TweetComments.vue'
                         "tweetId" : this.tweetId,
                     }
                 }).then((response) => {
+                    console.log(response);
                     this.tweetCommentInfo = response.data;
+                    this.sortTweetComments();
     
                 }).catch((error) => {
                     console.error(error);
+                })
+            },
+            sortTweetComments() {
+                this.tweetCommentInfo.sort(function(x,y){
+                    return new Date(y.createdAt) - new Date(x.createdAt);
                 })
             },
             createComment() {
@@ -303,7 +289,7 @@ import TweetComments from './TweetComments.vue'
                         content : response.data.content,
                         createdAt : response.data.createdAt,
                     }
-                    this.tweetCommentInfo.push(this.newCommentObj);
+                    this.tweetCommentInfo.unshift(this.newCommentObj);
                     console.log(this.tweetCommentInfo);
 
                 }).catch((error) => {

@@ -47,7 +47,6 @@
       </v-btn>
     </v-card-actions>
   </v-card>
-            <h3>ID:{{ userProfileId }}</h3>
         <div class="profileCard">
              <v-img
         class="white--text align-end"
@@ -92,8 +91,17 @@
             ></v-text-field>
         </div>
         <div class="foot">
-            <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum mollitia asperiores ipsam nihil doloremque rerum quas harum veniam tenetur voluptate!</h2>
+            <div id="flexWrapper">
+                <div>
+                    <h2>Followers:</h2><h1>{{ numFollowers }}</h1> 
+                </div>
+                <div>
+                    <h2>Following:</h2><h1>{{ numFollowing }}</h1> 
+                </div>
+                
+            </div>
             
+        
         </div>
         <h2>Your Tweets</h2>
         <div>
@@ -141,6 +149,8 @@ import '../css/generalStyle.scss'
                 userTweetData: [],
                 newTweetObj: {},
                 followinguserIDs: [],
+                numFollowers: "",
+                numFollowing: "",
             }
         },
         methods: {
@@ -256,9 +266,30 @@ import '../css/generalStyle.scss'
                     for (let i=0; i<response.data.length; i++){
                         this.followinguserIDs.push(response.data[i].userProfileId);
                     }
+                    this.numFollowing = response.data.length;
                     this.retrieveUserTweets();
                 }).catch((error) => {
                     console.error(error);
+                })
+            },
+            getNumFollowers() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/followers',
+                    method: 'GET',
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY
+                    },
+                    params: {
+                        "userId": this.userProfileId,
+                    }
+               
+                }).then((response) => {
+                    console.log(response);
+                    this.numFollowers = response.data.length;
+                    console.log(this.numFollowers);
+              
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
                 })
             },
             filterFeedArr() {
@@ -275,14 +306,14 @@ import '../css/generalStyle.scss'
                 this.loggedUserId = getCookie.userId;
             },
         },
-
         beforeMount() {
             this.getMyCookies();
         },
         async mounted() {
             await this.getAllUserInfo();
             this.retrieveUserTweets();
-            this.retrieveAllFollowers()
+            this.retrieveAllFollowers();
+            this.getNumFollowers();
         },
     }
 </script>
@@ -312,5 +343,13 @@ import '../css/generalStyle.scss'
     .editBtn {
         box-shadow: 3px 3px 3px cornflowerblue;
     }
-    
+    #flexWrapper {
+        display: flex;
+        justify-content: center;
+        line-height: 75px;
+    }
+    #flexWrapper > div {
+        padding: 0 5vw;
+    }
+
 </style>
