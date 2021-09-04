@@ -38,6 +38,9 @@
                 >POST
                 </v-btn>
             </v-card>
+            <div class="noTweetMsg" v-if="alltweetData.length === 0">
+                <h3>You are not currently following anyone. Click <router-link to="/DiscoverView">here</router-link> to explore some profiles.</h3>
+            </div>
         </div>
         <div class="tweetsFeed">
             <FeedTweetChild v-for="tweet in alltweetData" 
@@ -95,6 +98,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
                         imageUrl : response.data.imageUrl,
                     }
                     this.alltweetData.unshift(this.newTweetObj);
+                    this.content = "";
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
@@ -163,6 +167,10 @@ import FeedTweetChild from './FeedTweetChild.vue'
     #uploadImg {
         height: 40px;
         margin-left: 20px;
+    }
+
+    .noTweetMsg {
+        text-align: center;
     }
 
     @media only screen and (min-width:1000px) {

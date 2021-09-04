@@ -24,7 +24,7 @@ export default new Vuex.Store({
       context.commit('updateToken', data);
     },
     removeToken(context, data) {
-      context.commit('updateToken', data)
+      context.commit('updateToken', data);
     }
   },
   getters: {

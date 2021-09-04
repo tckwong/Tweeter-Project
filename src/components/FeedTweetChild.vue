@@ -290,7 +290,7 @@ import TweetComments from './TweetComments.vue'
                         createdAt : response.data.createdAt,
                     }
                     this.tweetCommentInfo.unshift(this.newCommentObj);
-                    console.log(this.tweetCommentInfo);
+                    this.tweetComment = "";
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);

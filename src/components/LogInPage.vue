@@ -77,7 +77,7 @@
                         label="Username*"
                         v-model="username"
                         :counter="10"
-                        :rules="[rules.required, rules.max]"
+                        :rules="[rules.noSpaces]"
                         required
                         ></v-text-field>
                     </v-col>
@@ -86,6 +86,7 @@
                         <v-text-field
                         label="Email*"
                         v-model="email"
+                        :rules="[rules.noSpaces]"
                         required
                         ></v-text-field>
                     </v-col>
@@ -98,11 +99,24 @@
                         required
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12">
-                        <v-file-input
-                        accept="image/*"
-                        label="Profile Image"
-                        ></v-file-input>
+                    <v-col
+                        cols="12"
+                    >
+                        <v-text-field
+                        label="Profile Picture URL"
+                        v-model="imageUrl"
+                        :rules="[rules.noSpaces]"
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                        cols="12"
+                    >
+                        <v-text-field
+                        label="Profile Banner URL"
+                        v-model="bannerUrl"
+                        :rules="[rules.noSpaces]"
+                        ></v-text-field>
                     </v-col>
 
                     <v-col
@@ -194,13 +208,15 @@ import cookies from 'vue-cookies'
                 bio : "",
                 birthdate : null,
                 picker: null,
-                password : "", 
+                password : "",
+                imageUrl : null,
+                bannerUrl : null,
                 show1: false,
                 rules: {
                     required: value => !!value || 'Required.',
+                    noSpaces: v => (v || '').indexOf(' ') < 0 || 'No spaces allowed',
                     min: v => v.length >= 8 || 'Min 8 characters',
                     max: v => v.length <= 10 || 'Max 10 characters',
-                    // emailMatch: () => (`The email and password you entered don't match`),
                 },
             }
         },
@@ -223,7 +239,7 @@ import cookies from 'vue-cookies'
                         "birthdate": this.birthdate,
                         "password": this.password,
                         "imageUrl": this.imageUrl,
-                        // "bannerUrl": "https://i.picsum.photos/id/223/1080/640.jpg?hmac=1zRXJhkXy6EdeYC-WYatZnnmpkqINeYTiJ4-74E6t1o"
+                        "bannerUrl": this.bannerUrl,
                     }
                 }).then(() => {
                     this.dialog = false;
@@ -263,9 +279,6 @@ import cookies from 'vue-cookies'
                 }).then((response) => {
                     console.log(response);
                     cookies.set('loginData', response.data);
-                    // this.$store.commit('getcurrUserID', response.data.userId);
-                    // this.$store.commit('getcurrUserEmail', response.data.email);
-
                     this.$store.dispatch('getTokenAsync', response.data.loginToken)
                     this.$router.push({ name: 'FeedView' });
             
