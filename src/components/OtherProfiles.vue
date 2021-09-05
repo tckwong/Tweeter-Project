@@ -191,7 +191,10 @@
                 :tweetId="tweet.tweetId"
                 :userId="tweet.userId"
                 :content="tweet.content"
-                :createdAt="tweet.createdAt"/>
+                :createdAt="tweet.createdAt"
+                @notifyParentEditTweet="retrieveUserTweets"
+                @notifyParentDeleteTweet="retrieveUserTweets"
+                />
             </p>
         </div>
     </div>
@@ -232,6 +235,8 @@ import '../css/generalStyle.scss'
                 followinguserIDs: [],
                 numFollowers: "",
                 numFollowing: "",
+                imageList: [],
+                userImageLst : {},
             }
         },
         methods: {
@@ -334,6 +339,14 @@ import '../css/generalStyle.scss'
                     }
                 }).then((response) => {
                     this.userTweetData = response.data;
+                    for (let i=0; i<response.data.length; i++){
+                        this.userImageLst = {
+                        usrName : response.data[i].username,
+                        userImageUrl : response.data[i].userImageUrl,
+                    };
+                        this.imageList.push(this.userImageLst);
+                    }
+                    this.sendImageList();
                     if(response.data.length != 0) {
                         this.filterFeedArr();
                     }
@@ -341,6 +354,9 @@ import '../css/generalStyle.scss'
                 }).catch((error) => {
                     console.error(error);
                 })
+            },
+            sendImageList() {
+                this.$store.commit('getImageList', this.imageList);
             },
             retrieveAllFollowers() {
                 axios.request({
@@ -408,9 +424,6 @@ import '../css/generalStyle.scss'
     section {
         background-color: rgb(137, 170, 233);
         height: 100vh;
-    }
-    img {
-        height: 20vh;
     }
     .icon {
         display: inline-block;

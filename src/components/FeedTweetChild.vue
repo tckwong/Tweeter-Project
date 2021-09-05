@@ -55,7 +55,6 @@
                         <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                 </div>
-        
                 <div :class="{ likedDisplay: toggleLike }"> 
                         <v-icon @click="checkTweetLiked" class="mr-1">
                         mdi-thumb-up
@@ -87,7 +86,6 @@
                     :createdAt="comment.createdAt"
                     @notifyParentDeleteComment="retrieveTweetComments"
                     @notifyParentEditComment="retrieveTweetComments"/>
-                    
                 </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
@@ -128,10 +126,6 @@ import TweetComments from './TweetComments.vue'
             userId: Number,
         },
         methods: {
-            showModal() {
-                this.toggleModal = !this.toggleModal;
-                console.log(this.toggleModal);
-            },
             unfollowUser() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/follows',

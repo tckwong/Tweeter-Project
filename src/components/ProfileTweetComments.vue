@@ -98,7 +98,7 @@
 import axios from "axios"
 import cookies from 'vue-cookies'
     export default {
-        name : 'TweetComments',
+        name : 'ProfileTweetComments',
         data() {
             return {
                 // Toggle edit button
@@ -200,7 +200,6 @@ import cookies from 'vue-cookies'
         beforeMount() {
             this.getMyCookies();
             this.loggedInUser = this.retrieveLoggedInUserName;
-            this.findCommentImg();
         }
     }
 </script>
@@ -235,6 +234,9 @@ import cookies from 'vue-cookies'
         left: 50%;
         transform: translate(-50%, -50%);
     }
+    .avatar {
+        height: 30px;
+    }
     .editIcon {
         height: 30px;
         width: 30px;
@@ -246,8 +248,5 @@ import cookies from 'vue-cookies'
     }
     .menuCommIcon {
         width: 60%;
-    }
-    #cmtAveCont {
-        border-right: 1px solid grey;
     }
 </style>

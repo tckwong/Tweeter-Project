@@ -14,7 +14,7 @@
             <v-img
                 class="elevation-6"
                 alt=""
-                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+                :src="imageUrl"
             ></v-img>
             </v-list-item-avatar>
              <v-list-item-content>
@@ -57,7 +57,53 @@
         <v-card-text class="pl-10 text-h5 font-weight-bold">
             {{ content }}
         </v-card-text>
-
+        <!-- Vuetify Dialog Code Here -->
+        <div id="EditCommentModal">
+                        <div class="text-center">
+                            <!-- Vuetify modal popup for comment editting -->
+                            <v-dialog
+                            v-model="dialog"
+                            width="500"
+                            >
+                            <v-card>
+                                <v-card-title class="text-h5 grey lighten-1"
+                                >
+                                Edit tweet:
+                                </v-card-title>
+                                <v-card-text
+                                Edit tweet below:
+                                ></v-card-text>
+                                    <v-text-field
+                                    :label="tweetEditContent"
+                                    v-model="tweetEditContent"
+                                    solo
+                                    color="black"
+                                    background-color="#6573d0"
+                                    clearable
+                                    ></v-text-field>
+                                    <v-divider></v-divider>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        color="primary"
+                                        text
+                                        @click="dialog = false"
+                                    >
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn
+                                        color="primary"
+                                        text
+                                        @click="dialog = false; editTweet()"
+                                    >
+                                        UPDATE
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                            </v-dialog>   
+                        </div>
+                    </div>
+        <!-- End of dialog -->
         <v-card-actions>
             <v-list-item class="grow">
                 <v-row
@@ -96,7 +142,7 @@
                 <span class="subheading mr-2">{{ tweetLikeCounter }}</span>
                 <span class="mr-1">·</span>
             
-                <button @click="retrieveUserId" class="myButton">Unfollow</button>
+                <!-- <button @click="retrieveUserId" class="myButton">Unfollow</button> -->
                 </v-row>
             </v-list-item>
         </v-card-actions>
@@ -110,13 +156,16 @@
                     Comments:
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                   <TweetComments v-for="comment in tweetCommentInfo"
-                    :key="comment.commentId"
+                   <ProfileTweetComments v-for="comment in tweetCommentInfo"
+                     :key="comment.commentId"
                     :commentId="comment.commentId"
                     :tweetId="comment.tweetId"
                     :username="comment.username"
                     :content="comment.content"
-                    :createdAt="comment.createdAt"/>
+                    :createdAt="comment.createdAt"
+                    @notifyParentDeleteComment="retrieveTweetComments"
+                    @notifyParentEditComment="retrieveTweetComments"
+                    />
                 </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
@@ -129,11 +178,11 @@
 <script>
 import axios from "axios"
 import cookies from 'vue-cookies'
-// import TweetComments from './TweetComments.vue'
+import ProfileTweetComments from './ProfileTweetComments.vue'
     export default {
         name: 'ProfileTweets',
         components: {
-            
+            ProfileTweetComments
         },
         data:() => {
             return {
@@ -152,30 +201,27 @@ import cookies from 'vue-cookies'
                     { title: 'Delete Tweet' },
                 ],
                 offset: true,
+                dialog: false,
             }
         },
         props: {
             tweetId : Number,
             username : String,
             content: String,
-            createdAt: String
+            createdAt: String,
+            imageUrl: String,
+            userId: Number,
         },
         methods: {
             selectSelection(item) {
                 switch (item.title) {
                     case 'Edit Tweet':
-                    this.editTweet();
-                    console.log("choice1");
+                    this.dialog = true;
                     break
                     case 'Delete Tweet':
                     this.deleteTweet();
-                    console.log("choice2");
                     break
                 }
-            },
-            showModal() {
-                this.toggleModal = !this.toggleModal;
-                console.log(this.toggleModal);
             },
             editTweet() {
                 axios.request({
@@ -191,8 +237,8 @@ import cookies from 'vue-cookies'
                         "content" : this.tweetEditContent,
                     }
 
-                }).then((response) => {
-                    console.log(response);
+                }).then(() => {
+                    this.$emit('notifyParentEditTweet', "");
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
@@ -209,10 +255,9 @@ import cookies from 'vue-cookies'
                         "loginToken": this.userToken,
                         "tweetId": this.tweetId
                     }
-                }).then((response) => {
-                    console.log(response);
-                    console.log("Sucessfully Deleted");
-                    
+                }).then(() => {
+                    this.$emit('notifyParentDeleteTweet', "");
+                   
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
@@ -319,8 +364,6 @@ import cookies from 'vue-cookies'
                 }).then(() => {
                     this.toggleLike = false;
                     this.tweetLikeCounter -= 1;
-                    console.log("Tweet unliked");
-
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
@@ -339,9 +382,15 @@ import cookies from 'vue-cookies'
                 }).then((response) => {
                     console.log(response);
                     this.tweetCommentInfo = response.data;
+                    this.sortTweetComments();
     
                 }).catch((error) => {
                     console.error(error);
+                })
+            },
+            sortTweetComments() {
+                this.tweetCommentInfo.sort(function(x,y){
+                    return new Date(y.createdAt) - new Date(x.createdAt);
                 })
             },
             createComment() {
@@ -367,8 +416,8 @@ import cookies from 'vue-cookies'
                         content : response.data.content,
                         createdAt : response.data.createdAt,
                     }
-                    this.tweetCommentInfo.push(this.newCommentObj);
-                    console.log(this.tweetCommentInfo);
+                    this.tweetCommentInfo.unshift(this.newCommentObj);
+                    this.tweetComment = "";
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
@@ -378,6 +427,7 @@ import cookies from 'vue-cookies'
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
                 this.activeUser = getCookie.userId;
+                
             },
         },
         mounted() {

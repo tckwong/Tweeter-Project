@@ -9,7 +9,7 @@ export default new Vuex.Store({
     username: "",
     email: "",
     loginToken: "",
-
+    imageList: [],
   },
   mutations: {  
     getcurrUserID(state, data) {
@@ -18,6 +18,9 @@ export default new Vuex.Store({
     getcurrUserName(state, data) {
       state.username = data;
     },
+    getImageList(state, data) {
+      state.imageList = data;
+    }
   },
   actions: {
     getTokenAsync(context, data) {

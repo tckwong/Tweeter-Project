@@ -72,6 +72,8 @@ import FeedTweetChild from './FeedTweetChild.vue'
                 alltweetData: [],
                 newTweetObj: {},
                 followinguserIDs: [],
+                imageList: [],
+                userImageLst : {},
             }     
         },
         methods: {
@@ -113,10 +115,23 @@ import FeedTweetChild from './FeedTweetChild.vue'
                     },
                 }).then((response) => {
                     this.alltweetData = response.data;
+                    
+                    for (let i=0; i<response.data.length; i++){
+                        this.userImageLst = {
+                        usrName : response.data[i].username,
+                        userImageUrl : response.data[i].userImageUrl,
+                    };
+                        this.imageList.push(this.userImageLst);
+                    }
+                    this.sendImageList();
                     this.filterFeedArr();
                 }).catch((error) => {
                     console.error(error);
                 })
+            },
+            sendImageList() {
+                this.$store.commit('getImageList', this.imageList);
+
             },
             retrieveAllFollowers() {
                 axios.request({
