@@ -2,10 +2,6 @@ $main-col: #c8c;
 $sec-col: lighten(#303f9f, 20%);
 $back-col: #c5cae9;
 
-
-
-/*** GENERAL STYLES ***/
-
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -19,21 +15,18 @@ header {
 body{
   font-family: 'Dosis', sans-serif;
   background: $back-col;
-
 }
-
-
 
 /*** CARD STLES ***/
 
 .profileCard{
     position: relative;
-    width: 1000px;
+    width: 50vw;
     margin-left: auto;
     margin-right: auto;
     background: #1E1E1E;
     box-shadow: 0 10px 7px -5px rgba(#000,.4);
-    height: 60vh;
+    height: 75vh;
     
       .avatar{
         position: absolute;
@@ -60,10 +53,12 @@ body{
           height: auto;
         }
       }
-
+    
     h3{
       position: relative;
-      color: #303f9f;
+      color: #727ecc;
+      text-transform: uppercase;
+      font-size: 2rem;
       margin: 40px 0 30px;
       text-align: center;
       &::after{
@@ -74,9 +69,12 @@ body{
         margin-left: -15px;
         width: 30px;
         height: 1px;
-        background: #000;
-        color: white;
+        background: rgb(177, 171, 171);
       }
+    }
+    .editMenuBar {
+      display: flex;
+      border-bottom: 1px solid rgb(204, 200, 200);
     }
     .desc{
       padding: 0 1rem 2rem;
@@ -84,30 +82,7 @@ body{
       line-height: 1.5;
       color: #777;
     }
-    .contacts{
-      width: 200px;
-      max-width: 100%;
-      margin: 0 auto 3.5rem;
-      a{
-        display: block;
-        width: 33.333333%;
-        float: left;
-        text-align: center;
-        color: $main-col;
-        &:hover{
-          color: #333;
-          .fa{
-            &::before{
-              color: rgb(192, 30, 30);
-            }
-            &::after{
-              top: 0;
-            }
-          }
-        }
-      }
-    }
-    
+ 
     .foot {
       position: relative;
       padding: 1rem;
@@ -138,7 +113,7 @@ body{
   }
   
   /*** RESPONSIVE ***/
-  @media only screen and (max-width: 810px) {
+  @media only screen and (max-width: 800px) {
     .card {
       float: none;
       margin-left: auto;

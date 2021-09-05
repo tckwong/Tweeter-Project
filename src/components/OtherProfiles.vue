@@ -1,94 +1,174 @@
 <template>
     <section>
-       
-  <v-card
-    class="mx-auto"
-    max-width="80vw"
-  >
-    <v-btn   
-        v-if="userProfileId === loggedUserId" 
-        @click="editBtnTgl = true"
-        color="blue darken-1"
-        text
-        class="editBtn"
-        >
-        Edit Profile
-    </v-btn>
-    <v-btn   
-        v-if="editBtnTgl === true" 
-        @click="patchProfile"
-        color="blue darken-1"
-        text
-        elevation="5"
-        >
-        Submit Changes
-    </v-btn>
-
-    <v-card-actions v-if="editBtnTgl">
-      <v-btn
-        @click="deleteProfileTgl = true"
-        color="red"
-        text
-      >DELETE PROFILE
-      </v-btn>
-      <span v-if="deleteProfileTgl">Please note that this action is irreversible. Please enter your password: </span>
-      <v-text-field
-        v-if="deleteProfileTgl"
-        solo
-        clearable
-        v-model="pwdInput"
-        ></v-text-field>
-        <v-btn
-        @click="deleteUser"
-        v-if="deleteProfileTgl"
-        color="red"
-        text
-      >SUBMIT
-      </v-btn>
-    </v-card-actions>
-  </v-card>
         <div class="profileCard">
              <v-img
-        class="white--text align-end"
-        height="200px"
-            :src="require('@/assets/logo.png')"
-        >
-    </v-img>
+            class="white--text align-end"
+            height="200px"
+            :src="bannerUrl">
+            </v-img>
         <header>
             <div class="avatar">
-            <img src="https://randomuser.me/api/portraits/men/20.jpg" alt="Allison Walker" />
+                <img class="profilePic" :src="imageUrl" alt="Profile Picture" />
             </div>
         </header>
-        
-        <h3>{{ userName }}</h3>
+        <!-- Vuetify Edit Button to edit user information -->
+            <div class="editMenuBar">
+                <v-btn   
+                v-if="userProfileId === loggedUserId && editBtnTgl === false" 
+                @click="editBtnTgl = true"
+                color="blue darken-1"
+                text
+                class="editBtn mt-2"
+                >
+                Edit Profile
+                </v-btn>
+                 <v-btn   
+                v-if="userProfileId === loggedUserId && editBtnTgl === true" 
+                @click="editBtnTgl = false"
+                color="blue darken-1"
+                text
+                class="editBtn mt-2"
+                >
+                Cancel Edits
+                </v-btn>
+                <v-btn   
+                    v-if="editBtnTgl === true"
+                    @click="patchProfile"
+                    color="blue darken-1"
+                    class="mt-2"
+                    text
+                    >
+                    Submit Changes
+                </v-btn>
+                <v-card-actions v-if="editBtnTgl">
+                  
+                    <!-- Open delete conditional dialog -->
+                    <template>
+                    <div class="text-center">
+                        <v-dialog
+                        v-model="dialog"
+                        width="500"
+                        >
+                        <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                        @click="deleteProfileTgl = true"
+                        color="red"
+                        text
+                          v-bind="attrs"
+                            v-on="on"
+                    >DELETE PROFILE
+                    </v-btn>
+                        </template>
+
+                        <v-card>
+                            <v-card-title class="text-h5 grey lighten-2">
+                            Privacy Policy
+                            </v-card-title>
+
+                            <v-card-text>
+                            <!-- DELETE CONDITIONAL -->
+                                <h2 v-if="deleteProfileTgl">Please note that this action is irreversible. Please enter your password: </h2>
+                                <v-text-field
+                                    color="blue"
+                                    v-if="deleteProfileTgl"
+                                    v-model="pwdInput"
+                                    solo
+                                    ></v-text-field>
+                            </v-card-text>
+
+                            <v-divider></v-divider>
+
+                            <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="deleteUser"
+                            >
+                                Delete
+                            </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                        </v-dialog>
+                    </div>
+                    </template>
+                    
+                </v-card-actions>
+            </div>
+  
+        <h3 id="profileUser">{{ userName }}</h3>
         <div class="desc">
             <!-- Birthdate card -->
-             <p v-if="editBtnTgl === false">Birthdate: {{ birthdate }}</p>
+            <p v-if="editBtnTgl === false">Birthdate: {{ birthdate }}</p>
+            <p v-if="editBtnTgl === false">Email: {{ userEmail }}</p>
+            <p v-if="editBtnTgl === false">Bio: {{ userBio }}</p>
+    <v-container>
+    <v-row>
+        <v-col
+        cols="12"
+        sm="4"
+    >   
+        <p v-if="editBtnTgl" >Birthdate:</p>
         <v-text-field
         v-if="editBtnTgl" 
         solo
         clearable
         :value="birthdate"
         v-model="birthdate"
+        width="200px"
+        background-color="#6573d0"
         ></v-text-field>
-            <p v-if="editBtnTgl === false">Email: {{ userEmail }}</p>
+        <p v-if="editBtnTgl" >Email:</p>
         <v-text-field
         v-if="editBtnTgl" 
         solo
         clearable
+        background-color="#6573d0"
         :value="userEmail"
-        v-model="userEmail"
-
+        v-model="userEmail">
+        </v-text-field>
+        <p v-if="editBtnTgl" >username:</p>
+        <v-text-field
+        v-if="editBtnTgl"
+        solo
+        clearable
+        background-color="#6573d0"
+        :value="userName"
+        v-model="userName"
         ></v-text-field>
-
-           <p v-if="editBtnTgl === false">Bio: {{ userBio }}</p>
-            <v-text-field
-            v-if="editBtnTgl"
-            solo
-            clearable
-            :value="userBio"
-            v-model="userBio"
-            ></v-text-field>
+        </v-col>
+    
+        <v-col>
+        <p v-if="editBtnTgl" >Bio:</p>
+        <v-text-field
+        v-if="editBtnTgl"
+        solo
+        clearable
+        background-color="#6573d0"
+        :value="userBio"
+        v-model="userBio"
+        ></v-text-field>
+        <p v-if="editBtnTgl" >Profile Picture URL:</p>
+        <v-text-field
+        v-if="editBtnTgl"
+        solo
+        clearable
+        background-color="#6573d0"
+        :value="imageUrl"
+        v-model="imageUrl"
+        ></v-text-field>
+        <p v-if="editBtnTgl" >Banner Picture URL:</p>
+        <v-text-field
+        v-if="editBtnTgl"
+        solo
+        clearable
+        background-color="#6573d0"
+        :value="bannerUrl"
+        v-model="bannerUrl"
+        ></v-text-field>
+  </v-col>
+      </v-row>
+    </v-container>
         </div>
         <div class="foot">
             <div id="flexWrapper">
@@ -97,11 +177,9 @@
                 </div>
                 <div>
                     <h2>Following:</h2><h1>{{ numFollowing }}</h1> 
-                </div>
-                
+                </div>    
             </div>
             
-        
         </div>
         <h2>Your Tweets</h2>
         <div>
@@ -109,8 +187,9 @@
                 <ProfileTweets v-for="tweet in userTweetData" 
                 :key="tweet.tweetId"
                 :username="tweet.username"
-                :imageUrl="tweet.imageUrl"
+                :imageUrl="tweet.userImageUrl"
                 :tweetId="tweet.tweetId"
+                :userId="tweet.userId"
                 :content="tweet.content"
                 :createdAt="tweet.createdAt"/>
             </p>
@@ -142,6 +221,8 @@ import '../css/generalStyle.scss'
                 userEmail: "",
                 userBio: "",
                 birthdate: "",
+                imageUrl: "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg",
+                bannerUrl: null,
                 pwdInput: "",
                 dialog: false,      
                 editBtnTgl: false,
@@ -164,6 +245,7 @@ import '../css/generalStyle.scss'
                
                 }).then((response) => {
                     const found = response.data.find(user => user.username === this.$route.params.user );
+                    console.log(found.userId);
                     this.userProfileId = found.userId;
                     this.getUserProfile();
                 }).catch((error) => {
@@ -182,11 +264,13 @@ import '../css/generalStyle.scss'
                     }
                
                 }).then((response) => {
-                    // console.log(response);
+                    console.log(response);
                     this.userName = response.data[0].username;
                     this.userEmail = response.data[0].email;
                     this.birthdate = response.data[0].birthdate;
                     this.userBio = response.data[0].bio;
+                    this.imageUrl = response.data[0].imageUrl;
+                    this.bannerUrl = response.data[0].bannerUrl;
  
                 }).catch((error) => {
                     console.error(error);
@@ -205,6 +289,9 @@ import '../css/generalStyle.scss'
                         "email" : this.userEmail,
                         "birthdate" : this.birthdate,
                         "bio" : this.userBio,
+                        "username" : this.userName,
+                        "imageUrl" : this.imageUrl,
+                        "bannerUrl" : this.bannerUrl
                     }
 
                 }).then((response) => {
@@ -228,6 +315,7 @@ import '../css/generalStyle.scss'
                     }
                
                 }).then(() => {
+                    this.dialog = false;
                      this.$router.push({ path: '/' });
               
                 }).catch((error) => {
@@ -245,9 +333,11 @@ import '../css/generalStyle.scss'
                         "userId" : this.userProfileId,
                     }
                 }).then((response) => {
-                    console.log(response);
                     this.userTweetData = response.data;
-                    this.filterFeedArr();
+                    if(response.data.length != 0) {
+                        this.filterFeedArr();
+                    }
+                    
                 }).catch((error) => {
                     console.error(error);
                 })
@@ -260,7 +350,7 @@ import '../css/generalStyle.scss'
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
                     params: {
-                       userId: this.userProfileId,
+                       "userId" : this.userProfileId,
                     }
                 }).then((response) => {
                     for (let i=0; i<response.data.length; i++){
@@ -284,10 +374,7 @@ import '../css/generalStyle.scss'
                     }
                
                 }).then((response) => {
-                    console.log(response);
                     this.numFollowers = response.data.length;
-                    console.log(this.numFollowers);
-              
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
@@ -297,7 +384,6 @@ import '../css/generalStyle.scss'
                 newArrFeed.sort(function(x,y){
                     return new Date(y.createdAt) - new Date(x.createdAt);
                 })
-               
                 this.userTweetData = newArrFeed;
             },
             getMyCookies() {
@@ -340,9 +426,6 @@ import '../css/generalStyle.scss'
     .v-text-field {
         max-width: 20vw;
     }
-    .editBtn {
-        box-shadow: 3px 3px 3px cornflowerblue;
-    }
     #flexWrapper {
         display: flex;
         justify-content: center;
@@ -350,6 +433,14 @@ import '../css/generalStyle.scss'
     }
     #flexWrapper > div {
         padding: 0 5vw;
+    }
+    .avatar {
+        overflow: hidden;
+    }
+    .profilePic {
+        object-fit: cover;
+        height: inherit;
+        width: inherit;
     }
 
 </style>

@@ -209,8 +209,8 @@ import cookies from 'vue-cookies'
                 birthdate : null,
                 picker: null,
                 password : "",
-                imageUrl : null,
-                bannerUrl : null,
+                imageUrl :"https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg",
+                bannerUrl : "@/assets/logo.png",
                 show1: false,
                 rules: {
                     required: value => !!value || 'Required.',

@@ -46,8 +46,9 @@
             <FeedTweetChild v-for="tweet in alltweetData" 
             :key="tweet.tweetId"
             :username="tweet.username"
-            :imageUrl="tweet.imageUrl"
+            :imageUrl="tweet.userImageUrl"
             :tweetId="tweet.tweetId"
+            :userId="tweet.userId"
             :content="tweet.content"
             :createdAt="tweet.createdAt"/>
         </div>
@@ -88,14 +89,13 @@ import FeedTweetChild from './FeedTweetChild.vue'
                     }
 
                 }).then((response) => {
-                    console.log(response);
                     this.newTweetObj = {
                         tweetId : response.data.tweetId,
                         userId : response.data.userId,
                         username : response.data.username,
                         content : response.data.content,
                         createdAt : response.data.createdAt,
-                        imageUrl : response.data.imageUrl,
+                        userImageUrl : response.data.userImageUrl,
                     }
                     this.alltweetData.unshift(this.newTweetObj);
                     this.content = "";
@@ -149,7 +149,6 @@ import FeedTweetChild from './FeedTweetChild.vue'
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
                 this.userId = getCookie.userId;
-                this.$store.commit('getcurrUserName', getCookie.username);
                 this.$store.commit('getcurrUserName', getCookie.username);
                 }
             },

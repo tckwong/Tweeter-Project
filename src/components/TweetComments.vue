@@ -14,7 +14,7 @@
                     {{ content }}
                     <div id="EditCommentModal">
                         <div class="text-center">
-                            <!-- Vuetify modal popup -->
+                            <!-- Vuetify modal popup for comment editting -->
                             <v-dialog
                             v-model="dialog"
                             width="500"
@@ -28,7 +28,7 @@
                                 Post new comment below:
                                 ></v-card-text>
                                     <v-text-field
-                                    :value="content"
+                                    :label="content"
                                     v-model="commentEditContent"
                                     solo
                                     color="black"

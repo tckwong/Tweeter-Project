@@ -15,7 +15,7 @@
             <v-img
                 class="elevation-6"
                 alt=""
-                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+                :src="imageUrl"
             ></v-img>
             </v-list-item-avatar>
              <v-list-item-content>
@@ -64,7 +64,7 @@
                 
                 <span class="subheading mr-2">{{ tweetLikeCounter }}</span>
                 <span class="mr-1">·</span>
-                <button @click="retrieveUserId" v-if="activeUser != username" class="myButton">Unfollow</button>
+                <button @click="retrieveUserId" v-if="activeUser != userId" class="myButton">Unfollow</button>
                 </v-row>
             </v-list-item>
         </v-card-actions>
@@ -123,7 +123,9 @@ import TweetComments from './TweetComments.vue'
             tweetId : Number,
             username : String,
             content: String,
-            createdAt: String
+            createdAt: String,
+            imageUrl: String,
+            userId: Number,
         },
         methods: {
             showModal() {
@@ -150,7 +152,7 @@ import TweetComments from './TweetComments.vue'
                     console.error("There was an error: " +error);
                 })
             },
-             retrieveUserId() {
+            retrieveUserId() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/users',
                     method: 'GET',
@@ -159,7 +161,6 @@ import TweetComments from './TweetComments.vue'
                     },
              
                 }).then((response) => {
-                    console.log("Finding userID");
                     const found = response.data.find(user => user.username === this.username);
                     this.unfollowUserId = found.userId;
                     console.log(found.userId);
@@ -168,7 +169,6 @@ import TweetComments from './TweetComments.vue'
                     console.error(error);
                 })
             },
-        
             /* API CALL FOR TWEET LIKES*/
             upvoteTweet() {
                 axios.request({
@@ -235,8 +235,6 @@ import TweetComments from './TweetComments.vue'
                 }).then(() => {
                     this.toggleLike = false;
                     this.tweetLikeCounter -= 1;
-                    console.log("Tweet unliked");
-
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
