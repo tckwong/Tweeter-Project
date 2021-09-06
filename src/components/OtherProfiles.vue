@@ -233,7 +233,7 @@
 import axios from "axios"
 import cookies from 'vue-cookies'
 import ProfileTweets from './ProfileTweets.vue'
-import '../css/generalStyle.scss'
+import '../css/profileCardStyle.scss'
 
     export default {
         name: 'OtherProfiles',

@@ -5,12 +5,13 @@
             <img id="logo" src="@/assets/logo.png"/>
             <h1>Log In</h1>
 
-            <v-card  
+            <v-card
             class="d-flex justify-center mb-6 mt-4"
             style="background-color:#6a8bf8"
+            min-height="30vh"
             >
                 <v-col
-                sm="6"
+                sm="8"
                 md="8"
                 lg="6"
                 class="pa-2"
@@ -18,7 +19,7 @@
                 tile
                 >
                     <v-text-field
-                        class="formInput"            
+                        class="formInput mt-5"            
                         v-model="usrNameInput"
                         label="Email"
                         placeholder="Email"
@@ -38,14 +39,12 @@
                         color="primary"
                         elevation="2"
                         large
+                        class="mr-2 mt-2"
                     >Log In
                     </v-btn>
-                </v-col>
-            </v-card>
-        </div>
-        <!-- MODAL VUETIFY CODE -->
+                    |
+                    <!-- MODAL VUETIFY CODE -->
         <template>
-        <v-row justify="center">
             <v-dialog
             v-model="dialog"
             persistent
@@ -57,6 +56,9 @@
                 dark
                 v-bind="attrs"
                 v-on="on"
+                class="ml-2 mt-2"
+                elevation="2"
+                large
                 >
                 NEW USER
                 </v-btn>
@@ -183,8 +185,12 @@
                 </v-card-actions>
             </v-card>
             </v-dialog>
-        </v-row>
+
         </template>
+                </v-col>
+            </v-card>
+        </div>
+        
         
     </section>
 </template>
@@ -276,7 +282,7 @@ import cookies from 'vue-cookies'
                     }
                 }).then((response) => {
                     console.log(response);
-                    cookies.set('loginData', response.data);
+                    cookies.set('loginData', response.data, { expires: 1 });
                     this.$store.dispatch('getTokenAsync', response.data.loginToken)
                     this.$router.push({ name: 'FeedView' });
             
@@ -301,16 +307,15 @@ import cookies from 'vue-cookies'
         text-transform: uppercase;
     }
     p {
-        color: red;
         font-weight: bold;
     }
-    
     #logo {
         margin-top: 8vh;
         height: 10vh;
     }
     .activatedErrorMsg {
         display: none;
+        color: red
     }
 
     @media only screen and (min-width:700px) {
@@ -319,7 +324,9 @@ import cookies from 'vue-cookies'
         }
     }
     @media only screen and (min-width:1100px) {
-    
+        .wrapper {
+            margin: 0 30vw;
+        }
     }
     
 </style>
