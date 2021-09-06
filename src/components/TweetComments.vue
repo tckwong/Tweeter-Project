@@ -119,9 +119,6 @@ import cookies from 'vue-cookies'
             retrieveLoggedInUserName() {
                 return this.$store.state.username;
             },
-            getList() {
-                return this.$store.state.imageList;
-            },
         },
         props: {
             commentId : Number,
@@ -132,10 +129,23 @@ import cookies from 'vue-cookies'
         },
         methods: {
             findCommentImg() {
-                console.log(this.getList);
-                const found = this.getList.find(user => user.usrName === this.username);
-                console.log(found);
-                this.commentImageUrl = found.userImageUrl;
+                axios.request({
+                    url: 'https://tweeterest.ml/api/users',
+                    method: 'GET',
+                    headers : {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                    },
+                }).then((response) => {
+                        const found = response.data.find(user => user.username === this.username);
+                        if (found.imageUrl != null) {
+                          this.commentImageUrl = found.imageUrl;
+                        }else {
+                            this.commentImageUrl = "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
+                        }
+
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                }) 
             },
             updateComment() {
                 axios.request({
@@ -192,14 +202,14 @@ import cookies from 'vue-cookies'
                     break
                 }
             },
-             getMyCookies() {
+            getMyCookies() {
                 var getCookie = cookies.get('loginData');
-                this.userToken = getCookie.loginToken; 
+                this.userToken = getCookie.loginToken;
+                this.loggedInUser = getCookie.username;
             },
         },
         beforeMount() {
             this.getMyCookies();
-            this.loggedInUser = this.retrieveLoggedInUserName;
             this.findCommentImg();
         }
     }

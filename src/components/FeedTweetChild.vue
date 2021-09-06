@@ -1,5 +1,13 @@
 <template>
     <!-- Vuetify templates used for individual tweet components -->
+     <v-lazy
+        v-model="isActive"
+        :options="{
+          threshold: .5
+        }"
+        min-height="200"
+        transition="fade-transition"
+        >
     <div class="tweetWrapper">
         <v-card
         class="mx-auto my-md-8"
@@ -85,13 +93,15 @@
                     :content="comment.content"
                     :createdAt="comment.createdAt"
                     @notifyParentDeleteComment="retrieveTweetComments"
-                    @notifyParentEditComment="retrieveTweetComments"/>
+                    @notifyParentEditComment="retrieveTweetComments"
+                    ref ="TweetComments"/>
                 </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-card-actions>
         </v-card>
     </div>
+    </v-lazy>
 </template>
 
 <script>
@@ -157,7 +167,6 @@ import TweetComments from './TweetComments.vue'
                 }).then((response) => {
                     const found = response.data.find(user => user.username === this.username);
                     this.unfollowUserId = found.userId;
-                    console.log(found.userId);
                     this.unfollowUser();
                 }).catch((error) => {
                     console.error(error);
@@ -245,7 +254,6 @@ import TweetComments from './TweetComments.vue'
                         "tweetId" : this.tweetId,
                     }
                 }).then((response) => {
-                    console.log(response);
                     this.tweetCommentInfo = response.data;
                     this.sortTweetComments();
     

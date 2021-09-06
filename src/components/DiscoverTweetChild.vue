@@ -1,6 +1,14 @@
 <template>
 
     <div>
+      <v-lazy
+        v-model="isActive"
+        :options="{
+          threshold: .5
+        }"
+        min-height="200"
+        transition="fade-transition"
+        >
     <v-card
     class="mx-auto"
     color="#26c6da"
@@ -51,6 +59,7 @@
       </v-list-item>
     </v-card-actions>
   </v-card>
+  </v-lazy>
 
     </div>
 </template>

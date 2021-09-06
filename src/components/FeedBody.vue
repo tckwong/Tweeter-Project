@@ -42,6 +42,14 @@
                 <h3>You are not currently following anyone. Click <router-link to="/DiscoverView">here</router-link> to explore some profiles.</h3>
             </div>
         </div>
+        <v-lazy
+        v-model="isActiveChild"
+        :options="{
+          threshold: 1
+        }"
+        min-height="200"
+        transition="fade-transition"
+      >
         <div class="tweetsFeed">
             <FeedTweetChild v-for="tweet in alltweetData" 
             :key="tweet.tweetId"
@@ -52,6 +60,7 @@
             :content="tweet.content"
             :createdAt="tweet.createdAt"/>
         </div>
+        </v-lazy>
     </section>
 </template>
 
@@ -72,8 +81,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
                 alltweetData: [],
                 newTweetObj: {},
                 followinguserIDs: [],
-                imageList: [],
-                userImageLst : {},
+                isActiveChild : false
             }     
         },
         methods: {
@@ -115,23 +123,10 @@ import FeedTweetChild from './FeedTweetChild.vue'
                     },
                 }).then((response) => {
                     this.alltweetData = response.data;
-                    
-                    for (let i=0; i<response.data.length; i++){
-                        this.userImageLst = {
-                        usrName : response.data[i].username,
-                        userImageUrl : response.data[i].userImageUrl,
-                    };
-                        this.imageList.push(this.userImageLst);
-                    }
-                    this.sendImageList();
                     this.filterFeedArr();
                 }).catch((error) => {
                     console.error(error);
                 })
-            },
-            sendImageList() {
-                this.$store.commit('getImageList', this.imageList);
-
             },
             retrieveAllFollowers() {
                 axios.request({
