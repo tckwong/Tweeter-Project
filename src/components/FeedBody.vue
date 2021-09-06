@@ -27,7 +27,48 @@
                 ></v-textarea>
                 </v-col>
                 <template>
-                    <img id="uploadImg" src="@/assets/uploadImg.png"/>
+                    <img @click="dialog = true" id="uploadImg" src="@/assets/uploadImg.png"/>
+                    <!-- Add tweet image modal popup -->
+                        <v-dialog
+                            v-model="dialog"
+                            width="500"
+                            >
+                            <v-card>
+                                <v-card-title class="text-h5 grey lighten-1"
+                                >
+                                Add image URL Below:
+                                </v-card-title>
+                                <v-card-text
+                                Post new comment below:
+                                ></v-card-text>
+                                    <v-text-field
+                                    placeholder="Image Url"
+                                    v-model="tweetImageUrl"
+                                    solo
+                                    color="black"
+                                    background-color="#6573d0"
+                                    clearable
+                                    ></v-text-field>
+                                    <v-divider></v-divider>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        color="primary"
+                                        text
+                                        @click="dialog = false"
+                                    >
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn
+                                        color="primary"
+                                        text
+                                        @click="dialog = false;"
+                                    >
+                                        Submit
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                            </v-dialog>  
                 </template>
                 <v-btn
                     class="mr-4 px-10 float-right my-0"
@@ -37,19 +78,13 @@
                     large
                 >POST
                 </v-btn>
+                        
             </v-card>
             <div class="noTweetMsg" v-if="alltweetData.length === 0">
                 <h3>You are not currently following anyone. Click <router-link to="/DiscoverView">here</router-link> to explore some profiles.</h3>
             </div>
         </div>
-        <v-lazy
-        v-model="isActiveChild"
-        :options="{
-          threshold: 1
-        }"
-        min-height="200"
-        transition="fade-transition"
-      >
+    
         <div class="tweetsFeed">
             <FeedTweetChild v-for="tweet in alltweetData" 
             :key="tweet.tweetId"
@@ -58,9 +93,35 @@
             :tweetId="tweet.tweetId"
             :userId="tweet.userId"
             :content="tweet.content"
+            :tweetImageUrl="tweet.tweetImageUrl"
             :createdAt="tweet.createdAt"/>
         </div>
-        </v-lazy>
+        <!-- Vuetify Back-to-top scroll -->
+        <v-container
+        class="scroll-y"
+      >
+        <v-layout
+          align-center
+          justify-center
+        >
+          <v-flex xs12>
+          <v-btn
+            v-scroll="scrolltoTop"
+            v-show="fab"
+            fab
+            dark
+            fixed
+            bottom
+            right
+            color="primary"
+            @click="toTop"
+          >
+            <v-icon>^</v-icon>
+          </v-btn>
+      </v-flex>
+          
+        </v-layout>
+      </v-container>
     </section>
 </template>
 
@@ -81,7 +142,9 @@ import FeedTweetChild from './FeedTweetChild.vue'
                 alltweetData: [],
                 newTweetObj: {},
                 followinguserIDs: [],
-                isActiveChild : false
+                fab: false,
+                dialog : false,
+                tweetImageUrl: null,
             }     
         },
         methods: {
@@ -96,6 +159,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
                     data : {
                         "loginToken" : this.userToken,
                         "content" : this.content,
+                        "imageUrl" : this.tweetImageUrl,
                     }
 
                 }).then((response) => {
@@ -106,6 +170,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
                         content : response.data.content,
                         createdAt : response.data.createdAt,
                         userImageUrl : response.data.userImageUrl,
+                        tweetImageUrl : response.data.imageUrl,
                     }
                     this.alltweetData.unshift(this.newTweetObj);
                     this.content = "";
@@ -155,11 +220,18 @@ import FeedTweetChild from './FeedTweetChild.vue'
                
                 this.alltweetData = newArrFeed;
             },
+            scrolltoTop (e) {
+                if (typeof window === 'undefined') return
+                const top = window.pageYOffset || e.target.scrollTop || 0
+                this.fab = top > 20
+                },
+                toTop () {
+                this.$vuetify.goTo(0)
+            },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');
                 this.userToken = getCookie.loginToken;
                 this.userId = getCookie.userId;
-                this.$store.commit('getcurrUserName', getCookie.username);
                 }
             },
         beforeMount() {
@@ -176,6 +248,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
     #uploadImg {
         height: 40px;
         margin-left: 20px;
+        cursor: pointer;
     }
 
     .noTweetMsg {

@@ -1,7 +1,6 @@
 <template>
     <!-- Vuetify templates used for individual tweet components -->
      <v-lazy
-        v-model="isActive"
         :options="{
           threshold: .5
         }"
@@ -35,7 +34,11 @@
         <v-card-text class="pl-10 text-h5 font-weight-bold">
             {{ content }}
         </v-card-text>
-
+        <v-container 
+        max-height="8vh"
+        >
+            <img v-if="tweetImageUrl != null" :src="tweetImageUrl" alt="tweet image"/>
+        </v-container>
         <v-card-actions>
             <v-list-item class="grow">
                 <v-row
@@ -71,7 +74,8 @@
                 
                 <span class="subheading mr-2">{{ tweetLikeCounter }}</span>
                 <span class="mr-1">·</span>
-                <button @click="retrieveUserId" v-if="activeUser != userId" class="myButton">Unfollow</button>
+                <button @click="retrieveUserId" v-if="activeUser != userId && followingToggle === false" class="myButton">Follow</button>
+                <button @click="retrieveUserId" v-if="activeUser != userId && followingToggle === true" class="myButton">Following</button>
                 </v-row>
             </v-list-item>
         </v-card-actions>
@@ -125,6 +129,7 @@ import TweetComments from './TweetComments.vue'
                 tweetComment: "",
                 newCommentObj: {},
                 tweetCommentInfo: [],
+                followingToggle: true,
             }
         },
         props: {
@@ -134,8 +139,29 @@ import TweetComments from './TweetComments.vue'
             createdAt: String,
             imageUrl: String,
             userId: Number,
+            tweetImageUrl: String,
         },
         methods: {
+            followUser() {
+                axios.request({
+                    url: 'https://tweeterest.ml/api/follows',
+                    method: 'POST',
+                    headers: {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                        'Content-Type': 'application/json',
+                    },
+                    data: {
+                        "loginToken": this.userToken,
+                        "followId": this.followUserId,
+                    }
+
+                }).then(() => {
+                  this.followingToggle = true;
+             
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                })
+            },
             unfollowUser() {
                 axios.request({
                     url: 'https://tweeterest.ml/api/follows',
@@ -145,13 +171,10 @@ import TweetComments from './TweetComments.vue'
                     },
                     data: {
                         "loginToken": this.userToken,
-                        "followId": this.unfollowUserId,
+                        "followId": this.followUserId,
                     }
-
                 }).then(() => {
-                    this.toggleLike = false;
-                    this.tweetLikeCounter -= 1;
-             
+                    this.followingToggle = false;
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
@@ -166,8 +189,13 @@ import TweetComments from './TweetComments.vue'
              
                 }).then((response) => {
                     const found = response.data.find(user => user.username === this.username);
-                    this.unfollowUserId = found.userId;
-                    this.unfollowUser();
+                    this.followUserId = found.userId;
+                      if (this.followingToggle) {  
+                        this.unfollowUser();
+                      }else {
+                        this.followUser();
+                      }
+                
                 }).catch((error) => {
                     console.error(error);
                 })

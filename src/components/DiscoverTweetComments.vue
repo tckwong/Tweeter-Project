@@ -98,7 +98,7 @@
 import axios from "axios"
 import cookies from 'vue-cookies'
     export default {
-        name : 'TweetComments',
+        name : 'DiscoverTweetComments',
         data() {
             return {
                 // Toggle edit button
