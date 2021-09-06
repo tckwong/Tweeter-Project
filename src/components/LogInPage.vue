@@ -1,48 +1,46 @@
 <template>
     <section>
         <!-- Vuetify form field inputs used for user login and registration -->
-        {{ birthdate }}
         <div class="wrapper">
             <img id="logo" src="@/assets/logo.png"/>
             <h1>Log In</h1>
 
             <v-card  
-            class="d-flex justify-center mb-6"
+            class="d-flex justify-center mb-6 mt-4"
             style="background-color:#6a8bf8"
             >
-            <v-col
-            sm="3"
-            md="5"
-            class="pa-2"
-            outlined
-            tile
-            >
-            <v-text-field
-                class="formInput"            
-                v-model="usrNameInput"
-                label="Email"
-                placeholder="Email"
-                solo
-            ></v-text-field>
-            
-            <v-text-field
-                v-model="pwdInput"
-                label="Password"
-                placeholder="Password"
-                :rules="[rules.required]"
-                :type="show1 ? 'text' : 'password'"
-                solo
-            ></v-text-field>
-            <p :class="{ activatedErrorMsg: errMsgActive }">Invalid username/ password combination.</p>
-            <v-btn
-                @click="loginUser"
-                color="primary"
-                elevation="2"
-                large
-            >Log In
-            </v-btn>
-            
-            </v-col>
+                <v-col
+                sm="6"
+                md="8"
+                lg="6"
+                class="pa-2"
+                outlined
+                tile
+                >
+                    <v-text-field
+                        class="formInput"            
+                        v-model="usrNameInput"
+                        label="Email"
+                        placeholder="Email"
+                        solo
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="pwdInput"
+                        label="Password"
+                        placeholder="Password"
+                        :rules="[rules.required]"
+                        :type="show1 ? 'text' : 'password'"
+                        solo
+                    ></v-text-field>
+                    <p :class="{ activatedErrorMsg: errMsgActive }">Invalid username/ password combination.</p>
+                    <v-btn
+                        @click="loginUser"
+                        color="primary"
+                        elevation="2"
+                        large
+                    >Log In
+                    </v-btn>
+                </v-col>
             </v-card>
         </div>
         <!-- MODAL VUETIFY CODE -->
@@ -306,9 +304,7 @@ import cookies from 'vue-cookies'
         color: red;
         font-weight: bold;
     }
-    .wrapper {
-        margin: 0 20vw;
-    }
+    
     #logo {
         margin-top: 8vh;
         height: 10vh;
@@ -316,4 +312,14 @@ import cookies from 'vue-cookies'
     .activatedErrorMsg {
         display: none;
     }
+
+    @media only screen and (min-width:700px) {
+        .wrapper {
+            margin: 0 20vw;
+        }
+    }
+    @media only screen and (min-width:1100px) {
+    
+    }
+    
 </style>

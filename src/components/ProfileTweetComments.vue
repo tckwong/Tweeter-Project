@@ -98,7 +98,7 @@
 import axios from "axios"
 import cookies from 'vue-cookies'
     export default {
-        name : 'ProfileTweetComments',
+        name : 'TweetComments',
         data() {
             return {
                 // Toggle edit button
@@ -132,10 +132,23 @@ import cookies from 'vue-cookies'
         },
         methods: {
             findCommentImg() {
-                console.log(this.getList);
-                const found = this.getList.find(user => user.usrName === this.username);
-                console.log(found);
-                this.commentImageUrl = found.userImageUrl;
+                axios.request({
+                    url: 'https://tweeterest.ml/api/users',
+                    method: 'GET',
+                    headers : {
+                        'X-Api-Key' : process.env.VUE_APP_API_KEY,
+                    },
+                }).then((response) => {
+                        const found = response.data.find(user => user.username === this.username);
+                        if (found.imageUrl != null) {
+                          this.commentImageUrl = found.imageUrl;
+                        }else {
+                            this.commentImageUrl = "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
+                        }
+
+                }).catch((error) => {
+                    console.error("There was an error: " +error);
+                }) 
             },
             updateComment() {
                 axios.request({
@@ -174,7 +187,6 @@ import cookies from 'vue-cookies'
                     }
                 }).then(() => {
                     this.$emit('notifyParentDeleteComment', "");
-                    console.log("Successfully deleted");
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
@@ -184,22 +196,21 @@ import cookies from 'vue-cookies'
                 switch (item.title) {
                     case 'Edit Comment':
                     this.openDialog();
-                    console.log("choice1");
                     break
                     case 'Delete Comment':
                     this.deleteComment();
-                    console.log("choice2");
                     break
                 }
             },
-             getMyCookies() {
+            getMyCookies() {
                 var getCookie = cookies.get('loginData');
-                this.userToken = getCookie.loginToken; 
+                this.userToken = getCookie.loginToken;
+                this.loggedInUser = getCookie.username;
             },
         },
         beforeMount() {
             this.getMyCookies();
-            this.loggedInUser = this.retrieveLoggedInUserName;
+            this.findCommentImg();
         }
     }
 </script>
@@ -234,9 +245,6 @@ import cookies from 'vue-cookies'
         left: 50%;
         transform: translate(-50%, -50%);
     }
-    .avatar {
-        height: 30px;
-    }
     .editIcon {
         height: 30px;
         width: 30px;
@@ -248,5 +256,8 @@ import cookies from 'vue-cookies'
     }
     .menuCommIcon {
         width: 60%;
+    }
+    #cmtAveCont {
+        border-right: 1px solid grey;
     }
 </style>

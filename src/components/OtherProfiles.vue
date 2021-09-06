@@ -181,7 +181,7 @@
             </div>
             
         </div>
-        <h2>Your Tweets</h2>
+
         <div>
             <p>
                 <ProfileTweets v-for="tweet in userTweetData" 
@@ -191,12 +191,39 @@
                 :tweetId="tweet.tweetId"
                 :userId="tweet.userId"
                 :content="tweet.content"
+                :tweetImageUrl="tweet.tweetImageUrl"
                 :createdAt="tweet.createdAt"
                 @notifyParentEditTweet="retrieveUserTweets"
                 @notifyParentDeleteTweet="retrieveUserTweets"
                 />
             </p>
         </div>
+        <!-- Vuetify Back-to-top scroll -->
+        <v-container
+        class="scroll-y"
+      >
+        <v-layout
+          align-center
+          justify-center
+        >
+          <v-flex xs12>
+          <v-btn
+            v-scroll="scrolltoTop"
+            v-show="fab"
+            fab
+            dark
+            fixed
+            bottom
+            right
+            color="primary"
+            @click="toTop"
+          >
+            <v-icon>^</v-icon>
+          </v-btn>
+      </v-flex>
+          
+        </v-layout>
+      </v-container>
     </div>
     </section>
    
@@ -237,6 +264,7 @@ import '../css/generalStyle.scss'
                 numFollowing: "",
                 imageList: [],
                 userImageLst : {},
+                fab: false,
             }
         },
         methods: {
@@ -250,7 +278,6 @@ import '../css/generalStyle.scss'
                
                 }).then((response) => {
                     const found = response.data.find(user => user.username === this.$route.params.user );
-                    console.log(found.userId);
                     this.userProfileId = found.userId;
                     this.getUserProfile();
                 }).catch((error) => {
@@ -299,8 +326,7 @@ import '../css/generalStyle.scss'
                         "bannerUrl" : this.bannerUrl
                     }
 
-                }).then((response) => {
-                    console.log(response);
+                }).then(() => {
                     location.reload();
 
                 }).catch((error) => {
@@ -401,6 +427,14 @@ import '../css/generalStyle.scss'
                     return new Date(y.createdAt) - new Date(x.createdAt);
                 })
                 this.userTweetData = newArrFeed;
+            },
+            scrolltoTop (e) {
+                if (typeof window === 'undefined') return
+                const top = window.pageYOffset || e.target.scrollTop || 0
+                this.fab = top > 20
+                },
+                toTop () {
+                this.$vuetify.goTo(0)
             },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');

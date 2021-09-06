@@ -36,8 +36,9 @@
         </v-card-text>
         <v-container 
         max-height="8vh"
+        max-width="20vw"
         >
-            <img v-if="tweetImageUrl != null" :src="tweetImageUrl" alt="tweet image"/>
+            <img id="tweetImg" v-if="tweetImageUrl != null" :src="tweetImageUrl" alt="tweet image"/>
         </v-container>
         <v-card-actions>
             <v-list-item class="grow">
@@ -385,6 +386,9 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
 
 #logo {
     height: 40px;
+}
+#tweetImg {
+    width: 90%;
 }
 
 @media only screen and (min-width:1000px) {

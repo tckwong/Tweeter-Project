@@ -1,4 +1,11 @@
 <template>
+    <v-lazy
+        :options="{
+          threshold: .5
+        }"
+        min-height="200"
+        transition="fade-transition"
+        >
     <div class="tweetWrapper">
         <v-card
         class="mx-auto my-md-8"
@@ -28,6 +35,7 @@
     <v-menu
       top
       :offset-y="offset"
+      v-if="activeUser === userId"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -57,6 +65,12 @@
         <v-card-text class="pl-10 text-h5 font-weight-bold">
             {{ content }}
         </v-card-text>
+        <v-container 
+        max-height="8vh"
+        max-width="20vw"
+        >
+            <img id="tweetImg" v-if="tweetImageUrl != null" :src="tweetImageUrl" alt="tweet image"/>
+        </v-container>
         <!-- Vuetify Dialog Code Here -->
         <div id="EditCommentModal">
                         <div class="text-center">
@@ -171,8 +185,8 @@
             </v-expansion-panels>
         </v-card-actions>
         </v-card>
-
     </div>
+    </v-lazy>
 </template>
 
 <script>
@@ -211,6 +225,7 @@ import ProfileTweetComments from './ProfileTweetComments.vue'
             createdAt: String,
             imageUrl: String,
             userId: Number,
+            tweetImageUrl: String,
         },
         methods: {
             selectSelection(item) {
@@ -291,9 +306,7 @@ import ProfileTweetComments from './ProfileTweetComments.vue'
                         "loginToken": this.userToken,
                         "followId": this.currUserId
                     }
-                }).then((response) => {
-                    console.log(response);
-                    
+                }).then(() => {           
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
@@ -380,7 +393,6 @@ import ProfileTweetComments from './ProfileTweetComments.vue'
                         "tweetId" : this.tweetId,
                     }
                 }).then((response) => {
-                    console.log(response);
                     this.tweetCommentInfo = response.data;
                     this.sortTweetComments();
     
@@ -408,7 +420,6 @@ import ProfileTweetComments from './ProfileTweetComments.vue'
                     }
 
                 }).then((response) => {
-                    console.log(response);
                     this.newCommentObj = {
                         commentId : response.data.commentId,
                         tweetId : response.data.tweetId,
@@ -478,23 +489,10 @@ import ProfileTweetComments from './ProfileTweetComments.vue'
     cursor: pointer;
     height: 40px;
 }
-
-.fade-enter-active
-.fade-leave-active {
-transition: opacity 0.5s;
+#tweetImg {
+    width: 90%;
 }
 
-.fade-enter,
-.fade-leave-to {
-    opacity: 0;
-}
-.modal-overlay {
-    background-color: rgba(0,0,0,0.3);
-    height: 100vh;
-}
-.modal {
-    display: none;
-}
 #logo {
     height: 40px;
 }

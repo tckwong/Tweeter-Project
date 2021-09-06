@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="createTweetWrapper">
+        <div class="tweetWrapper">
              <v-card
                 class=" mx-auto my-10"
                 color="#6aaaff"
@@ -256,7 +256,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
     }
 
     @media only screen and (min-width:1000px) {
-        .createTweetWrapper {
+        .tweetWrapper {
             margin: 5vh 25vw;
         }
 
