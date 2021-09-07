@@ -106,14 +106,14 @@
         text-decoration: none;
     }
     
-    ul {
+    .sidebar > ul {
         list-style-type: none;
         margin: 0;
         padding: 0;
         overflow: hidden;
         background-color: #333333;
     }
-    li {
+    .sidebar li {
         display: inline-block;
         list-style-type: none;
         color: rgb(51, 163, 66);

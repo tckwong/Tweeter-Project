@@ -94,7 +94,7 @@
                                         <p>Tell us something unique about yourself!</p>
                                         <v-col cols="12">
                                             <v-text-field
-                                            label="Bio*"
+                                            label="Bio"
                                             v-model="bio"
                                             clearable
                                             :counter="200"
@@ -125,6 +125,8 @@
                                         cols="12"
                                         >
                                         <v-menu
+                                            ref="menu"
+                                            v-model="menu"
                                             :close-on-content-click="false"
                                             :nudge-right="40"
                                             transition="scale-transition"
@@ -139,17 +141,37 @@
                                                     prepend-icon="mdi-calendar"
                                                     v-bind="attrs"
                                                     v-on="on"
+                                                    readonly
                                                     :rules="[rules.required]"
                                                     required
-                                                    show-adjacent-months
                                                     color="primary"
                                                     header-color="primary"
                                                 ></v-text-field>
+                                                
                                             </template>
                                                 <v-date-picker
+                                                    no-title
+                                                    scrollable
                                                     v-model="birthdate"
-                                                ></v-date-picker>
+                                                    >
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn
+                                                        text
+                                                        color="primary"
+                                                        @click="menu = false"
+                                                        >
+                                                        Cancel
+                                                    </v-btn>
+                                                    <v-btn
+                                                        text
+                                                        color="primary"
+                                                        @click="$refs.menu.save(date)"
+                                                    >
+                                                        OK
+                                                    </v-btn>
+                                                </v-date-picker>
                                         </v-menu>
+                                        
                                         </v-col>
                                         <v-col cols="12">
                                             <v-text-field
@@ -218,6 +240,8 @@ import cookies from 'vue-cookies'
                 imageUrl :"https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg",
                 bannerUrl : "@/assets/logo.png",
                 show1: false,
+                menu: false,
+                date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
                 rules: {
                     required: value => !!value || 'Required.',
                     noSpaces: v => (v || '').indexOf(' ') < 0 || 'No spaces allowed',
