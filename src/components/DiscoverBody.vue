@@ -26,20 +26,20 @@
           justify-center
         >
           <v-flex xs12>
-          <v-btn
-            v-scroll="scrolltoTop"
-            v-show="fab"
-            fab
-            dark
-            fixed
-            bottom
-            right
-            color="primary"
-            @click="toTop"
-          >
-            <v-icon>^</v-icon>
-          </v-btn>
-      </v-flex>
+            <v-btn
+                v-scroll="scrolltoTop"
+                v-show="fab"
+                fab
+                dark
+                fixed
+                bottom
+                right
+                color="primary"
+                @click="toTop"
+                >
+                <v-icon>^</v-icon>
+            </v-btn>
+            </v-flex>
           
         </v-layout>
       </v-container>
@@ -66,9 +66,6 @@ import DiscoverTweetChild from './DiscoverTweetChild.vue'
                 allUserList : [],
                 fab: false,
             }     
-        },
-        comoputed : {
-
         },
         methods: {
             retrieveAllTweets() {

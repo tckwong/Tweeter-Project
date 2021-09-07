@@ -187,7 +187,7 @@ import cookies from 'vue-cookies'
                     }
                 }).then(() => {
                     this.$emit('notifyParentDeleteComment', "");
-                    console.log("Successfully deleted");
+
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
@@ -197,11 +197,9 @@ import cookies from 'vue-cookies'
                 switch (item.title) {
                     case 'Edit Comment':
                     this.openDialog();
-                    console.log("choice1");
                     break
                     case 'Delete Comment':
                     this.deleteComment();
-                    console.log("choice2");
                     break
                 }
             },
@@ -263,4 +261,44 @@ import cookies from 'vue-cookies'
     #cmtAveCont {
         border-right: 1px solid grey;
     }
+    @media only screen and (max-width: 699px) {
+        #gridWrapper {
+        display: grid;
+        grid-template-columns: .1fr .8fr;
+        grid-template-rows: 1fr 1fr;
+        height: 80px;
+        padding: 0;
+        margin: 0;
+        
+        div:nth-child(1) {
+            position: relative;
+            grid-row: 1/3;
+            border-right: 1px solid grey;
+            padding: 0;
+            margin: 0;
+        }
+        div:nth-child(2) {
+            font-size: 1.3rem;
+            padding: 5px;
+            margin: 0;
+        }
+        div:nth-child(3) {
+            font-size: 0.9rem;
+            color: rgb(150, 146, 146);
+            padding: 0;
+            margin: 0;
+        }
+    }
+   
+    .editIcon {
+        height: 30px;
+        width: 30px;
+        right:0;
+    }
+    .childGridCont {
+        display: grid;
+        grid-template-columns: 1fr .1fr;
+    }
+    }
+    
 </style>

@@ -28,7 +28,7 @@
              <v-list-item-content>
             <v-list-item-title><router-link class="routerLink pl-3" :to="{ name: 'OtherProfilesView', params: { user: username }}">{{ username }}</router-link></v-list-item-title>
             </v-list-item-content>
-            <span class="text-h6 font-weight-light">{{ createdAt }}</span>
+             <span class="text-h6 font-weight-light"><p id="dateStyle">{{ createdAt }}</p></span>
         </v-card-title>
     
         <v-card-text class="pl-10 text-h5 font-weight-bold">
@@ -309,7 +309,6 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
                     }
 
                 }).then((response) => {
-                    console.log(response);
                     this.newCommentObj = {
                         commentId : response.data.commentId,
                         tweetId : response.data.tweetId,
@@ -390,10 +389,15 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
 #tweetImg {
     width: 90%;
 }
-
+#dateStyle {
+    font-size: 12px;
+}
 @media only screen and (min-width:1000px) {
     .tweetWrapper {
         margin: 0 25vw;
+    }
+    #dateStyle {
+    font-size: 16px;
     }
 }
 </style>

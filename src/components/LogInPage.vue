@@ -227,9 +227,6 @@ import cookies from 'vue-cookies'
             }
         },
         methods : {
-            printKey() {
-                console.log(process.env.VUE_APP_API_KEY);
-            },
             formValidation() {
                 if(this.$refs.registerForm.validate()){
                     this.registerUser();
@@ -269,9 +266,8 @@ import cookies from 'vue-cookies'
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
                
-                }).then((response) => {
-                    console.log(response);
-              
+                }).then(() => {
+
                 }).catch((error) => {
                     console.error(error);
                 })
@@ -290,7 +286,6 @@ import cookies from 'vue-cookies'
                         "password": this.pwdInput
                     }
                 }).then((response) => {
-                    console.log(response);
                     cookies.set('loginData', response.data, { expires: 1 });
                     this.$store.dispatch('getTokenAsync', response.data.loginToken)
                     this.$router.push({ name: 'FeedView' });

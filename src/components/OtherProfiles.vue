@@ -303,7 +303,6 @@ import '../css/profileCardStyle.scss'
                     }
                
                 }).then((response) => {
-                    console.log(response);
                     this.userName = response.data[0].username;
                     this.userEmail = response.data[0].email;
                     this.birthdate = response.data[0].birthdate;

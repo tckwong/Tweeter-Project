@@ -27,7 +27,6 @@
             <v-list-item-content>
                 <v-list-item-title><router-link id="routerLink" :to="{ name: 'OtherProfilesView', params: { user: username }}">{{ username }}</router-link></v-list-item-title>
             </v-list-item-content>
-            <span id="tweetDate" class="text-h6 font-weight-light">{{ createdAt }}</span>
             
                 <!-- Dropdown menu from Vuetify -->
                 <div class="text-center">
