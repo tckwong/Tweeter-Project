@@ -1,0 +1,46 @@
+.tweetWrapper {
+  margin-bottom: 3vh;
+}
+
+#routerLink {
+  text-decoration: none;
+  color: #0e0e8a;
+  font-weight: bold;
+  padding-left: 8px;
+  font-size: 1.4rem;
+}
+
+.likedDisplay {
+  transform: scale(1.2);
+  filter: invert(100%);
+}
+
+#commentIcon {
+  cursor: pointer;
+  height: 40px;
+}
+
+#tweetImg {
+  width: 90%;
+}
+
+#logo {
+  display: none;
+  height: 40px;
+}
+
+#tweetDate {
+  display: none;
+}
+
+@media only screen and (min-width: 700px) {
+  #logo {
+    display: initial;
+    height: 40px;
+  }
+  #tweetDate {
+    display: initial;
+    font-size: .8rem;
+  }
+}
+/*# sourceMappingURL=tweetStyle.css.map */

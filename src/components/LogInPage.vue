@@ -33,7 +33,7 @@
                         :type="show1 ? 'text' : 'password'"
                         solo
                     ></v-text-field>
-                    <p :class="{ activatedErrorMsg: errMsgActive }">Invalid username/ password combination.</p>
+                    <p id="errorMsg" :class="{ activatedErrorMsg: errMsgActive }">Invalid username/ password combination.</p>
                     <v-btn
                         @click="loginUser"
                         color="primary"
@@ -44,154 +44,155 @@
                     </v-btn>
                     |
                     <!-- MODAL VUETIFY CODE -->
-        <template>
-            <v-dialog
-            v-model="dialog"
-            persistent
-            max-width="600px"
-            >   
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                color="primary"
-                dark
-                v-bind="attrs"
-                v-on="on"
-                class="ml-2 mt-2"
-                elevation="2"
-                large
-                >
-                NEW USER
-                </v-btn>
-            </template>
-            <v-card>
-                <v-card-title>
-                <span class="text-h5">User Profile Registration</span>
-                </v-card-title>
-                <v-card-text>
-                <v-container>
-                    <v-row>
-                    <v-col
-                        cols="12"
-                    >
-                        <v-text-field
-                        label="Username*"
-                        v-model="username"
-                        :counter="10"
-                        :rules="[rules.noSpaces]"
-                        required
-                        ></v-text-field>
-                    </v-col>
-                   
-                    <v-col cols="12">
-                        <v-text-field
-                        label="Email*"
-                        v-model="email"
-                        :rules="[rules.noSpaces]"
-                        required
-                        ></v-text-field>
-                    </v-col>
-                    <p>Tell us something unique about yourself!</p>
-                    <v-col cols="12">
-                        <v-text-field
-                        label="Bio*"
-                        v-model="bio"
-                        :counter="200"
-                        required
-                        ></v-text-field>
-                    </v-col>
-                    <v-col
-                        cols="12"
-                    >
-                        <v-text-field
-                        label="Profile Picture URL"
-                        v-model="imageUrl"
-                        :rules="[rules.noSpaces]"
-                        ></v-text-field>
-                    </v-col>
-
-                    <v-col
-                        cols="12"
-                    >
-                        <v-text-field
-                        label="Profile Banner URL"
-                        v-model="bannerUrl"
-                        :rules="[rules.noSpaces]"
-                        ></v-text-field>
-                    </v-col>
-
-                    <v-col
-                    cols="12"
-                 
-                    >
-                    <v-menu
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                    >
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                            v-model="birthdate"
-                            label="Birthdate"
-                            elevation="15"
-                            prepend-icon="mdi-calendar"
+                    <template>
+                        <v-dialog
+                        v-model="dialog"
+                        persistent
+                        max-width="600px"
+                        >   
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                            color="primary"
+                            dark
                             v-bind="attrs"
                             v-on="on"
-                            show-adjacent-months
-                            color="primary"
-                            header-color="primary"
-                        ></v-text-field>
+                            class="ml-2 mt-2"
+                            elevation="2"
+                            large
+                            >
+                            NEW USER
+                            </v-btn>
+                        </template>
+                        <v-form  ref="registerForm">
+                        <v-card>
+                            <v-card-title>
+                                <span class="text-h5">User Profile Registration</span>
+                            </v-card-title>
+                            <v-card-text>
+                                <v-container>
+                                    <v-row>
+                                        <v-col
+                                            cols="12"
+                                        >
+                                            <v-text-field
+                                            label="Username*"
+                                            v-model="username"
+                                            :counter="12"
+                                            :rules="[rules.required, rules.noSpaces]"
+                                            required
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-text-field
+                                            label="Email*"
+                                            v-model="email"
+                                            :rules="[rules.required, rules.noSpaces]"
+                                            required
+                                            >
+                                            </v-text-field>
+                                        </v-col>
+                                        <p>Tell us something unique about yourself!</p>
+                                        <v-col cols="12">
+                                            <v-text-field
+                                            label="Bio*"
+                                            v-model="bio"
+                                            clearable
+                                            :counter="200"
+                                            required
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                        >
+                                            <v-text-field
+                                            label="Profile Picture URL"
+                                            v-model="imageUrl"
+                                            clearable
+                                            :rules="[rules.noSpaces]"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                        >
+                                            <v-text-field
+                                            label="Profile Banner URL"
+                                            v-model="bannerUrl"
+                                            clearable
+                                            :rules="[rules.noSpaces]"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                        cols="12"
+                                        >
+                                        <v-menu
+                                            :close-on-content-click="false"
+                                            :nudge-right="40"
+                                            transition="scale-transition"
+                                            offset-y
+                                            min-width="auto"
+                                            >
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-text-field
+                                                    v-model="birthdate"
+                                                    label="Birthdate*"
+                                                    elevation="15"
+                                                    prepend-icon="mdi-calendar"
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                    :rules="[rules.required]"
+                                                    required
+                                                    show-adjacent-months
+                                                    color="primary"
+                                                    header-color="primary"
+                                                ></v-text-field>
+                                            </template>
+                                                <v-date-picker
+                                                    v-model="birthdate"
+                                                ></v-date-picker>
+                                        </v-menu>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-text-field
+                                            label="Password*"
+                                            :type="show1 ? 'text' : 'password'"
+                                            required
+                                            v-model="password"
+                                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                            :rules="[rules.required, rules.min]"
+                                            hint="At least 8 characters"
+                                            counter
+                                            @click:append="show1 = !show1"
+                                            ></v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            <small>*indicates required field</small>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="dialog = false"
+                                >
+                                    Close
+                                </v-btn>
+                                <v-btn
+                                    @click="formValidation"
+                                    color="blue darken-1"
+                                    text
+                                >
+                                    Register
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                        </v-form>
+                        </v-dialog>
                     </template>
-                        <v-date-picker
-                            v-model="birthdate"
-                        ></v-date-picker>
-                    </v-menu>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-text-field
-                        label="Password*"
-                        :type="show1 ? 'text' : 'password'"
-                        required
-                        v-model="password"
-                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                        :rules="[rules.required, rules.min]"
-                        hint="At least 8 characters"
-                        counter
-                        @click:append="show1 = !show1"
-                        ></v-text-field>
-                    </v-col>
-                    
-                    </v-row>
-                </v-container>
-                <small>*indicates required field</small>
-                </v-card-text>
-                <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="dialog = false"
-                >
-                    Close
-                </v-btn>
-                <v-btn
-                    @click="registerUser"
-                    color="blue darken-1"
-                    text
-                >
-                    Register
-                </v-btn>
-                </v-card-actions>
-            </v-card>
-            </v-dialog>
-
-        </template>
                 </v-col>
             </v-card>
         </div>
-        
-        
+        <p :class="{ registerUserMsg: registerMsg }">Sucessfully Registered!</p>
     </section>
 </template>
 
@@ -205,6 +206,7 @@ import cookies from 'vue-cookies'
             return {
                 dialog: false,
                 errMsgActive : true,
+                registerMsg : true,
                 usrNameInput : "",
                 pwdInput : "",
                 username : "",
@@ -220,13 +222,20 @@ import cookies from 'vue-cookies'
                     required: value => !!value || 'Required.',
                     noSpaces: v => (v || '').indexOf(' ') < 0 || 'No spaces allowed',
                     min: v => v.length >= 8 || 'Min 8 characters',
-                    max: v => v.length <= 10 || 'Max 10 characters',
+                    max: v => v.length <= 12 || 'Max 12 characters',
                 },
             }
         },
         methods : {
             printKey() {
                 console.log(process.env.VUE_APP_API_KEY);
+            },
+            formValidation() {
+                if(this.$refs.registerForm.validate()){
+                    this.registerUser();
+                }else{
+                console.log("Required fields not met");
+                }
             },
             registerUser() {
                 axios.request({
@@ -247,7 +256,7 @@ import cookies from 'vue-cookies'
                     }
                 }).then(() => {
                     this.dialog = false;
-
+                    this.registerMsg = false;  
                 }).catch((error) => {
                     console.error(error);
                 })
@@ -308,16 +317,23 @@ import cookies from 'vue-cookies'
     }
     p {
         font-weight: bold;
+        text-align: center;
     }
     #logo {
         margin-top: 8vh;
         height: 10vh;
     }
+    #errorMsg {
+        color: red;
+    }
     .activatedErrorMsg {
         display: none;
-        color: red
+        
     }
-
+    .registerUserMsg {
+        display: none;
+        color: rgb(84, 207, 84)
+    }
     @media only screen and (min-width:700px) {
         .wrapper {
             margin: 0 20vw;

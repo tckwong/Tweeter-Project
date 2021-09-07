@@ -1,4 +1,5 @@
 <template>
+    <!-- Vuetify lazy render -->
     <v-lazy
         :options="{
           threshold: .5
@@ -6,117 +7,115 @@
         min-height="200"
         transition="fade-transition"
         >
-    <div class="tweetWrapper">
+        <div class="tweetWrapper">
         <v-card
         class="mx-auto my-md-8"
         color="#6aaaff"
         dark
         width="mx-md-5"
-        max-width="90vw"
         min-height="30vh"
         >
         <v-card-title>
             <img id="logo" src="@/assets/logo.png"/>
             <v-list-item-avatar color="grey darken-3 ml-5">
-            <v-img
-                class="elevation-6"
-                alt=""
-                :src="imageUrl"
-            ></v-img>
+                <v-img
+                    class="elevation-6"
+                    alt=""
+                    :src="imageUrl"
+                ></v-img>
             </v-list-item-avatar>
-             <v-list-item-content>
-            <v-list-item-title><router-link class="routerLink pl-3" :to="{ name: 'OtherProfilesView', params: { user: username }}">{{ username }}</router-link></v-list-item-title>
+            <v-list-item-content>
+                <v-list-item-title><router-link id="routerLink" :to="{ name: 'OtherProfilesView', params: { user: username }}">{{ username }}</router-link></v-list-item-title>
             </v-list-item-content>
-            <span class="text-h6 font-weight-light">{{ createdAt }}</span>
+            <span id="tweetDate" class="text-h6 font-weight-light">{{ createdAt }}</span>
             
-            <!-- Dropdown menu from Vuetify -->
-            <div class="text-center">
-    <!-- Vuetify menu dropdown -->
-    <v-menu
-      top
-      :offset-y="offset"
-      v-if="activeUser === userId"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
+                <!-- Dropdown menu from Vuetify -->
+                <div class="text-center">
+                <v-menu
+                top
+                :offset-y="offset"
+                v-if="activeUser === userId"
+                >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    >
+                    <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                </template>
 
-      <v-list>
-        <v-list-item
-          v-for="(item, index) in items"
-          :key="index"
-          @click="selectSelection(item)"
-          link
-        >
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-  </div>
+                <v-list>
+                    <v-list-item
+                    v-for="(item, index) in items"
+                    :key="index"
+                    @click="selectSelection(item)"
+                    link
+                    >
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item>
+                </v-list>
+                </v-menu>
+            </div>
         </v-card-title>
     
         <v-card-text class="pl-10 text-h5 font-weight-bold">
             {{ content }}
         </v-card-text>
         <v-container 
-        max-height="8vh"
-        max-width="20vw"
-        >
+            max-height="8vh"
+            max-width="20vw"
+            >
             <img id="tweetImg" v-if="tweetImageUrl != null" :src="tweetImageUrl" alt="tweet image"/>
         </v-container>
         <!-- Vuetify Dialog Code Here -->
         <div id="EditCommentModal">
-                        <div class="text-center">
-                            <!-- Vuetify modal popup for comment editting -->
-                            <v-dialog
-                            v-model="dialog"
-                            width="500"
-                            >
-                            <v-card>
-                                <v-card-title class="text-h5 grey lighten-1"
+                <div class="text-center">
+                    <!-- Vuetify modal popup for comment editting -->
+                    <v-dialog
+                    v-model="dialog"
+                    width="500"
+                    >
+                    <v-card>
+                        <v-card-title class="text-h5 grey lighten-1"
+                        >
+                        Edit tweet:
+                        </v-card-title>
+                        <v-card-text
+                        Edit tweet below:
+                        ></v-card-text>
+                            <v-text-field
+                            :label="tweetEditContent"
+                            v-model="tweetEditContent"
+                            solo
+                            color="black"
+                            background-color="#6573d0"
+                            clearable
+                            ></v-text-field>
+                            <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="dialog = false"
                                 >
-                                Edit tweet:
-                                </v-card-title>
-                                <v-card-text
-                                Edit tweet below:
-                                ></v-card-text>
-                                    <v-text-field
-                                    :label="tweetEditContent"
-                                    v-model="tweetEditContent"
-                                    solo
-                                    color="black"
-                                    background-color="#6573d0"
-                                    clearable
-                                    ></v-text-field>
-                                    <v-divider></v-divider>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                        color="primary"
-                                        text
-                                        @click="dialog = false"
-                                    >
-                                        Cancel
-                                    </v-btn>
-                                    <v-btn
-                                        color="primary"
-                                        text
-                                        @click="dialog = false; editTweet()"
-                                    >
-                                        UPDATE
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                            </v-dialog>   
-                        </div>
-                    </div>
+                                Cancel
+                            </v-btn>
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="dialog = false; editTweet()"
+                                >
+                                UPDATE
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                    </v-dialog>   
+                </div>
+            </div>
         <!-- End of dialog -->
         <v-card-actions>
             <v-list-item class="grow">
@@ -155,8 +154,6 @@
                 
                 <span class="subheading mr-2">{{ tweetLikeCounter }}</span>
                 <span class="mr-1">·</span>
-            
-                <!-- <button @click="retrieveUserId" class="myButton">Unfollow</button> -->
                 </v-row>
             </v-list-item>
         </v-card-actions>
@@ -193,6 +190,8 @@
 import axios from "axios"
 import cookies from 'vue-cookies'
 import ProfileTweetComments from './ProfileTweetComments.vue'
+import '../css/tweetStyle.scss'
+
     export default {
         name: 'ProfileTweets',
         components: {
@@ -449,51 +448,5 @@ import ProfileTweetComments from './ProfileTweetComments.vue'
 </script>
 
 <style lang="scss" scoped>
-    .tweetWrapper {
-        margin-bottom: 3vh;
-    }
-    v-btn {
-        width: 30%;
-    }
-    .myButton {
-	box-shadow:inset 0px -3px 7px 0px #29bbff;
-	background:linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
-	background-color:#2dabf9;
-	border-radius:3px;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	padding:9px 23px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #263666;
-}
-.routerLink {
-    text-decoration: none;
-    color: azure;
-    font-weight: bold;
-}
-.myButton:hover {
-	background:linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
-	background-color:#0688fa;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-}
-
-.likedDisplay {
-    transform: scale(1.2);
-    filter: invert(100%);
-}
-#commentIcon {
-    cursor: pointer;
-    height: 40px;
-}
-#tweetImg {
-    width: 90%;
-}
-
-#logo {
-    height: 40px;
-}
+   
 </style>

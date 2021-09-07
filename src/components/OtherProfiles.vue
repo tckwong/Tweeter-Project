@@ -1,17 +1,18 @@
 <template>
     <section>
+        <!-- Profile card information  -->
         <div class="profileCard">
              <v-img
             class="white--text align-end"
             height="200px"
             :src="bannerUrl">
             </v-img>
-        <header>
-            <div class="avatar">
-                <img class="profilePic" :src="imageUrl" alt="Profile Picture" />
-            </div>
-        </header>
-        <!-- Vuetify Edit Button to edit user information -->
+            <header>
+                <div class="avatar">
+                    <img class="profilePic" :src="imageUrl" alt="Profile Picture" />
+                </div>
+            </header>
+            <!-- Vuetify Edit Button to edit user information -->
             <div class="editMenuBar">
                 <v-btn   
                 v-if="userProfileId === loggedUserId && editBtnTgl === false" 
@@ -22,7 +23,7 @@
                 >
                 Edit Profile
                 </v-btn>
-                 <v-btn   
+                <v-btn   
                 v-if="userProfileId === loggedUserId && editBtnTgl === true" 
                 @click="editBtnTgl = false"
                 color="blue darken-1"
@@ -41,61 +42,64 @@
                     Submit Changes
                 </v-btn>
                 <v-card-actions v-if="editBtnTgl">
-                  
-                    <!-- Open delete conditional dialog -->
+                    <!-- Open delete conditional dialog with Vuetify -->
                     <template>
-                    <div class="text-center">
-                        <v-dialog
-                        v-model="dialog"
-                        width="500"
-                        >
-                        <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                        @click="deleteProfileTgl = true"
-                        color="red"
-                        text
-                          v-bind="attrs"
-                            v-on="on"
-                    >DELETE PROFILE
-                    </v-btn>
-                        </template>
+                        <div class="text-center">
+                            <v-dialog
+                                v-model="dialog"
+                                width="500"
+                                >
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                        @click="deleteProfileTgl = true"
+                                        color="red"
+                                        text
+                                        v-bind="attrs"
+                                            v-on="on"
+                                        >DELETE PROFILE
+                                    </v-btn>
+                                </template>
+                                <!-- Vuetify card wrapper -->
+                                <v-card>
+                                    <v-card-title class="text-h5 grey lighten-2">
+                                    Privacy Policy
+                                    </v-card-title>
 
-                        <v-card>
-                            <v-card-title class="text-h5 grey lighten-2">
-                            Privacy Policy
-                            </v-card-title>
+                                <v-card-text>
+                                <!-- DELETE CONDITIONAL -->
+                                    <h2 v-if="deleteProfileTgl">Please note that this action is irreversible. Please enter your password: </h2>
+                                    <v-text-field
+                                        color="blue"
+                                        v-if="deleteProfileTgl"
+                                        v-model="pwdInput"
+                                        solo
+                                        ></v-text-field>
+                                </v-card-text>
+                                <v-divider></v-divider>
 
-                            <v-card-text>
-                            <!-- DELETE CONDITIONAL -->
-                                <h2 v-if="deleteProfileTgl">Please note that this action is irreversible. Please enter your password: </h2>
-                                <v-text-field
-                                    color="blue"
-                                    v-if="deleteProfileTgl"
-                                    v-model="pwdInput"
-                                    solo
-                                    ></v-text-field>
-                            </v-card-text>
-
-                            <v-divider></v-divider>
-
-                            <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn
-                                color="primary"
-                                text
-                                @click="deleteUser"
-                            >
-                                Delete
-                            </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                        </v-dialog>
-                    </div>
+                                <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="dialog = false"
+                                    >
+                                    Close
+                                </v-btn>
+                                <v-btn
+                                    color="primary"
+                                    text
+                                    @click="deleteUser"
+                                    >
+                                    Delete
+                                </v-btn>
+                                </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        </div>
                     </template>
-                    
                 </v-card-actions>
             </div>
-  
         <h3 id="profileUser">{{ userName }}</h3>
         <div class="desc">
             <!-- Birthdate card -->
@@ -107,7 +111,7 @@
         <v-col
         cols="12"
         sm="4"
-    >   
+        >   
         <p v-if="editBtnTgl" >Birthdate:</p>
         <v-text-field
         v-if="editBtnTgl" 
@@ -138,7 +142,11 @@
         ></v-text-field>
         </v-col>
     
-        <v-col>
+        <v-col
+        cols="12"
+        sm="8"
+        md="8"
+        >
         <p v-if="editBtnTgl" >Bio:</p>
         <v-text-field
         v-if="editBtnTgl"
@@ -201,11 +209,11 @@
         <!-- Vuetify Back-to-top scroll -->
         <v-container
         class="scroll-y"
-      >
+        >
         <v-layout
           align-center
           justify-center
-        >
+            >
           <v-flex xs12>
           <v-btn
             v-scroll="scrolltoTop"
@@ -217,7 +225,7 @@
             right
             color="primary"
             @click="toTop"
-          >
+            >
             <v-icon>^</v-icon>
           </v-btn>
       </v-flex>
@@ -225,8 +233,7 @@
         </v-layout>
       </v-container>
     </div>
-    </section>
-   
+    </section> 
 </template>
 
 <script>
@@ -372,7 +379,7 @@ import '../css/profileCardStyle.scss'
                     };
                         this.imageList.push(this.userImageLst);
                     }
-                    this.sendImageList();
+                  
                     if(response.data.length != 0) {
                         this.filterFeedArr();
                     }
@@ -380,9 +387,6 @@ import '../css/profileCardStyle.scss'
                 }).catch((error) => {
                     console.error(error);
                 })
-            },
-            sendImageList() {
-                this.$store.commit('getImageList', this.imageList);
             },
             retrieveAllFollowers() {
                 axios.request({
@@ -464,15 +468,6 @@ import '../css/profileCardStyle.scss'
         height: 30px;
         width: 30px;
     }
-    input {
-        border: 1px solid black;
-    }
-    v-img {
-        display: inline-block;
-    }
-    .v-text-field {
-        max-width: 20vw;
-    }
     #flexWrapper {
         display: flex;
         justify-content: center;
@@ -480,9 +475,6 @@ import '../css/profileCardStyle.scss'
     }
     #flexWrapper > div {
         padding: 0 5vw;
-    }
-    .avatar {
-        overflow: hidden;
     }
     .profilePic {
         object-fit: cover;
