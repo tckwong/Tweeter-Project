@@ -86,7 +86,6 @@
       li:hover {
         background-color: rgb(105, 95, 240);
     }
-
     .navLink {
         text-decoration: none;
         color: rgb(191, 192, 197);
@@ -101,23 +100,24 @@
         display: initial;
         text-align: center;
         color: blue;
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333333;
+        }
+     li {
+          display: inline-block;
+          list-style-type: none;
+          color: rgb(51, 163, 66);
+      }
     }
     router-link {
         text-decoration: none;
     }
     
-    .sidebar > ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #333333;
-    }
-    .sidebar li {
-        display: inline-block;
-        list-style-type: none;
-        color: rgb(51, 163, 66);
-    }
+    
     .navLink {
         color: white;
         text-align: center;
