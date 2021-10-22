@@ -145,7 +145,7 @@ import TweetComments from './TweetComments.vue'
         methods: {
             followUser() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/follows',
+                    url: "https://tweeterproject.ml/api/follows",
                     method: 'POST',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -165,7 +165,7 @@ import TweetComments from './TweetComments.vue'
             },
             unfollowUser() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/follows',
+                    url: "https://tweeterproject.ml/api/follows",
                     method: 'DELETE',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -182,7 +182,7 @@ import TweetComments from './TweetComments.vue'
             },
             retrieveUserId() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/users',
+                    url: "https://tweeterproject.ml/api/users",
                     method: 'GET',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -204,7 +204,7 @@ import TweetComments from './TweetComments.vue'
             /* API CALL FOR TWEET LIKES*/
             upvoteTweet() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    url: "https://tweeterproject.ml/api/tweet-likes",
                     method: 'POST',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -231,7 +231,7 @@ import TweetComments from './TweetComments.vue'
             },
             retrieveAllLikes() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    url: "https://tweeterproject.ml/api/tweet-likes",
                     method: 'GET',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -254,7 +254,7 @@ import TweetComments from './TweetComments.vue'
             },
             deleteTweetLike() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    url: "https://tweeterproject.ml/api/tweet-likes",
                     method: 'DELETE',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -274,7 +274,7 @@ import TweetComments from './TweetComments.vue'
             /* -------------Tweet Comments APIs---------------------*/
             retrieveTweetComments() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/comments',
+                    url: "https://tweeterproject.ml/api/comments",
                     method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -297,7 +297,7 @@ import TweetComments from './TweetComments.vue'
             },
             createComment() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/comments',
+                    url: "https://tweeterproject.ml/api/comments",
                     method: 'POST',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,

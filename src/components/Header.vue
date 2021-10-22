@@ -47,7 +47,7 @@ import '../css/headerStyle.scss'
         methods: {
             logOutUser() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/login',
+                    url: "https://tweeterproject.ml/api/login",
                     method: 'DELETE',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,

@@ -118,20 +118,20 @@
     text-align: center;
     color: blue;
   }
-  router-link {
-    text-decoration: none;
-  }
-  ul {
+  #desktopVersion ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #333333;
   }
-  li {
+  #desktopVersion li {
     display: inline-block;
     list-style-type: none;
     color: #33a342;
+  }
+  router-link {
+    text-decoration: none;
   }
   .navLink {
     color: white;

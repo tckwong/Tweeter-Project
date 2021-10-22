@@ -150,7 +150,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
         methods: {
             createTweet() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweets',
+                    url: "https://tweeterproject.ml/api/tweets",
                     method: 'POST',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -181,7 +181,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
             },
             retrieveAllTweets() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweets',
+                    url: "https://tweeterproject.ml/api/tweets",
                     method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -195,7 +195,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
             },
             retrieveAllFollowers() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/follows',
+                    url: "https://tweeterproject.ml/api/follows",
                     method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -224,9 +224,9 @@ import FeedTweetChild from './FeedTweetChild.vue'
                 if (typeof window === 'undefined') return
                 const top = window.pageYOffset || e.target.scrollTop || 0
                 this.fab = top > 20
-                },
-                toTop () {
-                this.$vuetify.goTo(0)
+            },
+            toTop () {
+            this.$vuetify.goTo(0)
             },
             getMyCookies() {
                 var getCookie = cookies.get('loginData');

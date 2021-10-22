@@ -353,7 +353,7 @@ import '../css/profileCardStyle.scss'
                
                 }).then(() => {
                     this.dialog = false;
-                     this.$router.push({ path: '/' });
+                    this.$router.push({ path: '/' });
               
                 }).catch((error) => {
                     console.error("There was an error: " +error);

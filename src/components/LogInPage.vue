@@ -260,7 +260,7 @@ import cookies from 'vue-cookies'
             },
             registerUser() {
                 axios.request({
-                    url: "https://tweeterest.ml/api/users",
+                    url: `${process.env.VUE_APP_BASE_DOMAIN}/api/users`,
                     method: 'POST',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -284,7 +284,7 @@ import cookies from 'vue-cookies'
             },
             async retrieveUsers() {
                 await axios.request({
-                    url: 'https://tweeterest.ml/api/users',
+                    url: "https://tweeterproject.ml/api/users",
                     method: 'GET',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -299,7 +299,7 @@ import cookies from 'vue-cookies'
             
             loginUser() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/login',
+                    url: "https://tweeterproject.ml/api/login",
                     method: 'POST',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,

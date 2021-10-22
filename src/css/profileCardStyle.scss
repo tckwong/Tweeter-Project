@@ -1,21 +1,5 @@
-$main-col: #c8c;
 $sec-col: lighten(#303f9f, 20%);
 $back-col: #0d26c9;
-
-// General styling //
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-header {
-  height: 8vh;
-}
-
-body{
-  font-family: 'Dosis', sans-serif;
-}
 
 .profileCard{
   position: relative;
@@ -48,7 +32,7 @@ body{
         -ms-transform: translate(-50%, -50%);
         -o-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
-        width: 150px;
+        width: 200px;
         height: auto;
 
       }
@@ -92,9 +76,7 @@ body{
       -ms-transition: color .4s;
       -o-transition: color .4s;
       transition: color .4s;
-      &:hover{
-        color: $main-col;
-      }
+    
     }
     &::before{
       content: '';
@@ -184,9 +166,6 @@ body{
         -ms-transition: color .4s;
         -o-transition: color .4s;
         transition: color .4s;
-        &:hover{
-          color: $main-col;
-        }
       }
       &::before{
         content: '';
@@ -205,8 +184,7 @@ body{
 @media only screen and (min-width: 1000px) {
   .profileCard{
     position: relative;
-    width: 50vw;
-    height: 75vh;
+    width: 90vw;
     margin-left: auto;
     margin-right: auto;
     background: #1E1E1E;
@@ -282,9 +260,6 @@ body{
         -ms-transition: color .4s;
         -o-transition: color .4s;
         transition: color .4s;
-        &:hover{
-          color: $main-col;
-        }
       }
       &::before{
         content: '';
