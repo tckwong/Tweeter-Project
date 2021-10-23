@@ -18,14 +18,7 @@ export default new Vuex.Store({
       state.username = data;
     },
   },
-  actions: {
-    getTokenAsync(context, data) {
-      context.commit('updateToken', data);
-    },
-    removeToken(context, data) {
-      context.commit('updateToken', data);
-    }
-  },
+  
   getters: {
   }
 })

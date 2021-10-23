@@ -238,7 +238,7 @@ import '../css/tweetStyle.scss'
             },
             editTweet() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweets',
+                    url: 'https://tweeterproject.ml/api/tweets',
                     method: 'PATCH',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -259,7 +259,7 @@ import '../css/tweetStyle.scss'
             },
             deleteTweet() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweets',
+                    url: 'https://tweeterproject.ml/api/tweets',
                     method: 'DELETE',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY
@@ -277,7 +277,7 @@ import '../css/tweetStyle.scss'
             },
             retrieveUserId() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/users',
+                    url: 'https://tweeterproject.ml/api/users',
                     method: 'GET',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -294,7 +294,7 @@ import '../css/tweetStyle.scss'
             /* ~~~~~~~~~~FOLLOW API CALLS ~~~~~~~~~~~~~~~*/
             followUser() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/follows',
+                    url: 'https://tweeterproject.ml/api/follows',
                     method: 'POST',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -312,7 +312,7 @@ import '../css/tweetStyle.scss'
             /* API CALL FOR TWEET LIKES*/
             upvoteTweet() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    url: 'https://tweeterproject.ml/api/tweet-likes',
                     method: 'POST',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -339,7 +339,7 @@ import '../css/tweetStyle.scss'
             },
             retrieveAllLikes() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    url: 'https://tweeterproject.ml/api/tweet-likes',
                     method: 'GET',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -362,7 +362,7 @@ import '../css/tweetStyle.scss'
             },
             deleteTweetLike() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    url: 'https://tweeterproject.ml/api/tweet-likes',
                     method: 'DELETE',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -382,7 +382,7 @@ import '../css/tweetStyle.scss'
             /* -------------Tweet Comments APIs---------------------*/
             retrieveTweetComments() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/comments',
+                    url: 'https://tweeterproject.ml/api/comments',
                     method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -405,7 +405,7 @@ import '../css/tweetStyle.scss'
             },
             createComment() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/comments',
+                    url: 'https://tweeterproject.ml/api/comments',
                     method: 'POST',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,

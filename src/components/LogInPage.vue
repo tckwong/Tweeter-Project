@@ -260,7 +260,7 @@ import cookies from 'vue-cookies'
             },
             registerUser() {
                 axios.request({
-                    url: `${process.env.VUE_APP_BASE_DOMAIN}/api/users`,
+                    url: "https://tweeterproject.ml/api/users",
                     method: 'POST',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,

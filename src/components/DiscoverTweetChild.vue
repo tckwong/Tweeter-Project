@@ -144,7 +144,7 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
         methods: {
             followUser() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/follows',
+                    url: 'https://tweeterproject.ml/api/follows',
                     method: 'POST',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -164,7 +164,7 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
             },
             unfollowUser() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/follows',
+                    url: 'https://tweeterproject.ml/api/follows',
                     method: 'DELETE',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -181,14 +181,16 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
             },
             retrieveUserId() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/users',
+                    url: 'https://tweeterproject.ml/api/users',
                     method: 'GET',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
              
                 }).then((response) => {
+                    console.log(this.username)
                     const found = response.data.find(user => user.username === this.username);
+                    console.log(found)
                     this.followUserId = found.userId;
                       if (this.followingToggle) {  
                         this.unfollowUser();
@@ -203,7 +205,7 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
             /* API CALL FOR TWEET LIKES*/
             upvoteTweet() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    url: 'https://tweeterproject.ml/api/tweet-likes',
                     method: 'POST',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -230,7 +232,7 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
             },
             retrieveAllLikes() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    url: 'https://tweeterproject.ml/api/tweet-likes',
                     method: 'GET',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -253,7 +255,7 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
             },
             deleteTweetLike() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweet-likes',
+                    url: 'https://tweeterproject.ml/api/tweet-likes',
                     method: 'DELETE',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -273,7 +275,7 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
             /* -------------Tweet Comments APIs---------------------*/
             retrieveTweetComments() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/comments',
+                    url: 'https://tweeterproject.ml/api/comments',
                     method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -296,7 +298,7 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
             },
             createComment() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/comments',
+                    url: 'https://tweeterproject.ml/api/comments',
                     method: 'POST',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,

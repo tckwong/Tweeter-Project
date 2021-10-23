@@ -133,7 +133,7 @@ import cookies from 'vue-cookies'
         methods: {
             findCommentImg() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/users',
+                    url: 'https://tweeterproject.ml/api/users',
                     method: 'GET',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -152,7 +152,7 @@ import cookies from 'vue-cookies'
             },
             updateComment() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/comments',
+                    url: 'https://tweeterproject.ml/api/comments',
                     method: 'PATCH',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -176,7 +176,7 @@ import cookies from 'vue-cookies'
             },
             deleteComment() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/comments',
+                    url: 'https://tweeterproject.ml/api/comments',
                     method: 'DELETE',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,

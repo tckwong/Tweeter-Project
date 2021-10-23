@@ -70,7 +70,7 @@ import DiscoverTweetChild from './DiscoverTweetChild.vue'
         methods: {
             retrieveAllTweets() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweets',
+                    url: 'https://tweeterproject.ml/api/tweets',
                     method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -87,7 +87,7 @@ import DiscoverTweetChild from './DiscoverTweetChild.vue'
             },
             retrieveFollowing() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/follows',
+                    url: 'https://tweeterproject.ml/api/follows',
                     method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,

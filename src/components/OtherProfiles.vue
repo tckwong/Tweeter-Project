@@ -277,13 +277,14 @@ import '../css/profileCardStyle.scss'
         methods: {
             async getAllUserInfo() {
                 await axios.request({
-                    url: 'https://tweeterest.ml/api/users',
+                    url: 'https://tweeterproject.ml/api/users',
                     method: 'GET',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
                
                 }).then((response) => {
+                 
                     const found = response.data.find(user => user.username === this.$route.params.user );
                     this.userProfileId = found.userId;
                     this.getUserProfile();
@@ -293,7 +294,7 @@ import '../css/profileCardStyle.scss'
             },
             getUserProfile() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/users',
+                    url: 'https://tweeterproject.ml/api/users',
                     method: 'GET',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -316,7 +317,7 @@ import '../css/profileCardStyle.scss'
             },
             patchProfile() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/users',
+                    url: 'https://tweeterproject.ml/api/users',
                     method: 'PATCH',
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -341,7 +342,7 @@ import '../css/profileCardStyle.scss'
             },
             deleteUser() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/users',
+                    url: 'https://tweeterproject.ml/api/users',
                     method: 'DELETE',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY
@@ -361,7 +362,7 @@ import '../css/profileCardStyle.scss'
             },
             retrieveUserTweets() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/tweets',
+                    url: 'https://tweeterproject.ml/api/tweets',
                     method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
@@ -389,13 +390,13 @@ import '../css/profileCardStyle.scss'
             },
             retrieveAllFollowers() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/follows',
+                    url: 'https://tweeterproject.ml/api/follows',
                     method: 'GET',                                                                                                                                                              
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
                     params: {
-                       "userId" : this.userProfileId,
+                        "userId" : this.userProfileId,
                     }
                 }).then((response) => {
                     for (let i=0; i<response.data.length; i++){
@@ -409,7 +410,7 @@ import '../css/profileCardStyle.scss'
             },
             getNumFollowers() {
                 axios.request({
-                    url: 'https://tweeterest.ml/api/followers',
+                    url: 'https://tweeterproject.ml/api/followers',
                     method: 'GET',
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY
