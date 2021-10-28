@@ -101,8 +101,8 @@
         class="scroll-y"
       >
         <v-layout
-          align-center
-          justify-center
+            align-center
+            justify-center
         >
           <v-flex xs12>
           <v-btn
@@ -217,7 +217,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
                 newArrFeed.sort(function(x,y){
                     return new Date(y.createdAt) - new Date(x.createdAt);
                 })
-               
+
                 this.alltweetData = newArrFeed;
             },
             scrolltoTop (e) {
