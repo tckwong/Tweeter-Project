@@ -1,7 +1,7 @@
 <template>
     <section>
         <div class="tweetWrapper">
-             <v-card
+            <v-card
                 class=" mx-auto my-10"
                 color="#6aaaff"
                 dark
@@ -201,7 +201,7 @@ import FeedTweetChild from './FeedTweetChild.vue'
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
                     params: {
-                       userId: this.userId,
+                        userId: this.userId,
                     }
                 }).then((response) => {
                     for (let i=0; i<response.data.length; i++){

@@ -2,7 +2,7 @@
     <section>
         <!-- Profile card information  -->
         <div class="profileCard">
-             <v-img
+            <v-img
             class="white--text align-end"
             height="200px"
             :src="bannerUrl">
@@ -174,8 +174,8 @@
         :value="bannerUrl"
         v-model="bannerUrl"
         ></v-text-field>
-  </v-col>
-      </v-row>
+</v-col>
+    </v-row>
     </v-container>
         </div>
         <div class="foot">
@@ -190,21 +190,20 @@
             
         </div>
 
-        <div>
-            <p>
-                <ProfileTweets v-for="tweet in userTweetData" 
-                :key="tweet.tweetId"
-                :username="tweet.username"
-                :imageUrl="tweet.userImageUrl"
-                :tweetId="tweet.tweetId"
-                :userId="tweet.userId"
-                :content="tweet.content"
-                :tweetImageUrl="tweet.tweetImageUrl"
-                :createdAt="tweet.createdAt"
-                @notifyParentEditTweet="retrieveUserTweets"
-                @notifyParentDeleteTweet="retrieveUserTweets"
-                />
-            </p>
+        <div class="tweetWrapper">
+            <ProfileTweets v-for="tweet in userTweetData"
+            :key="tweet.tweetId"
+            :username="tweet.username"
+            :imageUrl="tweet.userImageUrl"
+            :tweetId="tweet.tweetId"
+            :userId="tweet.userId"
+            :content="tweet.content"
+            :tweetImageUrl="tweet.tweetImageUrl"
+            :createdAt="tweet.createdAt"
+            @notifyParentEditTweet="retrieveUserTweets"
+            @notifyParentDeleteTweet="retrieveUserTweets"
+            />
+    
         </div>
         <!-- Vuetify Back-to-top scroll -->
         <v-container
@@ -258,7 +257,7 @@ import '../css/profileCardStyle.scss'
                 userEmail: "",
                 userBio: "",
                 birthdate: "",
-                imageUrl: "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg",
+                imageUrl: "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg", //Default profile pic if none exists
                 bannerUrl: null,
                 pwdInput: "",
                 dialog: false,      
@@ -282,9 +281,8 @@ import '../css/profileCardStyle.scss'
                     headers : {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
-               
+
                 }).then((response) => {
-                 
                     const found = response.data.find(user => user.username === this.$route.params.user );
                     this.userProfileId = found.userId;
                     this.getUserProfile();
@@ -302,7 +300,7 @@ import '../css/profileCardStyle.scss'
                     params: {
                         userId: this.userProfileId
                     }
-               
+
                 }).then((response) => {
                     this.userName = response.data[0].username;
                     this.userEmail = response.data[0].email;
@@ -310,7 +308,7 @@ import '../css/profileCardStyle.scss'
                     this.userBio = response.data[0].bio;
                     this.imageUrl = response.data[0].imageUrl;
                     this.bannerUrl = response.data[0].bannerUrl;
- 
+
                 }).catch((error) => {
                     console.error(error);
                 })
@@ -351,11 +349,11 @@ import '../css/profileCardStyle.scss'
                         "loginToken": this.userToken,
                         "password": this.pwdInput,
                     }
-               
+
                 }).then(() => {
                     this.dialog = false;
                     this.$router.push({ path: '/' });
-              
+
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
@@ -379,7 +377,6 @@ import '../css/profileCardStyle.scss'
                     };
                         this.imageList.push(this.userImageLst);
                     }
-                  
                     if(response.data.length != 0) {
                         this.filterFeedArr();
                     }
@@ -418,7 +415,6 @@ import '../css/profileCardStyle.scss'
                     params: {
                         "userId": this.userProfileId,
                     }
-               
                 }).then((response) => {
                     this.numFollowers = response.data.length;
                 }).catch((error) => {
@@ -481,5 +477,12 @@ import '../css/profileCardStyle.scss'
         height: inherit;
         width: inherit;
     }
+
+    @media only screen and (min-width:1000px) {
+        .tweetWrapper {
+            margin: 5vh 20vw;
+        }
+    }
+    
 
 </style>
