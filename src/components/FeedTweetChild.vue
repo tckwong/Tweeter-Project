@@ -2,7 +2,7 @@
     <!-- Vuetify templates used for individual tweet components -->
     <v-lazy
         :options="{
-          threshold: .5
+            threshold: .5
         }"
         min-height="200"
         transition="fade-transition"
@@ -25,7 +25,7 @@
                 :src="imageUrl"
             ></v-img>
             </v-list-item-avatar>
-             <v-list-item-content>
+            <v-list-item-content>
             <v-list-item-title><router-link class="routerLink pl-3" :to="{ name: 'OtherProfilesView', params: { user: username }}">{{ username }}</router-link></v-list-item-title>
             </v-list-item-content>
             <span class="text-h6 font-weight-light"><p id="dateStyle">{{ createdAt }}</p></span>
@@ -157,8 +157,8 @@ import TweetComments from './TweetComments.vue'
                     }
 
                 }).then(() => {
-                  this.followingToggle = true;
-             
+                    this.followingToggle = true;
+            
                 }).catch((error) => {
                     console.error("There was an error: " +error);
                 })
@@ -237,7 +237,7 @@ import TweetComments from './TweetComments.vue'
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
                     data: {
-                         "tweetId": this.tweetId,
+                        "tweetId": this.tweetId,
                     }
                 }).then((response) => {
                     const countLikes = response.data.filter(element => element.tweetId === this.tweetId).length;
@@ -284,6 +284,7 @@ import TweetComments from './TweetComments.vue'
                     }
                 }).then((response) => {
                     this.tweetCommentInfo = response.data;
+                    console.log(this.tweetCommentInfo);
                     this.sortTweetComments();
     
                 }).catch((error) => {
@@ -294,6 +295,7 @@ import TweetComments from './TweetComments.vue'
                 this.tweetCommentInfo.sort(function(x,y){
                     return new Date(y.createdAt) - new Date(x.createdAt);
                 })
+                console.log(this.tweetCommentInfo);
             },
             createComment() {
                 axios.request({
@@ -388,7 +390,9 @@ import TweetComments from './TweetComments.vue'
     height: 40px;
 }
 #tweetImg {
-    width: 90%;
+    width: 80%;
+    max-height: 35vh;
+    object-fit: cover;
 }
 #dateStyle {
     font-size: 14px;

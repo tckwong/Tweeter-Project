@@ -1,7 +1,6 @@
 <template>
     <section>
         <div class="createTweetWrapper">
-           
             <div class="noTweetMsg" v-if="alltweetData.length === 0">
                 <h3>You are not currently following anyone. Click <router-link to="/DiscoverView">here</router-link> to explore some profiles.</h3>
             </div>
@@ -110,7 +109,7 @@ import DiscoverTweetChild from './DiscoverTweetChild.vue'
                 newArrFeed.sort(function(x,y){
                     return new Date(y.createdAt) - new Date(x.createdAt);
                 })
-               
+            
                 this.alltweetData = newArrFeed;
             },
             scrolltoTop (e) {

@@ -139,13 +139,10 @@ import cookies from 'vue-cookies'
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
                 }).then((response) => {
-                    console.log(this.username);
-                        const found = response.data.find(user => user.username === this.username);
-                        if (found.imageUrl != null) {
-                          this.commentImageUrl = found.imageUrl;
-                        }else {
-                            this.commentImageUrl = "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
-                        }
+                    const found = response.data.find(user => user.username === this.username);
+                    if (found.imageUrl != null) {
+                        this.commentImageUrl = found.imageUrl;
+                    }
 
                 }).catch((error) => {
                     console.error("There was an error: " +error);
@@ -197,11 +194,11 @@ import cookies from 'vue-cookies'
                 switch (item.title) {
                     case 'Edit Comment':
                     this.openDialog();
-   
+
                     break
                     case 'Delete Comment':
                     this.deleteComment();
-             
+            
                     break
                 }
             },

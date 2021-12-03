@@ -1,5 +1,4 @@
 // Burger Menu External Library css
-
 .bm-burger-button {
     position: fixed;
     width: 36px;
@@ -68,27 +67,26 @@
 }
 #mobileVersion {
     .wrapper .sidebar {
-  
-        width: 200px;
-        text-align: center;
-        height: 100vh;
-        overflow: auto;
+      width: 200px;
+      text-align: center;
+      height: 100vh;
+      overflow: auto;
       }
     ul {
-        list-style-type: none;
+      list-style-type: none;
     }
     ul li {
-        list-style-type: none;
-        padding: 25px;
-        border-bottom:1px solid rgba(255, 255, 255, 0.541);
-      }
+      list-style-type: none;
+      padding: 25px;
+      border-bottom:1px solid rgba(255, 255, 255, 0.541);
+    }
     
-      li:hover {
-        background-color: rgb(105, 95, 240);
+    li:hover {
+      background-color: rgb(105, 95, 240);
     }
     .navLink {
-        text-decoration: none;
-        color: rgb(191, 192, 197);
+      text-decoration: none;
+      color: rgb(191, 192, 197);
     }
 }
 
@@ -97,17 +95,17 @@
         display: none;
     }
     #desktopVersion {
-        display: initial;
-        text-align: center;
-        color: blue;
-        ul {
-          list-style-type: none;
-          margin: 0;
-          padding: 0;
-          overflow: hidden;
-          background-color: #333333;
-        }
-     li {
+      display: initial;
+      text-align: center;
+      color: blue;
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333333;
+      }
+      li {
           display: inline-block;
           list-style-type: none;
           color: rgb(51, 163, 66);
@@ -116,7 +114,6 @@
     router-link {
         text-decoration: none;
     }
-    
     
     .navLink {
         color: white;

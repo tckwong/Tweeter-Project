@@ -99,29 +99,28 @@
         <!-- Vuetify Back-to-top scroll -->
         <v-container
         class="scroll-y"
-      >
-        <v-layout
-            align-center
-            justify-center
         >
-          <v-flex xs12>
-          <v-btn
-            v-scroll="scrolltoTop"
-            v-show="fab"
-            fab
-            dark
-            fixed
-            bottom
-            right
-            color="primary"
-            @click="toTop"
-          >
-            <v-icon>^</v-icon>
-          </v-btn>
-      </v-flex>
-          
-        </v-layout>
-      </v-container>
+            <v-layout
+                align-center
+                justify-center
+            >
+                <v-flex xs12>
+                    <v-btn
+                        v-scroll="scrolltoTop"
+                        v-show="fab"
+                        fab
+                        dark
+                        fixed
+                        bottom
+                        right
+                        color="primary"
+                        @click="toTop"
+                    >
+                    <v-icon>^</v-icon>
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+        </v-container>
     </section>
 </template>
 

@@ -8,7 +8,6 @@
                 <div class="wrapper">
                     <div class="sidebar">
                         <ul>
-                            <li><router-link class="navLink" to="/">Log In</router-link></li>
                             <li><router-link class="navLink" :to="`/OtherProfilesView/`+ this.username">Profile</router-link></li>
                             <li><router-link class="navLink" to="/FeedView">Feed</router-link></li>
                             <li><router-link class="navLink" to="/DiscoverView">Discover</router-link></li>
@@ -22,7 +21,6 @@
         </div>
             <nav id="desktopVersion">
                 <ul>
-                    <li><router-link class="navLink" to="/">Log In</router-link></li>
                     <li><router-link class="navLink" :to="`/OtherProfilesView/`+ this.username">Profile</router-link></li>
                     <li><router-link class="navLink" to="/FeedView">Feed</router-link></li>
                     <li><router-link class="navLink" to="/DiscoverView">Discover</router-link></li>
@@ -36,7 +34,6 @@
 <script>
 import axios from "axios"
 import cookies from 'vue-cookies'
-// import Slide from './Slide.vue' 
 import { Slide } from 'vue-burger-menu'
 import '../css/headerStyle.scss'
     export default {
@@ -58,7 +55,6 @@ import '../css/headerStyle.scss'
                     }
 
                 }).then(() => {
-                    console.log("LOGGED OUT SUCCESSFUL");
                     cookies.remove('loginData');
                     this.$store.dispatch('removeToken', "");
                     this.$router.push({ name: 'LoginView' });

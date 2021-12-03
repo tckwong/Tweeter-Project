@@ -1,24 +1,20 @@
-# tweeter
+# Twitter Clone Website
 
-## Project setup
+## Features
 ```
-npm install
+A Twitter clone full-stack project. This mobile responsive website features:
+    - Login authentication
+    - User profile, profile edits (username, email, biography, birthdate, and more)
+    - Users can create posts(tweets) with or without an image
+    - Users can post comments on any tweet
+    - Users can like and unlike tweet and comment posts
+    - Users can follow and unfollow other users
+    - Users can view other profiles and their tweets/ comments
+    - Users can edit, and delete their tweets and comments
 ```
-
-### Compiles and hot-reloads for development
+## Languages Used
 ```
-npm run serve
+HTML, CSS, JavaScript, VueJS, MariaDB, Python Flask, Apache
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Website URL
+See [website here](https://tweeterproject.ml/#/).

@@ -389,7 +389,10 @@ import DiscoverTweetComments from './DiscoverTweetComments.vue'
     height: 40px;
 }
 #tweetImg {
-    width: 90%;
+    width: 80%;
+    max-height: 35vh;
+    object-fit: cover;
+
 }
 #dateStyle {
     font-size: 12px;

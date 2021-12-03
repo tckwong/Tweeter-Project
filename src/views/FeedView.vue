@@ -1,10 +1,9 @@
 <template>
     <div>
-       <div id="navGridWrapper">
-        <img id="logo" src="@/assets/logo.png"/>
-        <h1>Feed Page</h1>
-      </div>
-        
+        <div id="navGridWrapper">
+          <img id="logo" src="@/assets/logo.png"/>
+          <h1>Feed Page</h1>
+        </div>
         <Header/>
         <FeedBody/>
         <Footer/>
@@ -27,27 +26,32 @@ export default {
 }
 </script>
 
-<style scoped>
-   h1 {
+<style lang="scss" scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@700&display=swap');
+  h1 {
     text-align: center;
-    line-height: 100px;
+    line-height: 150px;
     justify-self: start;
     text-transform: uppercase;
   }
   #navGridWrapper {
     display: block;
-
+    h1 {
+      font-family: 'overpass', sans-serif;
+      font-size: 3rem;
+    }
   }
 
   #logo {
     height: 80px;
     justify-self: start;
+    align-self: center;
   }
 
   @media only screen and (min-width: 700px) {
     #navGridWrapper {
       display: grid;
-      grid-template-columns: .5fr 1fr;
+      grid-template-columns: .4fr 1fr;
       width: 50vw;
       margin-left: auto;
       margin-right: auto;
