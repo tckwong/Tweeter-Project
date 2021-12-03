@@ -9,7 +9,7 @@ $back-col: #0d26c9;
   margin-right: auto;
   background: #1E1E1E;
   box-shadow: 0 10px 7px -5px rgba(#000,.4);
- 
+
     .avatar{
       position: absolute;
       left: 50%;
@@ -239,6 +239,7 @@ $back-col: #0d26c9;
     .editMenuBar {
       display: flex;
       border-bottom: 1px solid rgb(204, 200, 200);
+      height: 150px;
     }
     .desc{
       padding: 0 1rem 2rem;

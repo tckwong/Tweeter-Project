@@ -187,15 +187,14 @@ import TweetComments from './TweetComments.vue'
                     headers: {
                         'X-Api-Key' : process.env.VUE_APP_API_KEY,
                     },
-             
                 }).then((response) => {
                     const found = response.data.find(user => user.username === this.username);
                     this.followUserId = found.userId;
-                      if (this.followingToggle) {  
-                        this.unfollowUser();
-                      }else {
-                        this.followUser();
-                      }
+                        if (this.followingToggle) {  
+                            this.unfollowUser();
+                        }else {
+                            this.followUser();
+                        }
                 
                 }).catch((error) => {
                     console.error(error);
@@ -240,10 +239,12 @@ import TweetComments from './TweetComments.vue'
                         "tweetId": this.tweetId,
                     }
                 }).then((response) => {
+                    console.log(response);
                     const countLikes = response.data.filter(element => element.tweetId === this.tweetId).length;
                     this.tweetLikeCounter = countLikes;
                     for (let i=0; i<response.data.length; i++){
                         if (response.data[i].userId === this.activeUser && response.data[i].tweetId === this.tweetId) {
+                            console.log("truth test");
                             this.toggleLike = true;
                             return;
                         }
